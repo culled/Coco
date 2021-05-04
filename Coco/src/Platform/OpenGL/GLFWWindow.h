@@ -2,6 +2,8 @@
 #include "Core/Base.h"
 
 #include "Core/App/Window.h"
+#include "Core/Events/EventDispatcher.h"
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -28,6 +30,7 @@ namespace Coco
 		virtual void SwapBuffers() override;
 
 		virtual void MakeRenderTarget() override;
+		virtual EventDispatcher& GetEventDispatcher() override { return m_EventDispatcher; }
 
 	private:
 		GLFWwindow* m_NativeWindow = nullptr;
@@ -36,6 +39,9 @@ namespace Coco
 		std::string m_Title;
 		int m_VSync = 0;
 
+		EventDispatcher m_EventDispatcher;
+
+	private:
 		static bool s_GLFWInitialized;
 
 	private:

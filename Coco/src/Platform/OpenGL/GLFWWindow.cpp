@@ -98,6 +98,26 @@ namespace Coco
 				GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
 				window->m_Width = newWidth;
 				window->m_Height = newHeight;
+
+				window->m_EventDispatcher.Invoke<ResizedEventArgs>(newWidth, newHeight);
+			});
+
+		glfwSetWindowCloseCallback(m_NativeWindow, [](GLFWwindow* glWindow)
+			{
+				GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+				ClosingEventArgs args = window->m_EventDispatcher.Invoke<ClosingEventArgs>();
+
+				LOG_CORE_INFO("Should close: {0}", args.Close);
+
+				if (!args.Close)
+				{
+					glfwSetWindowShouldClose(glWindow, 0);
+				}
+				else
+				{
+					glfwSetWindowShouldClose(glWindow, 1);
+					window->m_EventDispatcher.Invoke<ClosedEventArgs>();
+				}
 			});
 	}
 

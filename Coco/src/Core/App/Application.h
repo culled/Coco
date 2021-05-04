@@ -3,6 +3,7 @@
 #include "Core/Base.h"
 #include "Window.h"
 #include <string>
+#include "Core/Events/EventArgs.h"
 
 namespace Coco
 {
@@ -20,6 +21,13 @@ namespace Coco
 		/*@brief Runs the core logic of the application*/
 		virtual void Run();
 
+		virtual void OnEvent(DispatchedEvent& e);
+		
+		void Close();
+
+	protected:
+		void OnClosing(ClosingEventArgs* args);
+		void OnClosed(ClosedEventArgs* args);
 	private:
 		Scope<Window> m_MainWindow = nullptr;
 		bool m_Running = false;

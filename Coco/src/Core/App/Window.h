@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Base.h"
 #include <string>
+#include "Core/Events/EventDispatcher.h"
 
 namespace Coco
 {
@@ -64,5 +65,7 @@ namespace Coco
 		virtual void MakeRenderTarget() = 0;
 
 		static Ref<Window> GetCurrentRenderTarget();
+
+		virtual EventDispatcher& GetEventDispatcher() = 0;
 	};
 }
