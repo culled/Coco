@@ -1,0 +1,15 @@
+[submodule "Coco/vendor/spdlog"]
+	path = Coco/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Coco/vendor/glfw"]
+	path = Coco/vendor/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Coco/vendor/glm"]
+	path = Coco/vendor/glm
+	url = https://github.com/g-truc/glm
+[submodule "Coco/vendor/entt"]
+	path = Coco/vendor/entt
+	url = https://github.com/skypjack/entt
+[submodule "Coco/vendor/imgui"]
+	path = Coco/vendor/imgui
+	url = https://github.com/ocornut/imgui
