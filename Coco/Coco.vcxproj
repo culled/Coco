@@ -143,8 +143,12 @@
     <ClInclude Include="src\Core\App\Application.h" />
     <ClInclude Include="src\Core\App\Entrypoint.h" />
     <ClInclude Include="src\Core\App\Log.h" />
+    <ClInclude Include="src\Core\App\Window.h" />
     <ClInclude Include="src\Core\Base.h" />
     <ClInclude Include="src\ccpch.h" />
+    <ClInclude Include="src\Core\Graphics\GLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="vendor\entt\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -566,6 +570,10 @@
     </ClCompile>
     <ClCompile Include="src\Core\App\Application.cpp" />
     <ClCompile Include="src\Core\App\Log.cpp" />
+    <ClCompile Include="src\Core\App\Window.cpp" />
+    <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

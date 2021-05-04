@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Base.h"
+#include "Window.h"
 #include <string>
 
 namespace Coco
@@ -18,6 +19,10 @@ namespace Coco
 
 		/*@brief Runs the core logic of the application*/
 		virtual void Run();
+
+	private:
+		Scope<Window> m_MainWindow = nullptr;
+		bool m_Running = false;
 	};
 
 	//Will be defined in clients

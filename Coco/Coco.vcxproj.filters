@@ -1289,6 +1289,10 @@
     </ClInclude>
     <ClInclude Include="src\Core\App\Application.h" />
     <ClInclude Include="src\Core\App\Log.h" />
+    <ClInclude Include="src\Core\App\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
+    <ClInclude Include="src\Core\Graphics\GLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ccpch.cpp">
@@ -1296,5 +1300,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\App\Application.cpp" />
     <ClCompile Include="src\Core\App\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
+    <ClCompile Include="src\Core\App\Window.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
   </ItemGroup>
 </Project>
