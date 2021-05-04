@@ -1,5 +1,6 @@
 #include "SandboxLayer.h"
 #include "Core/App/Log.h"
+#include "imgui.h"
 
 SandboxLayer::SandboxLayer() : Layer("Sandbox")
 {
@@ -25,7 +26,9 @@ void SandboxLayer::Update(Coco::Timestep timestep)
 	LOG_TRACE("SandboxLayer::Update: {0}ms", timestep.GetMilliseconds());
 }
 
+static bool s_DemoOpen = true;
 void SandboxLayer::OnImGuiRender()
 {
 	LOG_TRACE("SandboxLayer::OnImGuiRender");
+	ImGui::ShowDemoWindow(&s_DemoOpen);
 }

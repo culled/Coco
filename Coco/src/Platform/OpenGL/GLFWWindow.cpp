@@ -121,11 +121,9 @@ namespace Coco
 			});
 	}
 
-	Ref<Window> Window::GetCurrentRenderTarget()
+	Window* Window::GetCurrentRenderTarget()
 	{
 		GLFWWindow* windowImpl = (GLFWWindow*)glfwGetWindowUserPointer(glfwGetCurrentContext());
-		Ref<Window> window = nullptr;
-		window.reset(windowImpl);
-		return window;
+		return windowImpl;
 	}
 }

@@ -7,6 +7,10 @@
 #include "Core/Events/EventArgs.h"
 #include "Core/Layers/LayerStack.h"
 
+#if COCO_IMGUI
+#include "Core/ImGui/ImGuiLayer.h"
+#endif
+
 namespace Coco
 {
 	class COCO_API Application
@@ -32,6 +36,9 @@ namespace Coco
 
 		void Close();
 
+		Window& GetMainWindow() { return *m_MainWindow; }
+		static Application& Get() { return *s_Instance; }
+
 	protected:
 		void OnResized(ResizedEventArgs* args);
 		void OnClosing(ClosingEventArgs* args);
@@ -45,6 +52,12 @@ namespace Coco
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTime;
 
 		LayerStack m_LayerStack;
+
+#if COCO_IMGUI
+		Ref<ImGuiLayer> m_ImGuiLayer = nullptr;
+#endif
+
+		static Application* s_Instance;
 	};
 
 	//Will be defined in clients

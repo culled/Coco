@@ -151,11 +151,14 @@
     <ClInclude Include="src\Core\Events\EventCallback.h" />
     <ClInclude Include="src\Core\Events\EventDispatcher.h" />
     <ClInclude Include="src\Core\Graphics\GLContext.h" />
+    <ClInclude Include="src\Core\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
     <ClInclude Include="src\Core\Layers\Layer.h" />
     <ClInclude Include="src\Core\Layers\LayerStack.h" />
     <ClInclude Include="src\Core\Timing\Timestep.h" />
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
     <ClInclude Include="vendor\entt\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -579,10 +582,13 @@
     <ClCompile Include="src\Core\App\Log.cpp" />
     <ClCompile Include="src\Core\App\Window.cpp" />
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
+    <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp" />
     <ClCompile Include="src\Core\Layers\Layer.cpp" />
     <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

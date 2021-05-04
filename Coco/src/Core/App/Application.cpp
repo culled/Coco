@@ -9,8 +9,14 @@
 
 namespace Coco
 {
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application(const std::string& name)
 	{
+		ASSERT_CORE(!s_Instance, "Appliction already exists");
+
+		s_Instance = this;
+
 		Coco::Log::Init();
 		LOG_CORE_INFO("Initialized core logger");
 		LOG_INFO("Initialized app logger");
@@ -26,6 +32,11 @@ namespace Coco
 			});
 
 		m_StartTime = std::chrono::high_resolution_clock::now();
+
+#if COCO_IMGUI
+		m_ImGuiLayer = CreateRef<ImGuiLayer>();
+		m_LayerStack.PushOverlay(m_ImGuiLayer);
+#endif
 
 		LOG_CORE_INFO("Initialization complete");
 	}
@@ -56,6 +67,17 @@ namespace Coco
 					layer->Update(timestep);
 				}
 			}
+
+#ifdef COCO_IMGUI
+			m_ImGuiLayer->Begin();
+			for (Ref<Layer> layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+#endif
+
+			m_MainWindow->SwapBuffers();
 		}
 	}
 

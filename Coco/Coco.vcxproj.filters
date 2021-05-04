@@ -1300,6 +1300,9 @@
     <ClInclude Include="src\Core\Layers\Layer.h" />
     <ClInclude Include="src\Core\Layers\LayerStack.h" />
     <ClInclude Include="src\Core\Timing\Timestep.h" />
+    <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
+    <ClInclude Include="src\Core\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ccpch.cpp">
@@ -1313,5 +1316,8 @@
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
     <ClCompile Include="src\Core\Layers\Layer.cpp" />
     <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp" />
+    <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
   </ItemGroup>
 </Project>

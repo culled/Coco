@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 #endif
 
 	//PROFILE_BEGIN("Startup", "CocoProfile-Startup.json");
-	Coco::Scope<Coco::Application>app = Coco::CreateApplication();
+	auto app = Coco::CreateApplication();
 	//PROFILE_END();
 
 	//PROFILE_BEGIN("Runtime", "CocoProfile-Runtime.json");

@@ -21,5 +21,5 @@ SandboxApp::~SandboxApp()
 
 Coco::Scope<Coco::Application> Coco::CreateApplication()
 {
-	return Coco::CreateScope<SandboxApp>();
+	return CreateScope<SandboxApp>();
 }

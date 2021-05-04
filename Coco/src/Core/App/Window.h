@@ -64,7 +64,7 @@ namespace Coco
 
 		virtual void MakeRenderTarget() = 0;
 
-		static Ref<Window> GetCurrentRenderTarget();
+		static Window* GetCurrentRenderTarget();
 
 		virtual EventDispatcher& GetEventDispatcher() = 0;
 	};
