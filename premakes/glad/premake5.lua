@@ -1,5 +1,5 @@
 project "Glad"
-    location "../../CocoEngine/vendor/glad"
+    location "../../Coco/vendor/glad"
     kind "StaticLib"
     language "C"
     staticruntime "on"
@@ -9,14 +9,14 @@ project "Glad"
 
     files
     {
-        "../../CocoEngine/vendor/glad/include/glad/glad.h",
-        "../../CocoEngine/vendor/glad/include/KHR/khrplatform.h",
-        "../../CocoEngine/vendor/glad/src/glad.c"
+        "../../Coco/vendor/glad/include/glad/glad.h",
+        "../../Coco/vendor/glad/include/KHR/khrplatform.h",
+        "../../Coco/vendor/glad/src/glad.c"
     }
 
     includedirs
     {
-        "../../CocoEngine/vendor/glad/include"
+        "../../Coco/vendor/glad/include"
     }
 
     filter "system:windows"

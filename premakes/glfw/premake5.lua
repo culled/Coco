@@ -1,5 +1,5 @@
 project "GLFW"
-    location "../../CocoEngine/vendor/glfw"
+    location "../../Coco/vendor/glfw"
     kind "StaticLib"
     language "C"
     staticruntime "on"
@@ -9,15 +9,15 @@ project "GLFW"
 
     files
     {
-        "../../CocoEngine/vendor/glfw/include/GLFW/glfw3.h",
-        "../../CocoEngine/vendor/glfw/include/GLFW/glfw3native.h",
-        "../../CocoEngine/vendor/glfw/src/glfw_config.h",
-        "../../CocoEngine/vendor/glfw/src/context.c",
-        "../../CocoEngine/vendor/glfw/src/init.c",
-        "../../CocoEngine/vendor/glfw/src/input.c",
-        "../../CocoEngine/vendor/glfw/src/monitor.c",
-        "../../CocoEngine/vendor/glfw/src/vulkan.c",
-        "../../CocoEngine/vendor/glfw/src/window.c"
+        "../../Coco/vendor/glfw/include/GLFW/glfw3.h",
+        "../../Coco/vendor/glfw/include/GLFW/glfw3native.h",
+        "../../Coco/vendor/glfw/src/glfw_config.h",
+        "../../Coco/vendor/glfw/src/context.c",
+        "../../Coco/vendor/glfw/src/init.c",
+        "../../Coco/vendor/glfw/src/input.c",
+        "../../Coco/vendor/glfw/src/monitor.c",
+        "../../Coco/vendor/glfw/src/vulkan.c",
+        "../../Coco/vendor/glfw/src/window.c"
     }
 
     filter "system:windows"
@@ -25,15 +25,15 @@ project "GLFW"
 
         files
         {
-            "../../CocoEngine/vendor/glfw/src/win32_init.c",
-            "../../CocoEngine/vendor/glfw/src/win32_joystick.c",
-            "../../CocoEngine/vendor/glfw/src/win32_monitor.c",
-            "../../CocoEngine/vendor/glfw/src/win32_time.c",
-            "../../CocoEngine/vendor/glfw/src/win32_thread.c",
-            "../../CocoEngine/vendor/glfw/src/win32_window.c",
-            "../../CocoEngine/vendor/glfw/src/wgl_context.c",
-            "../../CocoEngine/vendor/glfw/src/egl_context.c",
-            "../../CocoEngine/vendor/glfw/src/osmesa_context.c"
+            "../../Coco/vendor/glfw/src/win32_init.c",
+            "../../Coco/vendor/glfw/src/win32_joystick.c",
+            "../../Coco/vendor/glfw/src/win32_monitor.c",
+            "../../Coco/vendor/glfw/src/win32_time.c",
+            "../../Coco/vendor/glfw/src/win32_thread.c",
+            "../../Coco/vendor/glfw/src/win32_window.c",
+            "../../Coco/vendor/glfw/src/wgl_context.c",
+            "../../Coco/vendor/glfw/src/egl_context.c",
+            "../../Coco/vendor/glfw/src/osmesa_context.c"
         }
 
         defines

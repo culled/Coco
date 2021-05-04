@@ -1,5 +1,5 @@
 project "ImGui"
-location "../../CocoEngine/vendor/imgui"
+location "../../Coco/vendor/imgui"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
@@ -10,17 +10,17 @@ location "../../CocoEngine/vendor/imgui"
 
     files
     {
-        "../../CocoEngine/vendor/imgui/imconfig.h",
-        "../../CocoEngine/vendor/imgui/imgui.h",
-        "../../CocoEngine/vendor/imgui/imgui.cpp",
-		"../../CocoEngine/vendor/imgui/imgui_draw.cpp",
-		"../../CocoEngine/vendor/imgui/imgui_internal.h",
-		"../../CocoEngine/vendor/imgui/imgui_widgets.cpp",
-		"../../CocoEngine/vendor/imgui/imstb_rectpack.h",
-		"../../CocoEngine/vendor/imgui/imstb_textedit.h",
-		"../../CocoEngine/vendor/imgui/imstb_truetype.h",
-		"../../CocoEngine/vendor/imgui/imgui_demo.cpp",
-        "../../CocoEngine/vendor/imgui/imgui_tables.cpp"
+        "../../Coco/vendor/imgui/imconfig.h",
+        "../../Coco/vendor/imgui/imgui.h",
+        "../../Coco/vendor/imgui/imgui.cpp",
+		"../../Coco/vendor/imgui/imgui_draw.cpp",
+		"../../Coco/vendor/imgui/imgui_internal.h",
+		"../../Coco/vendor/imgui/imgui_widgets.cpp",
+		"../../Coco/vendor/imgui/imstb_rectpack.h",
+		"../../Coco/vendor/imgui/imstb_textedit.h",
+		"../../Coco/vendor/imgui/imstb_truetype.h",
+		"../../Coco/vendor/imgui/imgui_demo.cpp",
+        "../../Coco/vendor/imgui/imgui_tables.cpp"
     }
 
     filter "system:windows"
