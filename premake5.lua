@@ -73,7 +73,8 @@ project "Coco"
     defines
     {
         "_CRT_SECURE_NO_WARNINGS",
-        "COCO_IMGUI=1"
+        "COCO_IMGUI=1",
+        "COCO_ASSERTS=1"
     }
 
     filter "system:windows"
@@ -128,6 +129,11 @@ project "Sandbox"
     links
     {
         "Coco"
+    }
+
+    defines
+    {
+        "COCO_ASSERTS=1"
     }
 
     filter "system:windows" 
@@ -185,7 +191,8 @@ project "Cocobox"
     
     defines
     {
-        "COCO_IMGUI=1"
+        "COCO_IMGUI=1",
+        "COCO_ASSERTS=1"
     }
     
     filter "system:windows" 
