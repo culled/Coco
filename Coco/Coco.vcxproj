@@ -151,6 +151,9 @@
     <ClInclude Include="src\Core\Events\EventCallback.h" />
     <ClInclude Include="src\Core\Events\EventDispatcher.h" />
     <ClInclude Include="src\Core\Graphics\GLContext.h" />
+    <ClInclude Include="src\Core\Layers\Layer.h" />
+    <ClInclude Include="src\Core\Layers\LayerStack.h" />
+    <ClInclude Include="src\Core\Timing\Timestep.h" />
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="vendor\entt\entt.hpp" />
@@ -576,6 +579,8 @@
     <ClCompile Include="src\Core\App\Log.cpp" />
     <ClCompile Include="src\Core\App\Window.cpp" />
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
+    <ClCompile Include="src\Core\Layers\Layer.cpp" />
+    <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>

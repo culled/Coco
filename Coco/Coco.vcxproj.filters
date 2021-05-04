@@ -1297,6 +1297,9 @@
     <ClInclude Include="src\Core\Events\EventArgs.h" />
     <ClInclude Include="src\Core\Events\EventCallback.h" />
     <ClInclude Include="src\Core\Events\EventDispatcher.h" />
+    <ClInclude Include="src\Core\Layers\Layer.h" />
+    <ClInclude Include="src\Core\Layers\LayerStack.h" />
+    <ClInclude Include="src\Core\Timing\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ccpch.cpp">
@@ -1308,5 +1311,7 @@
     <ClCompile Include="src\Core\App\Window.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
+    <ClCompile Include="src\Core\Layers\Layer.cpp" />
+    <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
   </ItemGroup>
 </Project>

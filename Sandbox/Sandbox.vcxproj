@@ -137,9 +137,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SandboxApp.cpp" />
+    <ClCompile Include="src\SandboxLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SandboxApp.h" />
+    <ClInclude Include="src\SandboxLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

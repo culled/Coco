@@ -1,9 +1,11 @@
 #pragma once
+#include <string>
+#include <chrono>
 
 #include "Core/Base.h"
 #include "Window.h"
-#include <string>
 #include "Core/Events/EventArgs.h"
+#include "Core/Layers/LayerStack.h"
 
 namespace Coco
 {
@@ -22,15 +24,27 @@ namespace Coco
 		virtual void Run();
 
 		virtual void OnEvent(DispatchedEvent& e);
-		
+
+		void PushLayer(Ref<Layer>& layer);
+		void PushOverlay(Ref<Layer>& overlay);
+		void PopLayer(Ref<Layer>& layer);
+		void PopOverlay(Ref<Layer>& overlay);
+
 		void Close();
 
 	protected:
+		void OnResized(ResizedEventArgs* args);
 		void OnClosing(ClosingEventArgs* args);
 		void OnClosed(ClosedEventArgs* args);
 	private:
 		Scope<Window> m_MainWindow = nullptr;
 		bool m_Running = false;
+		bool m_Minimized = false;
+		bool m_RunInBackground = false;
+		float m_LastFrameTime = 0.0f;
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTime;
+
+		LayerStack m_LayerStack;
 	};
 
 	//Will be defined in clients

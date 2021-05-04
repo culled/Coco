@@ -4,11 +4,14 @@
 #include <Core/App/Entrypoint.h>
 //--------Entry Point--------
 
+#include "SandboxLayer.h"
 #include <Core/App/Log.h>
 
 SandboxApp::SandboxApp() : Application("Sandbox")
 {
 	LOG_INFO("Starting...");
+
+	PushLayer(std::static_pointer_cast<Coco::Layer>(Coco::CreateRef<SandboxLayer>()));
 }
 
 SandboxApp::~SandboxApp()

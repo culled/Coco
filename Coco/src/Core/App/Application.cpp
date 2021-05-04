@@ -5,6 +5,7 @@
 #include "Core/Graphics/GLContext.h"
 
 #include "Core/Events/EventArgs.h"
+#include "Core/Timing/Timestep.h"
 
 namespace Coco
 {
@@ -24,6 +25,8 @@ namespace Coco
 				OnEvent(e);
 			});
 
+		m_StartTime = std::chrono::high_resolution_clock::now();
+
 		LOG_CORE_INFO("Initialization complete");
 	}
 
@@ -39,13 +42,56 @@ namespace Coco
 		while (m_Running)
 		{
 			m_MainWindow->PollEvents();
+
+			auto currentTimepoint = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<float> diff = currentTimepoint - m_StartTime;
+			float time = diff.count();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
+			if (m_RunInBackground || !m_Minimized)
+			{
+				for (Ref<Layer>& layer : m_LayerStack)
+				{
+					layer->Update(timestep);
+				}
+			}
 		}
 	}
 
 	void Application::OnEvent(DispatchedEvent& e)
 	{
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); it++)
+		{
+			(*it)->OnEvent(e);
+
+			if (e.Args->Handled)
+				break;
+		}
+
+		EventDispatcher::Dispatch<ResizedEventArgs>(e, this, &Application::OnResized);
 		EventDispatcher::Dispatch<ClosingEventArgs>(e, this, &Application::OnClosing);
 		EventDispatcher::Dispatch<ClosedEventArgs>(e, this, &Application::OnClosed);
+	}
+
+	void Application::PushLayer(Ref<Layer>& layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Ref<Layer>& overlay)
+	{
+		m_LayerStack.PushOverlay(overlay);
+	}
+
+	void Application::PopLayer(Ref<Layer>& layer)
+	{
+		m_LayerStack.PopLayer(layer);
+	}
+
+	void Application::PopOverlay(Ref<Layer>& overlay)
+	{
+		m_LayerStack.PopOverlay(overlay);
 	}
 
 	void Application::Close()
@@ -57,6 +103,16 @@ namespace Coco
 		{
 			ClosedEventArgs closedArgs;
 			OnEvent(DispatchedEvent(&closedArgs));
+		}
+	}
+
+	void Application::OnResized(ResizedEventArgs* args)
+	{
+		m_Minimized = args->Height == 0 || args->Width == 0;
+
+		if (!m_Minimized)
+		{
+			//Renderer::OnWindowResized(args->newWidth, args->newHeight);
 		}
 	}
 
