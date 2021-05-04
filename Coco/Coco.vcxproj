@@ -140,6 +140,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Coco.h" />
     <ClInclude Include="src\Core\App\Application.h" />
     <ClInclude Include="src\Core\App\Entrypoint.h" />
     <ClInclude Include="src\Core\App\Log.h" />
@@ -155,10 +156,13 @@
     <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
     <ClInclude Include="src\Core\Layers\Layer.h" />
     <ClInclude Include="src\Core\Layers\LayerStack.h" />
+    <ClInclude Include="src\Core\Rendering\RenderCommand.h" />
+    <ClInclude Include="src\Core\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Core\Timing\Timestep.h" />
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="vendor\entt\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -575,6 +579,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\ccpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -589,6 +594,7 @@
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

@@ -4,7 +4,7 @@
 
 namespace Coco
 {
-	class OpenGLImGui : public ImGuiRenderer
+	class COCO_API OpenGLImGui : public ImGuiRenderer
 	{
 	public:
 		OpenGLImGui();

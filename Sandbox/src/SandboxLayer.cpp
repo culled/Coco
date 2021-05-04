@@ -1,6 +1,7 @@
 #include "SandboxLayer.h"
 #include "Core/App/Log.h"
 #include "imgui.h"
+#include "Core/Rendering/RenderCommand.h"
 
 SandboxLayer::SandboxLayer() : Layer("Sandbox")
 {
@@ -23,12 +24,12 @@ void SandboxLayer::OnEvent(Coco::DispatchedEvent& e)
 
 void SandboxLayer::Update(Coco::Timestep timestep)
 {
-	LOG_TRACE("SandboxLayer::Update: {0}ms", timestep.GetMilliseconds());
+	Coco::RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.15f, 1.0f));
+	Coco::RenderCommand::Clear();
 }
 
 static bool s_DemoOpen = true;
 void SandboxLayer::OnImGuiRender()
 {
-	LOG_TRACE("SandboxLayer::OnImGuiRender");
 	ImGui::ShowDemoWindow(&s_DemoOpen);
 }

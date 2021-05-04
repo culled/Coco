@@ -6,6 +6,7 @@
 
 #include "Core/Events/EventArgs.h"
 #include "Core/Timing/Timestep.h"
+#include "Core/Rendering/RendererAPI.h"
 
 namespace Coco
 {
@@ -21,7 +22,8 @@ namespace Coco
 		LOG_CORE_INFO("Initialized core logger");
 		LOG_INFO("Initialized app logger");
 
-		GLContext::Init();
+		RendererAPI::Create();
+		GLContext::Create();
 
 		m_MainWindow = Window::Create(name, 1280, 720);
 		m_Running = true;
@@ -44,6 +46,7 @@ namespace Coco
 	Application::~Application()
 	{
 		LOG_CORE_INFO("Shut down");
+		RendererAPI::Destroy();
 	}
 
 	void Application::Run()

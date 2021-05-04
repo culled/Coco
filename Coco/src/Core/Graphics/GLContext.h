@@ -7,7 +7,7 @@ namespace Coco
 	class COCO_API GLContext
 	{
 	public:
-		static void Init();
+		static void Create();
 
 		virtual ~GLContext() = default;
 

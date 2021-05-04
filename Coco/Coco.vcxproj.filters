@@ -1303,6 +1303,10 @@
     <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
     <ClInclude Include="src\Core\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
+    <ClInclude Include="src\Core\Rendering\RendererAPI.h" />
+    <ClInclude Include="src\Core\Rendering\RenderCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Coco.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ccpch.cpp">
@@ -1319,5 +1323,7 @@
     <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp" />
     <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
+    <ClCompile Include="src\Core\Rendering\RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>
