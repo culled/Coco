@@ -13,3 +13,6 @@
 [submodule "Coco/vendor/imgui"]
 	path = Coco/vendor/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "Coco/vendor/stb"]
+	path = Coco/vendor/stb
+	url = https://github.com/nothings/stb
