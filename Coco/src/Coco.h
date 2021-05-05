@@ -27,6 +27,7 @@
 #include "Core/Rendering/Shader.h"
 #include "Core/Rendering/Material.h"
 #include "Core/Rendering/Renderer.h"
+#include "Core/Rendering/Framebuffer.h"
 
 #include "Core/Scene/Scene.h"
 #include "Core/Scene/Entity.h"

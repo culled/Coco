@@ -48,6 +48,8 @@ namespace Coco
 		{
 			auto [transform, rendererComponent, meshComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent, MeshDataComponent>(entity);
 
+			rendererComponent.Material->SetVector4("u_Color", rendererComponent.Color);
+
 			Renderer::SubmitImmediate(meshComponent.VAO, rendererComponent.Material, transform);
 		}
 

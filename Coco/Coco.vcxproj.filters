@@ -1432,6 +1432,8 @@
       <Filter>vendor\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Rendering\Material.h" />
+    <ClInclude Include="src\Core\Rendering\Framebuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1508,5 +1510,8 @@
     </ClCompile>
     <ClCompile Include="src\Core\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Core\Rendering\Material.cpp" />
+    <ClCompile Include="src\Core\Rendering\Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
+    <ClCompile Include="src\Core\Dependencies\stb_image.cpp" />
   </ItemGroup>
 </Project>

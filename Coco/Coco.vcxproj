@@ -159,6 +159,7 @@
     <ClInclude Include="src\Core\Layers\LayerStack.h" />
     <ClInclude Include="src\Core\Rendering\Buffers.h" />
     <ClInclude Include="src\Core\Rendering\Camera.h" />
+    <ClInclude Include="src\Core\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Core\Rendering\Material.h" />
     <ClInclude Include="src\Core\Rendering\RenderCommand.h" />
     <ClInclude Include="src\Core\Rendering\Renderer.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffers.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
@@ -598,6 +600,7 @@
     <ClCompile Include="src\Core\App\Application.cpp" />
     <ClCompile Include="src\Core\App\Log.cpp" />
     <ClCompile Include="src\Core\App\Window.cpp" />
+    <ClCompile Include="src\Core\Dependencies\stb_image.cpp" />
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
     <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp" />
@@ -605,6 +608,7 @@
     <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Core\Rendering\Buffers.cpp" />
     <ClCompile Include="src\Core\Rendering\Camera.cpp" />
+    <ClCompile Include="src\Core\Rendering\Framebuffer.cpp" />
     <ClCompile Include="src\Core\Rendering\Material.cpp" />
     <ClCompile Include="src\Core\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Core\Rendering\RendererAPI.cpp" />
@@ -615,6 +619,7 @@
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffers.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />

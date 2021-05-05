@@ -17,7 +17,7 @@ namespace Coco
 
 	struct COCO_API IntMaterialProperty : public MaterialProperty
 	{
-		int Value = 0.0f;
+		int Value = 0;
 
 		IntMaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Int) {}
 		virtual ~IntMaterialProperty() = default;
