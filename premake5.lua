@@ -20,7 +20,7 @@ IncludeDir["Glad"] =    "Coco/vendor/glad/include"
 IncludeDir["ImGui"] =   "Coco/vendor/imgui"
 IncludeDir["glm"] =     "Coco/vendor/glm"
 IncludeDir["stb"] =     "Coco/vendor/stb"
-IncludeDir["entt"] =    "Coco/vendor/entt"
+IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
 
 group "Dependencies"
     include "premakes/glfw"
@@ -47,7 +47,8 @@ project "Coco"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
-        "%{prj.name}/vendor/entt/entt.hpp"
+        "%{prj.name}/vendor/entt/single_include/entt/entt.hpp",
+        "%{prj.name}/vendor/stb/stb_image.h"
     }
 
     includedirs

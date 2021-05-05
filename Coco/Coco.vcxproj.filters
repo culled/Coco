@@ -10,11 +10,47 @@
     <Filter Include="src\Core\App">
       <UniqueIdentifier>{550713F3-416A-A297-EAEF-DA4DD6316E1A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core\Components">
+      <UniqueIdentifier>{9A079B25-0669-7833-8FD6-BEE5FB36AFF2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Events">
+      <UniqueIdentifier>{E953F58B-55DF-6250-5EF0-E544CAFABE50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Graphics">
+      <UniqueIdentifier>{8585FDF9-F19B-FB8F-3A13-87B1A668CC17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\ImGui">
+      <UniqueIdentifier>{8FB08004-7B7E-740A-6412-E530507F506F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Layers">
+      <UniqueIdentifier>{C43ED89A-30CA-455F-39DB-C853A5E5A15F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Rendering">
+      <UniqueIdentifier>{322F3508-1E13-F65D-8773-F0B07376E0DF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Scene">
+      <UniqueIdentifier>{82A83005-6E76-240B-570A-953143770070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Timing">
+      <UniqueIdentifier>{BCC30BAE-284F-7972-3160-FC669D6AD572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\entt">
       <UniqueIdentifier>{DD8078C1-4936-F1B6-D22A-EB8D3EDFE7BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\entt\single_include">
+      <UniqueIdentifier>{B1108E46-9D20-3A17-06DA-9E35F20829B0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\entt\single_include\entt">
+      <UniqueIdentifier>{9BEC4482-07D0-53C2-10D3-81FE7C351A13}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\glm">
       <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
@@ -34,19 +70,124 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb">
+      <UniqueIdentifier>{8BD3C5A8-778B-07F6-E092-E051CC69A2E6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Coco.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\App\Application.h">
+      <Filter>src\Core\App</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\App\Entrypoint.h">
+      <Filter>src\Core\App</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\App\Log.h">
+      <Filter>src\Core\App</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\App\Window.h">
       <Filter>src\Core\App</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Base.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Components\Components.h">
+      <Filter>src\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Components\RenderingComponents.h">
+      <Filter>src\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Events\Event.h">
+      <Filter>src\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Events\EventArgs.h">
+      <Filter>src\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Events\EventCallback.h">
+      <Filter>src\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Events\EventDispatcher.h">
+      <Filter>src\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Graphics\GLContext.h">
+      <Filter>src\Core\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ImGui\ImGuiLayer.h">
+      <Filter>src\Core\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h">
+      <Filter>src\Core\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Layers\Layer.h">
+      <Filter>src\Core\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Layers\LayerStack.h">
+      <Filter>src\Core\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Buffers.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Camera.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\RenderCommand.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Renderer.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\RendererAPI.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Shader.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Textures.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\VertexArray.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Scene\Entity.h">
+      <Filter>src\Core\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Scene\Scene.h">
+      <Filter>src\Core\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Timing\Timestep.h">
+      <Filter>src\Core\Timing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffers.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTextures.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\ccpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\entt\entt.hpp">
-      <Filter>vendor\entt</Filter>
+    <ClInclude Include="vendor\entt\single_include\entt\entt.hpp">
+      <Filter>vendor\entt\single_include\entt</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1287,43 +1428,85 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\App\Application.h" />
-    <ClInclude Include="src\Core\App\Log.h" />
-    <ClInclude Include="src\Core\App\Window.h" />
-    <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
-    <ClInclude Include="src\Core\Graphics\GLContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Core\Events\Event.h" />
-    <ClInclude Include="src\Core\Events\EventArgs.h" />
-    <ClInclude Include="src\Core\Events\EventCallback.h" />
-    <ClInclude Include="src\Core\Events\EventDispatcher.h" />
-    <ClInclude Include="src\Core\Layers\Layer.h" />
-    <ClInclude Include="src\Core\Layers\LayerStack.h" />
-    <ClInclude Include="src\Core\Timing\Timestep.h" />
-    <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
-    <ClInclude Include="src\Core\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h" />
-    <ClInclude Include="src\Core\Rendering\RendererAPI.h" />
-    <ClInclude Include="src\Core\Rendering\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Coco.h" />
+    <ClInclude Include="vendor\stb\stb_image.h">
+      <Filter>vendor\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Material.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\App\Application.cpp">
+      <Filter>src\Core\App</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\App\Log.cpp">
+      <Filter>src\Core\App</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\App\Window.cpp">
+      <Filter>src\Core\App</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Graphics\GLContext.cpp">
+      <Filter>src\Core\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp">
+      <Filter>src\Core\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp">
+      <Filter>src\Core\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Layers\Layer.cpp">
+      <Filter>src\Core\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Layers\LayerStack.cpp">
+      <Filter>src\Core\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Buffers.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Camera.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\RendererAPI.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Shader.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Textures.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\VertexArray.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Scene\Scene.cpp">
+      <Filter>src\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffers.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTextures.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\App\Application.cpp" />
-    <ClCompile Include="src\Core\App\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
-    <ClCompile Include="src\Core\App\Window.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Core\Graphics\GLContext.cpp" />
-    <ClCompile Include="src\Core\Layers\Layer.cpp" />
-    <ClCompile Include="src\Core\Layers\LayerStack.cpp" />
-    <ClCompile Include="src\Core\ImGui\ImGuiRenderer.cpp" />
-    <ClCompile Include="src\Core\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp" />
-    <ClCompile Include="src\Core\Rendering\RendererAPI.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Core\Rendering\Renderer.cpp" />
+    <ClCompile Include="src\Core\Rendering\Material.cpp" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,5 @@
 #pragma once
-#include "Core/Layers/Layer.h"
-#include "Core/Events/EventDispatcher.h"
-#include "Core/Timing/Timestep.h"
+#include <Coco.h>
 
 class SandboxLayer : public Coco::Layer
 {
@@ -14,5 +12,10 @@ public:
 	virtual void OnEvent(Coco::DispatchedEvent& e) override;
 	virtual void Update(Coco::Timestep timestep) override;
 	virtual void OnImGuiRender() override;
+
+private:
+	Coco::Ref<Coco::Shader> m_Shader = nullptr;
+	Coco::Ref<Coco::Scene> m_ActiveScene = nullptr;
+	Coco::Entity m_Camera;
 };
 

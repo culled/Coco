@@ -7,9 +7,7 @@
 #include "Core/Events/EventArgs.h"
 #include "Core/Layers/LayerStack.h"
 
-#if COCO_IMGUI
 #include "Core/ImGui/ImGuiLayer.h"
-#endif
 
 namespace Coco
 {
@@ -53,9 +51,7 @@ namespace Coco
 
 		LayerStack m_LayerStack;
 
-#if COCO_IMGUI
 		Ref<ImGuiLayer> m_ImGuiLayer = nullptr;
-#endif
 
 		static Application* s_Instance;
 	};
