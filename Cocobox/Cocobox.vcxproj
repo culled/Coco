@@ -132,12 +132,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\CocoboxApp.h" />
+    <ClInclude Include="src\Controllers\EditorCameraController.h" />
     <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\Panels\InspectorPanel.h" />
     <ClInclude Include="src\Panels\SceneHierarchyPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CocoboxApp.cpp" />
+    <ClCompile Include="src\Controllers\EditorCameraController.cpp" />
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Panels\InspectorPanel.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />

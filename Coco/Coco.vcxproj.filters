@@ -1434,6 +1434,9 @@
     <ClInclude Include="src\Core\Rendering\Material.h" />
     <ClInclude Include="src\Core\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
+    <ClInclude Include="src\Core\Input\Input.h" />
+    <ClInclude Include="src\Core\Input\KeyCodes.h" />
+    <ClInclude Include="src\Core\Input\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1513,5 +1516,6 @@
     <ClCompile Include="src\Core\Rendering\Framebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Core\Dependencies\stb_image.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp" />
   </ItemGroup>
 </Project>

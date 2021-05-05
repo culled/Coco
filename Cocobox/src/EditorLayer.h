@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/InspectorPanel.h"
+#include "Controllers/EditorCameraController.h"
 
 namespace Coco
 {

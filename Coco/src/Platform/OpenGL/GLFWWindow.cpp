@@ -119,6 +119,55 @@ namespace Coco
 					window->m_EventDispatcher.Invoke<ClosedEventArgs>();
 				}
 			});
+
+		glfwSetKeyCallback(m_NativeWindow, [](GLFWwindow* glWindow, int key, int scancode, int action, int mods)
+			{
+				GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+
+				switch (action)
+				{
+				case GLFW_PRESS:
+					window->m_EventDispatcher.Invoke<KeyPressEventArgs>(key, mods);
+					break;
+				case GLFW_RELEASE:
+					window->m_EventDispatcher.Invoke<KeyReleaseEventArgs>(key, mods);
+					break;
+				case GLFW_REPEAT:
+					window->m_EventDispatcher.Invoke<KeyRepeatEventArgs>(key, mods);
+					break;
+				}
+			});
+
+		glfwSetCharCallback(m_NativeWindow, [](GLFWwindow* glWindow, unsigned int keycode) {
+			GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+
+			window->m_EventDispatcher.Invoke<KeyTypedEventArgs>(keycode);
+			});
+
+		glfwSetMouseButtonCallback(m_NativeWindow, [](GLFWwindow* glWindow, int button, int action, int mods) {
+			GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+
+			switch (action)
+			{
+			case GLFW_PRESS:
+				window->m_EventDispatcher.Invoke<MouseButtonPressEventArgs>(button, mods);
+				break;
+			case GLFW_RELEASE:
+				window->m_EventDispatcher.Invoke<MouseButtonReleaseEventArgs>(button, mods);
+				break;
+			}
+			});
+
+		glfwSetScrollCallback(m_NativeWindow, [](GLFWwindow* glWindow, double xOffset, double yOffset) {
+			GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+			window->m_EventDispatcher.Invoke<ScrollEventArgs>((float)xOffset, (float)yOffset);
+			});
+
+		glfwSetCursorPosCallback(m_NativeWindow, [](GLFWwindow* glWindow, double xPos, double yPos) {
+
+			GLFWWindow* window = (GLFWWindow*)glfwGetWindowUserPointer(glWindow);
+			window->m_EventDispatcher.Invoke<CursorPositionEventArgs>((float)xPos, (float)yPos);
+			});
 	}
 
 	Window* Window::GetCurrentRenderTarget()

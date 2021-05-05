@@ -155,6 +155,9 @@
     <ClInclude Include="src\Core\Graphics\GLContext.h" />
     <ClInclude Include="src\Core\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h" />
+    <ClInclude Include="src\Core\Input\Input.h" />
+    <ClInclude Include="src\Core\Input\KeyCodes.h" />
+    <ClInclude Include="src\Core\Input\MouseButtonCodes.h" />
     <ClInclude Include="src\Core\Layers\Layer.h" />
     <ClInclude Include="src\Core\Layers\LayerStack.h" />
     <ClInclude Include="src\Core\Rendering\Buffers.h" />
@@ -616,6 +619,7 @@
     <ClCompile Include="src\Core\Rendering\Textures.cpp" />
     <ClCompile Include="src\Core\Rendering\VertexArray.cpp" />
     <ClCompile Include="src\Core\Scene\Scene.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp" />
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffers.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />

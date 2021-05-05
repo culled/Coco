@@ -17,6 +17,10 @@
 
 #include "Core/ImGui/ImGuiLayer.h"
 
+#include "Core/Input/Input.h"
+#include "Core/Input/KeyCodes.h"
+#include "Core/Input/MouseButtonCodes.h"
+
 #include "Core/Layers/Layer.h"
 
 #include "Core/Rendering/RenderCommand.h"

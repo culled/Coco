@@ -32,7 +32,8 @@ namespace Coco
 
 		m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
-		
+		m_EditorCameraEntity.AddComponent<NativeScriptComponent>().Bind<EditorCameraController>();
+
 		Ref<Material> mat = CreateRef<Material>(m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
@@ -69,10 +70,11 @@ namespace Coco
 
 		m_FrameRate = (int)std::lround(1.0f / timestep);
 
-		if (m_ViewportFocused)
-		{
-			//m_CameraController.OnUpdate(timestep);
-		}
+		auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
+		EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+
+		if(controller)
+			controller->SetControlEnabled(m_ViewportFocused);
 
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
@@ -146,5 +148,13 @@ namespace Coco
 
 	void EditorLayer::OnEvent(DispatchedEvent& e)
 	{
+		if (m_ViewportFocused && m_ViewportHovered)
+		{
+			auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
+			EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+
+			if (controller)
+				controller->OnEvent(e);
+		}
 	}
 }
