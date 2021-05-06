@@ -63,4 +63,9 @@ namespace Coco
 		entity.AddComponent<TagComponent>(name);
 		return entity;
 	}
+
+	void Scene::DestroyEntity(Entity entity)
+	{
+		m_Registry.destroy(entity);
+	}
 }

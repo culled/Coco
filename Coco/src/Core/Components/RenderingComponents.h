@@ -29,12 +29,21 @@ namespace Coco
 
 	struct COCO_API CameraComponent
 	{
-		enum class Projection { Perspective = 0, Orthographic = 1 };
-
 		SceneCamera Camera;
 
 		CameraComponent() = default;
-		CameraComponent(const CameraComponent& other) = default;
+		CameraComponent(const CameraComponent& other)
+		{
+			if (other.Camera.GetProjectionType() == SceneCamera::Projection::Orthographic)
+			{
+				Camera.SetOrthographic(other.Camera.GetOrthographicSize(), other.Camera.GetNearPlane(), other.Camera.GetFarPlane());
+			}
+			else
+			{
+				Camera.SetPerspective(other.Camera.GetPerspectiveVerticalFOV(), other.Camera.GetNearPlane(), other.Camera.GetFarPlane());
+			}
+		}
+
 		CameraComponent(SceneCamera::Projection projectionType, float aspectRatio) :
 			Camera(projectionType, aspectRatio) {}
 	};

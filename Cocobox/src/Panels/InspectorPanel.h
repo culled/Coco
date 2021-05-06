@@ -20,10 +20,35 @@ namespace Coco
 		{
 			if (!entity.HasComponent<T>()) return;
 
-			if (ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
+			bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen);
+
+			ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
+			if (ImGui::Button("-", ImVec2{ 20, 20 }))
+			{
+				ImGui::OpenPopup("ComponentSettings");
+			}
+
+			bool removeComponent = false;
+
+			if (ImGui::BeginPopup("ComponentSettings"))
+			{
+				if (ImGui::MenuItem("Remove Component"))
+				{
+					removeComponent = true;
+				}
+
+				ImGui::EndPopup();
+			}
+
+			if (open)
 			{
 				DrawFunction(entity.GetComponent<T>());
 				ImGui::TreePop();
+			}
+
+			if (removeComponent)
+			{
+				entity.RemoveComponent<T>();
 			}
 		}
 	};

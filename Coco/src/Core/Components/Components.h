@@ -52,29 +52,20 @@ namespace Coco
 	struct COCO_API NativeScriptComponent
 	{
 		NativeScriptComponent() = default;
-		~NativeScriptComponent()
-		{
-			if (Instance)
-			{
-				delete Instance;
-				Instance = nullptr;
-			}
-		}
 
-		ScriptableEntity* Instance = nullptr;
+		Ref<ScriptableEntity> Instance = nullptr;
 
-		ScriptableEntity* (*InstantiateScript)();
+		Ref<ScriptableEntity>(*InstantiateScript)();
 		void(*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
-			InstantiateScript = []() {return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance; nsc->Instance = nullptr; };
+			InstantiateScript = []() {return std::static_pointer_cast<ScriptableEntity>(CreateRef<T>()); };
+			DestroyScript = [](NativeScriptComponent* nsc) {nsc->Instance.reset();};
 		}
 
-		operator ScriptableEntity& () { return *Instance; }
-		operator ScriptableEntity* () { return Instance; }
+		operator Ref<ScriptableEntity> () { return Instance; }
 	};
 
 	struct COCO_API EditorComponent

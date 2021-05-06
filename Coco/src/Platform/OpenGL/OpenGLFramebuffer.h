@@ -31,6 +31,9 @@ namespace Coco
 		virtual void Invalidate() override;
 		virtual void Resize(uint32_t width, uint32_t height) override;
 
+		virtual uint32_t GetWidth() const override { return m_Width; }
+		virtual uint32_t GetHeight() const override { return m_Height; }
+
 		virtual uint32_t GetColorAttachmentID() const override { return m_Attachments.at(GL_COLOR_ATTACHMENT0).ID; }
 	private:
 		uint32_t m_Id = 0;

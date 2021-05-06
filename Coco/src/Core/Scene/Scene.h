@@ -19,6 +19,7 @@ namespace Coco
 		void DrawForCamera(const Camera& camera, const glm::mat4& cameraTransform);
 
 		Entity CreateEntity(const std::string& name);
+		void DestroyEntity(Entity entity);
 
 		const entt::registry& GetRegistry() { return m_Registry; }
 

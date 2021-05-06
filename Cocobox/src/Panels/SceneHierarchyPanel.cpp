@@ -36,6 +36,17 @@ namespace Coco
 			s_SelectedEntity = {};
 		}
 
+		//Right click on blank space
+		if (ImGui::BeginPopupContextWindow(0, 1, false))
+		{
+			if (ImGui::MenuItem("Create Empty Entity"))
+			{
+				m_Context->CreateEntity("Entity");
+			}
+
+			ImGui::EndPopup();
+		}
+
 		ImGui::End();
 	}
 
@@ -52,9 +63,31 @@ namespace Coco
 			s_SelectedEntity = entity;
 		}
 
+		bool entityDeleted = false;
+
+		if (ImGui::BeginPopupContextItem(0, 1))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				entityDeleted = true;
+			}
+
+			ImGui::EndPopup();
+		}
+
 		if (opened)
 		{
 			ImGui::TreePop();
+		}
+
+		if (entityDeleted)
+		{
+			if (s_SelectedEntity == entity)
+			{
+				s_SelectedEntity = {};
+			}
+
+			m_Context->DestroyEntity(entity);
 		}
 	}
 }

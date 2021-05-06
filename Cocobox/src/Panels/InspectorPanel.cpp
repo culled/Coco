@@ -11,9 +11,39 @@ namespace Coco
 	{
 		ImGui::Begin("Inspector");
 
-		if (SceneHierarchyPanel::s_SelectedEntity)
+		Entity selectedEntity = SceneHierarchyPanel::s_SelectedEntity;
+
+		if (selectedEntity)
 		{
-			DrawEntityComponents(SceneHierarchyPanel::s_SelectedEntity);
+			DrawEntityComponents(selectedEntity);
+
+			if (ImGui::Button("Add Component"))
+			{
+				ImGui::OpenPopup("AddComponent");
+			}
+
+			if (ImGui::BeginPopup("AddComponent"))
+			{
+				if (ImGui::MenuItem("Camera"))
+				{
+					selectedEntity.AddComponent<CameraComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+
+				if (ImGui::MenuItem("Mesh Data"))
+				{
+					selectedEntity.AddComponent<MeshDataComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+
+				if (ImGui::MenuItem("Sprite Renderer"))
+				{
+					selectedEntity.AddComponent<SpriteRendererComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+
+				ImGui::EndPopup();
+			}
 		}
 
 		ImGui::End();

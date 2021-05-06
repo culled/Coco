@@ -51,13 +51,27 @@ namespace Coco
 			Application::Get().GetMainWindow().SetVSync(m_Vsync ? 1 : 0);
 		}
 
+		if ((m_ViewportSize.x != m_Framebuffer->GetWidth() || m_ViewportSize.y != m_Framebuffer->GetHeight()) && 
+			m_ViewportSize.x > 0 && m_ViewportSize.y > 0)
+		{
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+			auto& cam = m_EditorCameraEntity.GetComponent<CameraComponent>().Camera;
+			float aspect = m_ViewportSize.x / m_ViewportSize.y;
+
+			if (aspect != cam.GetAspectRatio())
+			{
+				cam.SetAspectRatio(aspect);
+			}
+		}
+
 		m_FrameRate = (int)std::lround(1.0f / timestep);
 
 		auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
 
 		if (script.Instance)
 		{
-			EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+			Ref<EditorCameraController> controller = std::static_pointer_cast<EditorCameraController>(script.Instance);
 
 			controller->SetControlEnabled(m_ViewportFocused);
 		}
@@ -109,19 +123,7 @@ namespace Coco
 
 		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
-		if ((m_ViewportSize.x != viewportSize.x || m_ViewportSize.y != viewportSize.y) && viewportSize.x > 0 && viewportSize.y > 0)
-		{
-			m_ViewportSize = { viewportSize.x, viewportSize.y };
-			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-
-			auto& cam = m_EditorCameraEntity.GetComponent<CameraComponent>().Camera;
-			float aspect = m_ViewportSize.x / m_ViewportSize.y;
-
-			if (aspect != cam.GetAspectRatio())
-			{
-				cam.SetAspectRatio(aspect);
-			}
-		}
+		m_ViewportSize = { viewportSize.x, viewportSize.y };
 
 		ImGui::Image((void*)(uint64_t)m_Framebuffer->GetColorAttachmentID(), { viewportSize.x, viewportSize.y }, { 0.0f, 1.0f }, { 1.0f, 0.0f });
 
@@ -140,7 +142,7 @@ namespace Coco
 
 			if (script.Instance)
 			{
-				EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+				Ref<EditorCameraController> controller = std::static_pointer_cast<EditorCameraController>(script.Instance);
 
 				controller->OnEvent(e);
 			}

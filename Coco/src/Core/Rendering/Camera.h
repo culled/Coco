@@ -28,6 +28,8 @@ namespace Coco
 	public:
 		enum class Projection { Perspective = 0, Orthographic = 1 };
 
+		SceneCamera() : SceneCamera(Projection::Perspective, 1.0f) {}
+
 		SceneCamera(Projection projection, float aspectRatio);
 		virtual ~SceneCamera() = default;
 
