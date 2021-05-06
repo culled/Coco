@@ -6,7 +6,8 @@
 namespace Coco
 {
 #pragma region VertexBuffer
-	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) :
+		m_Size(size)
 	{
 		glCreateBuffers(1, &m_Id);
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
@@ -14,7 +15,8 @@ namespace Coco
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size) :
+		m_Size(size)
 	{
 		glCreateBuffers(1, &m_Id);
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);

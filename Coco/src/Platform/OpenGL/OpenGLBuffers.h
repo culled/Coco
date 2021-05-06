@@ -19,9 +19,13 @@ namespace Coco
 
 		inline virtual void SetLayout(const VertexBufferLayout& layout) override { m_Layout = layout; }
 		inline virtual const VertexBufferLayout& GetLayout() override { return m_Layout; }
+
+		virtual uint32_t GetVertexCount() const override { return m_Size / m_Layout.GetStride(); }
+
 	private:
 		uint32_t m_Id;
 		VertexBufferLayout m_Layout;
+		uint32_t m_Size;
 	};
 #pragma endregion
 

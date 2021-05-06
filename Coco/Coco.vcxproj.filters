@@ -13,6 +13,9 @@
     <Filter Include="src\Core\Components">
       <UniqueIdentifier>{9A079B25-0669-7833-8FD6-BEE5FB36AFF2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core\Dependencies">
+      <UniqueIdentifier>{5BD38410-C73F-400B-9033-D868FC5E6273}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Core\Events">
       <UniqueIdentifier>{E953F58B-55DF-6250-5EF0-E544CAFABE50}</UniqueIdentifier>
     </Filter>
@@ -21,6 +24,9 @@
     </Filter>
     <Filter Include="src\Core\ImGui">
       <UniqueIdentifier>{8FB08004-7B7E-740A-6412-E530507F506F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\Input">
+      <UniqueIdentifier>{64EB8104-50B9-750A-394D-E63025BA516F}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Core\Layers">
       <UniqueIdentifier>{C43ED89A-30CA-455F-39DB-C853A5E5A15F}</UniqueIdentifier>
@@ -120,6 +126,15 @@
     <ClInclude Include="src\Core\ImGui\ImGuiRenderer.h">
       <Filter>src\Core\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Input\Input.h">
+      <Filter>src\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input\KeyCodes.h">
+      <Filter>src\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input\MouseButtonCodes.h">
+      <Filter>src\Core\Input</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Layers\Layer.h">
       <Filter>src\Core\Layers</Filter>
     </ClInclude>
@@ -130,6 +145,12 @@
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Rendering\Camera.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Framebuffer.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Material.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Rendering\RenderCommand.h">
@@ -166,6 +187,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLImGui.h">
@@ -1431,12 +1455,7 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Rendering\Material.h" />
-    <ClInclude Include="src\Core\Rendering\Framebuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
-    <ClInclude Include="src\Core\Input\Input.h" />
-    <ClInclude Include="src\Core\Input\KeyCodes.h" />
-    <ClInclude Include="src\Core\Input\MouseButtonCodes.h" />
+    <ClInclude Include="src\Core\Rendering\SubTextures.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1447,6 +1466,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\App\Window.cpp">
       <Filter>src\Core\App</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Dependencies\stb_image.cpp">
+      <Filter>src\Core\Dependencies</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Graphics\GLContext.cpp">
       <Filter>src\Core\Graphics</Filter>
@@ -1469,6 +1491,15 @@
     <ClCompile Include="src\Core\Rendering\Camera.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Framebuffer.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Material.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Renderer.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Rendering\RendererAPI.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
@@ -1484,6 +1515,9 @@
     <ClCompile Include="src\Core\Scene\Scene.cpp">
       <Filter>src\Core\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1491,6 +1525,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLImGui.cpp">
@@ -1511,11 +1548,6 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Rendering\Renderer.cpp" />
-    <ClCompile Include="src\Core\Rendering\Material.cpp" />
-    <ClCompile Include="src\Core\Rendering\Framebuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
-    <ClCompile Include="src\Core\Dependencies\stb_image.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp" />
+    <ClCompile Include="src\Core\Rendering\SubTextures.cpp" />
   </ItemGroup>
 </Project>

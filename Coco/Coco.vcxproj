@@ -168,6 +168,7 @@
     <ClInclude Include="src\Core\Rendering\Renderer.h" />
     <ClInclude Include="src\Core\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Core\Rendering\Shader.h" />
+    <ClInclude Include="src\Core\Rendering\SubTextures.h" />
     <ClInclude Include="src\Core\Rendering\Textures.h" />
     <ClInclude Include="src\Core\Rendering\VertexArray.h" />
     <ClInclude Include="src\Core\Scene\Entity.h" />
@@ -616,6 +617,7 @@
     <ClCompile Include="src\Core\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Core\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\Core\Rendering\Shader.cpp" />
+    <ClCompile Include="src\Core\Rendering\SubTextures.cpp" />
     <ClCompile Include="src\Core\Rendering\Textures.cpp" />
     <ClCompile Include="src\Core\Rendering\VertexArray.cpp" />
     <ClCompile Include="src\Core\Scene\Scene.cpp" />

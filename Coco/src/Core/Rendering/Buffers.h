@@ -155,6 +155,7 @@ namespace Coco
 
 		virtual void SetLayout(const VertexBufferLayout& layout) = 0;
 		virtual const VertexBufferLayout& GetLayout() = 0;
+		virtual uint32_t GetVertexCount() const = 0;
 
 		/*@brief Creates a vertex buffer for the given array of verticies
 		* 		@param verticies - An array of vertex attribute values

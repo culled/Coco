@@ -51,6 +51,16 @@ namespace Coco
 
 	struct COCO_API NativeScriptComponent
 	{
+		NativeScriptComponent() = default;
+		~NativeScriptComponent()
+		{
+			if (Instance)
+			{
+				delete Instance;
+				Instance = nullptr;
+			}
+		}
+
 		ScriptableEntity* Instance = nullptr;
 
 		ScriptableEntity* (*InstantiateScript)();
@@ -62,5 +72,15 @@ namespace Coco
 			InstantiateScript = []() {return static_cast<ScriptableEntity*>(new T()); };
 			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance; nsc->Instance = nullptr; };
 		}
+
+		operator ScriptableEntity& () { return *Instance; }
+		operator ScriptableEntity* () { return Instance; }
+	};
+
+	struct COCO_API EditorComponent
+	{
+		EditorComponent() = default;
+		EditorComponent(const EditorComponent& other) = default;
+		virtual ~EditorComponent() = default;
 	};
 }

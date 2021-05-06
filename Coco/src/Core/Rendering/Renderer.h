@@ -38,6 +38,38 @@ namespace Coco
 		uint32_t TextureSlotIndex = 1; //0 = white texture
 	};
 
+	struct COCO_API RenderStats
+	{
+		uint32_t VerticiesDrawn = 0;
+		uint32_t IndiciesDrawn = 0;
+		uint32_t DrawCalls = 0;
+
+		void StartTimer()
+		{
+			m_StartTime = std::chrono::high_resolution_clock::now();
+		}
+
+		void EndTimer()
+		{
+			auto endTime = std::chrono::high_resolution_clock::now();
+			m_Duration = endTime - m_StartTime;
+		}
+
+		float GetDuration()
+		{
+			return m_Duration.count();
+		}
+
+		float GetDurationMilliseconds()
+		{
+			return m_Duration.count() * 1000.0f;
+		}
+
+	private:
+		std::chrono::high_resolution_clock::time_point m_StartTime;
+		std::chrono::duration<float> m_Duration;
+	};
+
 	class COCO_API Renderer {
 	public:
 		static void Init();
@@ -48,7 +80,11 @@ namespace Coco
 
 		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
 
+		static void ResetStats();
+		static RenderStats GetStats() { return s_RenderStats; }
+
 	private:
 		static SceneData s_SceneData;
+		static RenderStats s_RenderStats;
 	};
 }

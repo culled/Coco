@@ -17,6 +17,8 @@ namespace Coco
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const = 0;
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
+		virtual uint32_t GetVertexCount() const = 0;
+
 		static Ref<VertexArray> Create();
 		static Ref<VertexArray> Create(Ref<VertexBuffer>& vertexBuffer, Ref<IndexBuffer>& indexBuffer);
 	};

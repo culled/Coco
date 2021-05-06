@@ -7,23 +7,6 @@ namespace Coco
 
 	void EditorLayer::OnAttached()
 	{
-		/*m_Tex = Texture2D::Create("assets/textures/HDIcon.png");
-		m_AtlasTex = Texture2D::Create("assets/textures/texture_atlas.png", TextureCreationParameters(TextureFilteringMode::Nearest, TextureWrapMode::Clamp));
-		m_SubTex = SubTexture2D::CreateFromCoords(m_AtlasTex, glm::vec2(6.0f, 2.0f), glm::vec2(16.0f, 16.0f), glm::vec2(3.0f, 2.0f));
-
-		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight());
-
-		m_ActiveScene = CreateRef<Scene>();
-
-		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera");
-		m_CameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
-		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<Camera2DController>();
-
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);*/
-
 		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight());
 
 		m_ActiveScene = CreateRef<Scene>();
@@ -71,15 +54,18 @@ namespace Coco
 		m_FrameRate = (int)std::lround(1.0f / timestep);
 
 		auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
-		EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
 
-		if(controller)
+		if (script.Instance)
+		{
+			EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+
 			controller->SetControlEnabled(m_ViewportFocused);
+		}
 
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 		RenderCommand::Clear();
-		//Renderer2D::ResetStats();
+		Renderer::ResetStats();
 
 		m_ActiveScene->Update(timestep);
 
@@ -109,13 +95,13 @@ namespace Coco
 
 		ImGui::Text("Render stats:");
 
-		//Renderer2D::Statistics stats = Renderer2D::GetStats();
+		RenderStats stats = Renderer::GetStats();
 
 		ImGui::Text("%dfps", m_FrameRate);
-		//ImGui::Text("Draw calls: %d", stats.DrawCalls);
-		//ImGui::Text("Quad count: %d", stats.QuadCount);
-		//ImGui::Text("Verticies: %d", stats.GetTotalVertexCount());
-		//ImGui::Text("Indicies: %d", stats.GetTotalIndexCount());
+		ImGui::Text("Render Time: %.3fms", stats.GetDurationMilliseconds());
+		ImGui::Text("Draw calls: %d", stats.DrawCalls);
+		ImGui::Text("Verticies: %d", stats.VerticiesDrawn);
+		ImGui::Text("Indicies: %d", stats.IndiciesDrawn);
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
@@ -151,10 +137,13 @@ namespace Coco
 		if (m_ViewportFocused && m_ViewportHovered)
 		{
 			auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
-			EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
 
-			if (controller)
+			if (script.Instance)
+			{
+				EditorCameraController* controller = static_cast<EditorCameraController*>(script.Instance);
+
 				controller->OnEvent(e);
+			}
 		}
 	}
 }

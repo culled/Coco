@@ -77,4 +77,16 @@ namespace Coco {
 
 		m_IndexBuffer = buffer;
 	}
+
+	uint32_t OpenGLVertexArray::GetVertexCount() const
+	{
+		uint32_t count = 0;
+
+		for (auto& buffer : m_VertexBuffers)
+		{
+			count += buffer->GetVertexCount();
+		}
+
+		return count;
+	}
 }
