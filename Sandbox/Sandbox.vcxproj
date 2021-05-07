@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

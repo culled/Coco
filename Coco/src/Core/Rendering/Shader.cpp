@@ -36,11 +36,13 @@ namespace Coco
 		return nullptr;
 	}
 
+	std::unordered_map<std::string, Ref<Shader>> ShaderLibrary::s_Shaders;
+
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
 		auto& shaderName = shader->GetName();
 		ASSERT_CORE(!Exists(shaderName), "Shader already added");
-		m_Shaders[shaderName] = shader;
+		s_Shaders[shaderName] = shader;
 	}
 
 	Ref<Shader> ShaderLibrary::Load(const std::string& filepath, const std::string& name)
@@ -52,12 +54,12 @@ namespace Coco
 
 	bool ShaderLibrary::Exists(const std::string& name)
 	{
-		return m_Shaders.find(name) != m_Shaders.end();
+		return s_Shaders.find(name) != s_Shaders.end();
 	}
 
 	Ref<Shader> ShaderLibrary::Get(const std::string& name)
 	{
 		ASSERT_CORE(Exists(name), "Shader not found");
-		return m_Shaders[name];
+		return s_Shaders[name];
 	}
 }

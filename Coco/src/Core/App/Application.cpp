@@ -7,6 +7,7 @@
 #include "Core/Events/EventArgs.h"
 #include "Core/Timing/Timestep.h"
 #include "Core/Rendering/RendererAPI.h"
+#include "Core/Rendering/Renderer.h"
 
 namespace Coco
 {
@@ -34,6 +35,8 @@ namespace Coco
 			});
 
 		m_StartTime = std::chrono::high_resolution_clock::now();
+
+		Renderer::Init();
 
 #if COCO_IMGUI
 		m_ImGuiLayer = CreateRef<ImGuiLayer>();

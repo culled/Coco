@@ -15,27 +15,10 @@ namespace Coco
 		m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
 
-		Ref<Material> mat = CreateRef<Material>(m_Shaders.Load("assets/shaders/FlatColor.glsl"));
+		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(mat, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-
-		float verts[] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
-		};
-
-		Ref<VertexBuffer> quadVBO = VertexBuffer::Create(verts, sizeof(verts));
-		quadVBO->SetLayout({ {ShaderDataType::Float3, "a_Pos"} });
-
-		uint32_t indicies[] = { 0, 1, 2, 2, 3, 0 };
-		Ref<IndexBuffer> quadIBO = IndexBuffer::Create(indicies, 6);
-
-		Ref<VertexArray> vao = VertexArray::Create(quadVBO, quadIBO);
-
-		m_SquareEntity.AddComponent<MeshDataComponent>(vao);
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(MaterialLibrary::Get("Flat Color"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
@@ -64,7 +47,27 @@ namespace Coco
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				if (ImGui::MenuItem("New Scene", NULL, false))
+				{
+
+				}
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Open Scene", NULL, false))
+				{
+
+				}
+
+				if (ImGui::MenuItem("Save Scene", NULL, false))
+				{
+
+				}
+
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Exit", NULL, false)) Application::Get().Close();
+
 				ImGui::EndMenu();
 			}
 

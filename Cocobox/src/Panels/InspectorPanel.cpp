@@ -22,7 +22,7 @@ namespace Coco
 
 			float x = ImGui::GetCursorPosX();
 			ImVec2 textSize = ImGui::CalcTextSize("Add Component");
-			ImGui::SetCursorPosX((ImGui::GetContentRegionAvailWidth() - textSize.x) * 0.5f);
+			ImGui::SetCursorPosX((GImGui->CurrentWindow->WorkRect.GetWidth() - textSize.x) * 0.5f);
 
 			if (ImGui::Button("Add Component"))
 			{

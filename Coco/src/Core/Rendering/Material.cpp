@@ -29,7 +29,7 @@ namespace Coco
 		return nullptr;
 	}
 
-	Material::Material(Ref<Shader>& shader) :
+	Material::Material(const Ref<Shader>& shader) :
 		m_Shader(shader)
 	{
 		for (auto it : shader->GetUniforms())
@@ -131,5 +131,31 @@ namespace Coco
 
 		Mat4MaterialProperty* prop = static_cast<Mat4MaterialProperty*>(m_Uniforms[name].get());
 		prop->Value = value;
+	}
+
+	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
+
+	void MaterialLibrary::Add(const std::string& name, const Ref<Material>& material)
+	{
+		ASSERT_CORE(!Exists(name), "Material already added");
+		s_Materials[name] = material;
+	}
+
+	Ref<Material> MaterialLibrary::Create(const std::string& name, const Ref<Shader>& shader)
+	{
+		auto material = CreateRef<Material>(shader);
+		Add(name, material);
+		return material;
+	}
+
+	Ref<Material> MaterialLibrary::Get(const std::string& name)
+	{
+		ASSERT_CORE(Exists(name), "Material not found");
+		return s_Materials[name];
+	}
+
+	bool MaterialLibrary::Exists(const std::string& name)
+	{
+		return s_Materials.find(name) != s_Materials.end();
 	}
 }

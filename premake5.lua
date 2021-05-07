@@ -21,11 +21,13 @@ IncludeDir["ImGui"] =   "Coco/vendor/imgui"
 IncludeDir["glm"] =     "Coco/vendor/glm"
 IncludeDir["stb"] =     "Coco/vendor/stb"
 IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
+IncludeDir["yaml"] =    "Coco/vendor/yaml-cpp/include"
 
 group "Dependencies"
     include "premakes/glfw"
     include "premakes/glad"
     include "premakes/imgui"
+    include "premakes/yaml-cpp"
 group ""
 
 project "Coco"
@@ -60,7 +62,8 @@ project "Coco"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.stb}",
-        "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.yaml}"
     }
 
     links
@@ -68,6 +71,7 @@ project "Coco"
         "GLFW",
         "Glad",
         "ImGui",
+        "Yaml-cpp",
         "opengl32.lib"
     }
 
@@ -124,7 +128,8 @@ project "Sandbox"
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.yaml}"
     }
 
     links
@@ -182,7 +187,8 @@ project "Cocobox"
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.yaml}"
     }
     
     links

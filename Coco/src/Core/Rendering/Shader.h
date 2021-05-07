@@ -48,13 +48,13 @@ namespace Coco
 	class COCO_API ShaderLibrary
 	{
 	public:
-		void Add(const Ref<Shader>& shader);
-		Ref<Shader> Load(const std::string& filepath, const std::string& name = "");
+		static void Add(const Ref<Shader>& shader);
+		static Ref<Shader> Load(const std::string& filepath, const std::string& name = "");
 
-		Ref<Shader> Get(const std::string& name);
-		bool Exists(const std::string& name);
+		static Ref<Shader> Get(const std::string& name);
+		static bool Exists(const std::string& name);
 	private:
-		std::unordered_map<std::string, Ref<Shader>> m_Shaders;
+		static std::unordered_map<std::string, Ref<Shader>> s_Shaders;
 	};
 }
 

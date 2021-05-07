@@ -38,6 +38,11 @@ namespace Coco
 		uint32_t TextureSlotIndex = 1; //0 = white texture
 	};
 
+	struct COCO_API PrimativeRenderData
+	{
+		Ref<VertexArray> QuadVertexArray = nullptr;
+	};
+
 	struct COCO_API RenderStats
 	{
 		uint32_t VerticiesDrawn = 0;
@@ -79,6 +84,7 @@ namespace Coco
 		static void EndScene();
 
 		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
+		static void SubmitImmediateQuad(Ref<Material> material, const glm::mat4& transform);
 
 		static void ResetStats();
 		static RenderStats GetStats() { return s_RenderStats; }
@@ -86,5 +92,6 @@ namespace Coco
 	private:
 		static SceneData s_SceneData;
 		static RenderStats s_RenderStats;
+		static PrimativeRenderData s_PrimativeData;
 	};
 }

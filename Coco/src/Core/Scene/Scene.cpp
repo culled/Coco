@@ -46,11 +46,16 @@ namespace Coco
 
 		for (auto entity : view)
 		{
-			auto [transform, rendererComponent, meshComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent, MeshDataComponent>(entity);
+			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
+
+			if (!rendererComponent.Material)
+			{
+				rendererComponent.Material = MaterialLibrary::Get("Flat Color");
+			}
 
 			rendererComponent.Material->SetVector4("u_Color", rendererComponent.Color);
 
-			Renderer::SubmitImmediate(meshComponent.VAO, rendererComponent.Material, transform);
+			Renderer::SubmitImmediateQuad(rendererComponent.Material, transform);
 		}
 
 		Renderer::EndScene();

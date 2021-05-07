@@ -165,6 +165,9 @@
     <ClInclude Include="src\Core\Rendering\Shader.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Rendering\SubTextures.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Rendering\Textures.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
@@ -1455,7 +1458,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Rendering\SubTextures.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1506,6 +1508,9 @@
     <ClCompile Include="src\Core\Rendering\Shader.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Rendering\SubTextures.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Rendering\Textures.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
@@ -1548,6 +1553,5 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Rendering\SubTextures.cpp" />
   </ItemGroup>
 </Project>

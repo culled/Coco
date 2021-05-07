@@ -76,7 +76,7 @@ namespace Coco
 	{
 	public:
 		Material() = default;
-		Material(Ref<Shader>& shader);
+		Material(const Ref<Shader>& shader);
 		virtual ~Material();
 
 		void Use();
@@ -96,6 +96,18 @@ namespace Coco
 	private:
 		Ref<Shader> m_Shader = nullptr;
 		std::unordered_map<std::string, Scope<MaterialProperty>> m_Uniforms;
+	};
+
+	class COCO_API MaterialLibrary
+	{
+	public:
+		static void Add(const std::string& name, const Ref<Material>& material);
+		static Ref<Material> Create(const std::string& name, const Ref<Shader>& shader);
+
+		static Ref<Material> Get(const std::string& name);
+		static bool Exists(const std::string& name);
+	private:
+		static std::unordered_map<std::string, Ref<Material>> s_Materials;
 	};
 }
 
