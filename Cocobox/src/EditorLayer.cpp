@@ -1,5 +1,6 @@
 #include "EditorLayer.h"
 #include "imgui.h"
+#include "Core/Scene/SceneSerializer.h"
 
 namespace Coco
 {
@@ -12,10 +13,11 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
+		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
+
 		m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
 
-		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(MaterialLibrary::Get("Flat Color"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
@@ -49,19 +51,29 @@ namespace Coco
 			{
 				if (ImGui::MenuItem("New Scene", NULL, false))
 				{
+					m_ActiveScene = CreateRef<Scene>();
 
+					m_SceneHierarchy.SetContext(m_ActiveScene);
+					m_ScenePanel.SetContext(m_ActiveScene);
 				}
 
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Open Scene", NULL, false))
 				{
+					m_ActiveScene = CreateRef<Scene>();
 
+					m_SceneHierarchy.SetContext(m_ActiveScene);
+					m_ScenePanel.SetContext(m_ActiveScene);
+
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Deserialize("assets/scenes/test.cscn");
 				}
 
 				if (ImGui::MenuItem("Save Scene", NULL, false))
 				{
-
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Serialize("assets/scenes/test.cscn");
 				}
 
 				ImGui::Separator();

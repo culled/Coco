@@ -173,6 +173,7 @@
     <ClInclude Include="src\Core\Rendering\VertexArray.h" />
     <ClInclude Include="src\Core\Scene\Entity.h" />
     <ClInclude Include="src\Core\Scene\Scene.h" />
+    <ClInclude Include="src\Core\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Core\Timing\Timestep.h" />
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffers.h" />
@@ -621,6 +622,7 @@
     <ClCompile Include="src\Core\Rendering\Textures.cpp" />
     <ClCompile Include="src\Core\Rendering\VertexArray.cpp" />
     <ClCompile Include="src\Core\Scene\Scene.cpp" />
+    <ClCompile Include="src\Core\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp" />
     <ClCompile Include="src\Platform\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffers.cpp" />

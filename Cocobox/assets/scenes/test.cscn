@@ -1,0 +1,46 @@
+Scene: Untitled Scene
+Entities:
+  - ID: 3
+    TagComponent:
+      Name: SSS
+      Tags: ""
+    TransformComponent:
+      Position: [1.20000005, -1.10000002, 0]
+      Rotation: [0, 0, -0.762708902]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.0608876832, 0.0609064139, 0.801687777, 1]
+  - ID: 2
+    TagComponent:
+      Name: Red Square
+      Tags: ""
+    TransformComponent:
+      Position: [-1.89999998, 1.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.856540084, 0.12287917, 0.12287917, 1]
+  - ID: 1
+    TagComponent:
+      Name: Square
+      Tags: ""
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0, 1, 0, 1]
+  - ID: 0
+    TagComponent:
+      Name: Camera
+      Tags: ""
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      ProjectionType: 1
+      PerspectiveVerticalFOV: 75
+      OrthographicSize: 5
+      NearPlane: -1
+      FarPlane: 1

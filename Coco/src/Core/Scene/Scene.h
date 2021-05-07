@@ -11,6 +11,7 @@ namespace Coco
 	{
 	public:
 		friend class Entity;
+		friend class SceneSerializer;
 
 		virtual ~Scene() = default;
 
