@@ -16,3 +16,6 @@
 [submodule "Coco/vendor/stb"]
 	path = Coco/vendor/stb
 	url = https://github.com/nothings/stb
+[submodule "Coco/vendor/yaml-cpp"]
+	path = Coco/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
