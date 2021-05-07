@@ -67,11 +67,4 @@ namespace Coco
 
 		operator Ref<ScriptableEntity> () { return Instance; }
 	};
-
-	struct COCO_API EditorComponent
-	{
-		EditorComponent() = default;
-		EditorComponent(const EditorComponent& other) = default;
-		virtual ~EditorComponent() = default;
-	};
 }

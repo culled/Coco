@@ -7,15 +7,13 @@ namespace Coco
 
 	void EditorLayer::OnAttached()
 	{
-		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight());
-
 		m_ActiveScene = CreateRef<Scene>();
 
 		m_SceneHierarchy.SetContext(m_ActiveScene);
+		m_ScenePanel.SetContext(m_ActiveScene);
 
 		m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
-		m_EditorCameraEntity.AddComponent<NativeScriptComponent>().Bind<EditorCameraController>();
 
 		Ref<Material> mat = CreateRef<Material>(m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
@@ -51,39 +49,9 @@ namespace Coco
 			Application::Get().GetMainWindow().SetVSync(m_Vsync ? 1 : 0);
 		}
 
-		if ((m_ViewportSize.x != m_Framebuffer->GetWidth() || m_ViewportSize.y != m_Framebuffer->GetHeight()) && 
-			m_ViewportSize.x > 0 && m_ViewportSize.y > 0)
-		{
-			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-
-			auto& cam = m_EditorCameraEntity.GetComponent<CameraComponent>().Camera;
-			float aspect = m_ViewportSize.x / m_ViewportSize.y;
-
-			if (aspect != cam.GetAspectRatio())
-			{
-				cam.SetAspectRatio(aspect);
-			}
-		}
-
 		m_FrameRate = (int)std::lround(1.0f / timestep);
 
-		auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
-
-		if (script.Instance)
-		{
-			Ref<EditorCameraController> controller = std::static_pointer_cast<EditorCameraController>(script.Instance);
-
-			controller->SetControlEnabled(m_ViewportFocused);
-		}
-
-		m_Framebuffer->Bind();
-		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-		RenderCommand::Clear();
-		Renderer::ResetStats();
-
-		m_ActiveScene->Update(timestep);
-
-		m_Framebuffer->Unbind();
+		m_ScenePanel.OnUpdate(timestep);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -102,6 +70,7 @@ namespace Coco
 
 		m_SceneHierarchy.OnImGuiRender();
 		m_Inspector.OnImGuiRender();
+		m_ScenePanel.OnImGuiRender();
 
 		ImGui::Begin("Stats");
 
@@ -117,35 +86,10 @@ namespace Coco
 		ImGui::Text("Verticies: %d", stats.VerticiesDrawn);
 		ImGui::Text("Indicies: %d", stats.IndiciesDrawn);
 		ImGui::End();
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-		ImGui::Begin("Viewport");
-
-		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-
-		m_ViewportSize = { viewportSize.x, viewportSize.y };
-
-		ImGui::Image((void*)(uint64_t)m_Framebuffer->GetColorAttachmentID(), { viewportSize.x, viewportSize.y }, { 0.0f, 1.0f }, { 1.0f, 0.0f });
-
-		m_ViewportFocused = ImGui::IsWindowFocused(0);
-		m_ViewportHovered = ImGui::IsWindowHovered(0);
-
-		ImGui::End();
-		ImGui::PopStyleVar();
 	}
 
 	void EditorLayer::OnEvent(DispatchedEvent& e)
 	{
-		if (m_ViewportFocused && m_ViewportHovered)
-		{
-			auto& script = m_EditorCameraEntity.GetComponent<NativeScriptComponent>();
-
-			if (script.Instance)
-			{
-				Ref<EditorCameraController> controller = std::static_pointer_cast<EditorCameraController>(script.Instance);
-
-				controller->OnEvent(e);
-			}
-		}
+		m_ScenePanel.OnEvent(e);
 	}
 }
