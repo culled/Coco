@@ -36,6 +36,9 @@ namespace Coco
 		Ref<VertexArray> vao = VertexArray::Create(quadVBO, quadIBO);
 
 		m_SquareEntity.AddComponent<MeshDataComponent>(vao);
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 	}
 
 	void EditorLayer::OnDetached()

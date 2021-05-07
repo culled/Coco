@@ -11,7 +11,7 @@ namespace Coco
 		void OnImGuiRender();
 
 	private:
-		static bool DrawVec3Control(const char* label, glm::vec3& value, float speed = 0.1f, glm::vec3 resetValue = glm::vec3(0.0f), float columnWidth = 100.0f);
+		static bool DrawVec3Control(const char* label, glm::vec3& value, float speed = 0.1f, glm::vec3 resetValue = glm::vec3(0.0f), float labelColumnWidth = 75.0f);
 
 		void DrawEntityComponents(Entity entity);
 
@@ -20,12 +20,20 @@ namespace Coco
 		{
 			if (!entity.HasComponent<T>()) return;
 
-			bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen);
+			float widthAvailable = GImGui->CurrentWindow->WorkRect.GetWidth();
+			bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | 
+				ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_AllowItemOverlap |
+			ImGuiTreeNodeFlags_FramePadding);
 
-			ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
-			if (ImGui::Button("-", ImVec2{ 20, 20 }))
+			if (!std::is_same<T, TransformComponent>() && !std::is_same<T, TagComponent>())
 			{
-				ImGui::OpenPopup("ComponentSettings");
+				float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+
+				ImGui::SameLine(widthAvailable - lineHeight * 0.5f);
+				if (ImGui::Button("-", ImVec2{ lineHeight, lineHeight }))
+				{
+					ImGui::OpenPopup("ComponentSettings");
+				}
 			}
 
 			bool removeComponent = false;
@@ -40,9 +48,11 @@ namespace Coco
 				ImGui::EndPopup();
 			}
 
+
 			if (open)
 			{
-				DrawFunction(entity.GetComponent<T>());
+				T& component = entity.GetComponent<T>();
+				DrawFunction(component);
 				ImGui::TreePop();
 			}
 

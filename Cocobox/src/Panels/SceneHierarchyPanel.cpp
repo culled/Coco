@@ -54,7 +54,7 @@ namespace Coco
 	{
 		auto& name = entity.GetComponent<TagComponent>().Name;
 
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | (s_SelectedEntity == entity ? ImGuiTreeNodeFlags_Selected : 0);
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | (s_SelectedEntity == entity ? ImGuiTreeNodeFlags_Selected : 0);
 
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, name.c_str());
 

@@ -17,26 +17,35 @@ namespace Coco
 		{
 			DrawEntityComponents(selectedEntity);
 
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
+			ImGui::Separator();
+
+			float x = ImGui::GetCursorPosX();
+			ImVec2 textSize = ImGui::CalcTextSize("Add Component");
+			ImGui::SetCursorPosX((ImGui::GetContentRegionAvailWidth() - textSize.x) * 0.5f);
+
 			if (ImGui::Button("Add Component"))
 			{
 				ImGui::OpenPopup("AddComponent");
 			}
 
+			ImGui::SetCursorPosX(x);
+
 			if (ImGui::BeginPopup("AddComponent"))
 			{
-				if (ImGui::MenuItem("Camera"))
+				if (!selectedEntity.HasComponent<CameraComponent>() && ImGui::MenuItem("Camera"))
 				{
 					selectedEntity.AddComponent<CameraComponent>();
 					ImGui::CloseCurrentPopup();
 				}
 
-				if (ImGui::MenuItem("Mesh Data"))
+				if (!selectedEntity.HasComponent<MeshDataComponent>() && ImGui::MenuItem("Mesh Data"))
 				{
 					selectedEntity.AddComponent<MeshDataComponent>();
 					ImGui::CloseCurrentPopup();
 				}
 
-				if (ImGui::MenuItem("Sprite Renderer"))
+				if (!selectedEntity.HasComponent<SpriteRendererComponent>() && ImGui::MenuItem("Sprite Renderer"))
 				{
 					selectedEntity.AddComponent<SpriteRendererComponent>();
 					ImGui::CloseCurrentPopup();
@@ -49,24 +58,33 @@ namespace Coco
 		ImGui::End();
 	}
 
-	bool InspectorPanel::DrawVec3Control(const char* label, glm::vec3& value, float speed, glm::vec3 resetValue, float columnWidth)
+	bool InspectorPanel::DrawVec3Control(const char* label, glm::vec3& value, float speed, glm::vec3 resetValue, float labelColumnWidth)
 	{
 		bool changed = false;
 
 		ImGui::PushID(label);
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, columnWidth);
+
+		bool smallVersion = ImGui::GetWindowWidth() - labelColumnWidth < 215;
+			
+		if (!smallVersion)
+		{
+			ImGui::Columns(2);
+			ImGui::SetColumnWidth(0, labelColumnWidth);
+		}
 
 		ImGui::Text(label);
 
-		ImGui::NextColumn();
-
-		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0.0f, 0.0f });
+		if (!smallVersion)
+		{
+			ImGui::NextColumn();
+		}
 
 		//From ImGui
 		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 		ImVec2 buttonSize{ lineHeight + 3.0f, lineHeight };
+
+		ImGui::PushMultiItemsWidths(3, ImGui::GetColumnWidth() - buttonSize.x * 3.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0.0f, 0.0f });
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.1f, 0.15f, 1.0f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.9f, 0.2f, 0.2f, 1.0f));
@@ -135,24 +153,24 @@ namespace Coco
 
 	void InspectorPanel::DrawEntityComponents(Entity entity)
 	{
-		DrawComponent<TagComponent>("Entity", entity, [](TagComponent& tagComponent) {
-			char buffer[256];
-			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tagComponent.Name.c_str());
+		auto& tagComponent = entity.GetComponent<TagComponent>();
 
-			if (ImGui::InputText("Name", buffer, sizeof(buffer)))
-			{
-				tagComponent.Name = std::string(buffer);
-			}
+		char buffer[256];
+		memset(buffer, 0, sizeof(buffer));
+		strcpy_s(buffer, sizeof(buffer), tagComponent.Name.c_str());
 
-			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tagComponent.Tags.c_str());
+		if (ImGui::InputText("Name", buffer, sizeof(buffer)))
+		{
+			tagComponent.Name = std::string(buffer);
+		}
 
-			if (ImGui::InputText("Tags", buffer, sizeof(buffer)))
-			{
-				tagComponent.Tags = std::string(buffer);
-			}
-			});
+		memset(buffer, 0, sizeof(buffer));
+		strcpy_s(buffer, sizeof(buffer), tagComponent.Tags.c_str());
+
+		if (ImGui::InputText("Tags", buffer, sizeof(buffer)))
+		{
+			tagComponent.Tags = std::string(buffer);
+		}
 
 		DrawComponent<TransformComponent>("Transform", entity, [](TransformComponent& transformComponent) {
 			DrawVec3Control("Position", transformComponent.Position);
