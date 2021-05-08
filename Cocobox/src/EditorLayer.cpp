@@ -1,9 +1,12 @@
 #include "EditorLayer.h"
 #include "imgui.h"
 #include "Core/Scene/SceneSerializer.h"
+#include "Core/Utils/PlatformUtils.h"
 
 namespace Coco
 {
+	const char* EditorLayer::s_SceneFileFilter = "Cocobox Scene (*.cocoscene)\0*.cocoscene\0";
+
 	EditorLayer::EditorLayer() : Layer("Coco Editor") {}
 
 	void EditorLayer::OnAttached()
@@ -15,12 +18,12 @@ namespace Coco
 
 		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
-		m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
+		/*m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
 		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
 
 
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(MaterialLibrary::Get("Flat Color"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(MaterialLibrary::Get("Flat Color"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));*/
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
@@ -49,7 +52,7 @@ namespace Coco
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("New Scene", NULL, false))
+				if (ImGui::MenuItem("New Scene", "Ctrl+N"))
 				{
 					m_ActiveScene = CreateRef<Scene>();
 
@@ -59,26 +62,40 @@ namespace Coco
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Open Scene", NULL, false))
+				if (ImGui::MenuItem("Open Scene...", "Ctrl+O"))
 				{
-					m_ActiveScene = CreateRef<Scene>();
+					std::string filePath = FileDialog::OpenFile(s_SceneFileFilter);
 
-					m_SceneHierarchy.SetContext(m_ActiveScene);
-					m_ScenePanel.SetContext(m_ActiveScene);
+					if (!filePath.empty())
+					{
+						m_ActiveScene = CreateRef<Scene>();
 
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Deserialize("assets/scenes/test.cscn");
+						m_SceneHierarchy.SetContext(m_ActiveScene);
+						m_ScenePanel.SetContext(m_ActiveScene);
+
+						SceneSerializer serializer(m_ActiveScene);
+						serializer.Deserialize(filePath);
+					}
 				}
 
-				if (ImGui::MenuItem("Save Scene", NULL, false))
+				if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
 				{
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Serialize("assets/scenes/test.cscn");
+				}
+
+				if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
+				{
+					std::string filePath = FileDialog::SaveFile(s_SceneFileFilter);
+
+					if (!filePath.empty())
+					{
+						SceneSerializer serializer(m_ActiveScene);
+						serializer.Serialize(filePath);
+					}
 				}
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Exit", NULL, false)) Application::Get().Close();
+				if (ImGui::MenuItem("Exit", "Ctrl+W")) Application::Get().Close();
 
 				ImGui::EndMenu();
 			}

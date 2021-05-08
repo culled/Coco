@@ -175,6 +175,7 @@
     <ClInclude Include="src\Core\Scene\Scene.h" />
     <ClInclude Include="src\Core\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Core\Timing\Timestep.h" />
+    <ClInclude Include="src\Core\Utils\PlatformUtils.h" />
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffers.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -636,6 +637,7 @@
     <ClCompile Include="src\ccpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

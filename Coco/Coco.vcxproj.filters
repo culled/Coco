@@ -1459,6 +1459,7 @@
       <Filter>vendor\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Scene\SceneSerializer.h" />
+    <ClInclude Include="src\Core\Utils\PlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1555,5 +1556,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
   </ItemGroup>
 </Project>

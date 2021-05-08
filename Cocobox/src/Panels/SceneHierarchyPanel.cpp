@@ -14,6 +14,7 @@ namespace Coco
 	void SceneHierarchyPanel::SetContext(Ref<Scene> scene)
 	{
 		m_Context = scene;
+		s_SelectedEntity = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()

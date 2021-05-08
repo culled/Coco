@@ -25,8 +25,8 @@ namespace Coco
 		ShaderLibrary m_Shaders;
 
 		Ref<Scene> m_ActiveScene = nullptr;
-		Entity m_EditorCameraEntity;
-		Entity m_SquareEntity;
+		//Entity m_EditorCameraEntity;
+		//Entity m_SquareEntity;
 
 		bool m_Vsync = true;
 		int m_FrameRate = 0;
@@ -34,6 +34,8 @@ namespace Coco
 		SceneHierarchyPanel m_SceneHierarchy;
 		InspectorPanel m_Inspector;
 		ScenePanel m_ScenePanel;
+
+		static const char* s_SceneFileFilter;
 	};
 }
 
