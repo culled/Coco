@@ -19,3 +19,6 @@
 [submodule "Coco/vendor/yaml-cpp"]
 	path = Coco/vendor/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp
+[submodule "Coco/vendor/ImGuizmo"]
+	path = Coco/vendor/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
