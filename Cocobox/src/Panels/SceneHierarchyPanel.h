@@ -13,6 +13,8 @@ namespace Coco
 
 		void OnImGuiRender();
 
+		static Entity GetSelectedEntity() { return s_SelectedEntity; }
+
 	private:
 		Ref<Scene> m_Context = nullptr;
 		static Entity s_SelectedEntity;

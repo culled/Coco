@@ -32,6 +32,8 @@ namespace Coco
 	{
 		if (s_CurrentAPI)
 		{
+			s_CurrentAPI->Shutdown();
+
 			LOG_CORE_INFO("Destroying RendererAPI");
 			delete s_CurrentAPI;
 		}

@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "Core/Scene/SceneSerializer.h"
 #include "Core/Utils/PlatformUtils.h"
+#include "Core/Input/KeyCodes.h"
 
 namespace Coco
 {

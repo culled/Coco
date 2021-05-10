@@ -29,6 +29,7 @@ group "Dependencies"
     include "premakes/glad"
     include "premakes/imgui"
     include "premakes/yaml-cpp"
+    include "premakes/imguizmo"
 group ""
 
 project "Coco"
@@ -51,9 +52,7 @@ project "Coco"
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/vendor/entt/single_include/entt/entt.hpp",
-        "%{prj.name}/vendor/stb/stb_image.h",
-        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
-        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
+        "%{prj.name}/vendor/stb/stb_image.h"
     }
 
     includedirs
@@ -76,6 +75,7 @@ project "Coco"
         "Glad",
         "ImGui",
         "Yaml-cpp",
+        "ImGuizmo",
         "opengl32.lib"
     }
 
@@ -85,9 +85,6 @@ project "Coco"
         "COCO_IMGUI=1",
         "COCO_ASSERTS=1"
     }
-
-    filter "files:Coco/vendor/ImGuizmo/**.cpp"
-        flags { "NoPCH" }
 
     filter "system:windows"
         systemversion "latest"

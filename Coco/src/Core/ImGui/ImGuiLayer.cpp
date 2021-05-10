@@ -1,5 +1,6 @@
 #include "ccpch.h"
 #include "ImGuiLayer.h"
+#include "ImGuizmo.h"
 
 namespace Coco
 {
@@ -20,6 +21,7 @@ namespace Coco
 	void ImGuiLayer::Begin()
 	{
 		m_Renderer->OnNewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void ImGuiLayer::End()

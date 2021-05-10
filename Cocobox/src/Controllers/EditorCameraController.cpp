@@ -5,8 +5,8 @@ namespace Coco
 	EditorCameraController::EditorCameraController(const Ref<SceneCamera>& camera) :
 		m_Camera(camera)
 	{
-		camera->SetProjectionType(SceneCamera::Projection::Orthographic);
-		camera->SetOrthographicSize(m_ZoomLevel);
+		camera->SetOrthographic(m_ZoomLevel, 0.0f, 2.0f);
+		m_Transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 	void EditorCameraController::OnUpdate(Timestep timestep)

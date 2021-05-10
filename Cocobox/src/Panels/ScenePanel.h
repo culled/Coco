@@ -19,6 +19,8 @@ namespace Coco
 		void OnEvent(DispatchedEvent& e);
 
 	private:
+		void OnKeyPressed(KeyPressEventArgs* args);
+
 		glm::vec2 m_ViewportSize = glm::vec2(320.0f, 180.0f);
 		Ref<Framebuffer> m_Framebuffer = nullptr;
 
@@ -26,6 +28,8 @@ namespace Coco
 
 		Ref<Scene> m_Context = nullptr;
 		Scope<EditorCameraController> m_Controller = nullptr;
+
+		int m_GizmoType = -1;
 	};
 }
 

@@ -36,6 +36,7 @@ namespace Coco
 
 		m_StartTime = std::chrono::high_resolution_clock::now();
 
+		RendererAPI::GetCurrent().Init();
 		Renderer::Init();
 
 #if COCO_IMGUI
@@ -49,6 +50,7 @@ namespace Coco
 	Application::~Application()
 	{
 		LOG_CORE_INFO("Shut down");
+		Renderer::Shutdown();
 		RendererAPI::Destroy();
 	}
 

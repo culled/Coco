@@ -1,5 +1,11 @@
 #include "ScenePanel.h"
 #include "imgui.h"
+#include "ImGuizmo.h"
+#include "SceneHierarchyPanel.h"
+#include "Core/Utils/Math.h"
+#include "Core/Events/EventDispatcher.h"
+
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Coco
 {
@@ -70,15 +76,79 @@ namespace Coco
 		m_ViewportFocused = ImGui::IsWindowFocused(0);
 		m_ViewportHovered = ImGui::IsWindowHovered(0);
 
+		//Snapping
+		bool snap = Input::IsKeyPressed(KeyCodes::Left_Control);
+		float snapValue = 0.5f;
+
+		if (m_GizmoType == (int)ImGuizmo::OPERATION::ROTATE)
+		{
+			snapValue = 45.0f;
+		}
+
+		//ImGuizmo
+		Entity selectedEntity = SceneHierarchyPanel::GetSelectedEntity();
+		if (selectedEntity && m_GizmoType != -1)
+		{
+			ImGuizmo::SetOrthographic(true);
+			ImGuizmo::SetDrawlist();
+
+			double yOffset = ImGui::GetWindowSize().y - viewportSize.y;
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + yOffset, viewportSize.x, viewportSize.y);
+
+			const glm::mat4& cameraProjection = m_Controller->GetCamera()->GetProjectionMatrix();
+			glm::mat4 cameraView = glm::inverse(m_Controller->GetTransform());
+
+			auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+			glm::mat4 transform = transformComponent;
+
+			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			if (ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::MODE::LOCAL, glm::value_ptr(transform),
+				nullptr, snap ? snapValues : nullptr))
+			{
+				glm::vec3 finalRotation;
+
+				Math::DecomposeTransform(transform, transformComponent.Position, finalRotation, transformComponent.Scale);
+
+				glm::vec3 deltaRotation = finalRotation - transformComponent.Rotation;
+				transformComponent.Rotation += deltaRotation;
+			}
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
 
 	void ScenePanel::OnEvent(DispatchedEvent& e)
 	{
+		EventDispatcher::Dispatch<KeyPressEventArgs>(e, this, &ScenePanel::OnKeyPressed);
+
 		if (m_ViewportHovered && m_Context)
 		{
 			m_Controller->OnEvent(e);
+		}
+	}
+
+	void ScenePanel::OnKeyPressed(KeyPressEventArgs* args)
+	{
+		if (m_ViewportHovered)
+		{
+			switch ((KeyCodes)args->Key)
+			{
+			case KeyCodes::Q:
+				m_GizmoType = -1;
+				break;
+			case KeyCodes::E:
+				m_GizmoType = ImGuizmo::TRANSLATE;
+				break;
+			case KeyCodes::R:
+				m_GizmoType = ImGuizmo::ROTATE;
+				break;
+			case KeyCodes::T:
+				m_GizmoType = ImGuizmo::SCALE;
+				break;
+			}
 		}
 	}
 }
