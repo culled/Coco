@@ -40,14 +40,23 @@
     <Filter Include="src\Core\Timing">
       <UniqueIdentifier>{BCC30BAE-284F-7972-3160-FC669D6AD572}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core\Utils">
+      <UniqueIdentifier>{C53C5E05-B10A-520B-9A9E-C231860B2E70}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\OpenGL">
       <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Platform\Windows">
+      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\ImGuizmo">
+      <UniqueIdentifier>{73BF7F4C-DF4A-ED10-E85B-700554664911}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\entt">
       <UniqueIdentifier>{DD8078C1-4936-F1B6-D22A-EB8D3EDFE7BA}</UniqueIdentifier>
@@ -180,8 +189,14 @@
     <ClInclude Include="src\Core\Scene\Scene.h">
       <Filter>src\Core\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Scene\SceneSerializer.h">
+      <Filter>src\Core\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Timing\Timestep.h">
       <Filter>src\Core\Timing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Utils\PlatformUtils.h">
+      <Filter>src\Core\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\GLFWWindow.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -212,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="src\ccpch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h">
+      <Filter>vendor\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="vendor\entt\single_include\entt\entt.hpp">
       <Filter>vendor\entt\single_include\entt</Filter>
@@ -1458,8 +1476,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Scene\SceneSerializer.h" />
-    <ClInclude Include="src\Core\Utils\PlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1522,6 +1538,9 @@
     <ClCompile Include="src\Core\Scene\Scene.cpp">
       <Filter>src\Core\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Scene\SceneSerializer.cpp">
+      <Filter>src\Core\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1552,10 +1571,14 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Scene\SceneSerializer.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
+      <Filter>vendor\ImGuizmo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,6 +22,7 @@ IncludeDir["glm"] =     "Coco/vendor/glm"
 IncludeDir["stb"] =     "Coco/vendor/stb"
 IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
 IncludeDir["yaml"] =    "Coco/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] ="Coco/vendor/ImGuizmo"
 
 group "Dependencies"
     include "premakes/glfw"
@@ -50,7 +51,9 @@ project "Coco"
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/vendor/entt/single_include/entt/entt.hpp",
-        "%{prj.name}/vendor/stb/stb_image.h"
+        "%{prj.name}/vendor/stb/stb_image.h",
+        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
     }
 
     includedirs
@@ -63,7 +66,8 @@ project "Coco"
         "%{IncludeDir.glm}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.entt}",
-        "%{IncludeDir.yaml}"
+        "%{IncludeDir.yaml}",
+        "%{IncludeDir.ImGuizmo}"
     }
 
     links
@@ -81,6 +85,9 @@ project "Coco"
         "COCO_IMGUI=1",
         "COCO_ASSERTS=1"
     }
+
+    filter "files:Coco/vendor/ImGuizmo/**.cpp"
+        flags { "NoPCH" }
 
     filter "system:windows"
         systemversion "latest"
@@ -188,7 +195,8 @@ project "Cocobox"
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
-        "%{IncludeDir.yaml}"
+        "%{IncludeDir.yaml}",
+        "%{IncludeDir.ImGuizmo}"
     }
     
     links
