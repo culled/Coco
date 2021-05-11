@@ -62,7 +62,7 @@ namespace Coco
 				m_Origin += m_UpDirection * (m_MoveSpeed * timestep * m_SpeedMulti);
 			}
 		}
-		else if (Input::IsKeyPressed(KeyCodes::Left_Control))
+		else if (Input::IsKeyPressed(KeyCodes::Left_Shift))
 		{
 			if (!m_Orthographic)
 			{

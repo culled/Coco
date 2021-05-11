@@ -45,6 +45,7 @@ namespace Coco
 			}
 		}
 
+		m_EditorCamera->SetControlEnabled(m_ViewportFocused);
 		m_EditorCamera->OnUpdate(timestep);
 
 		Renderer::ResetStats();
@@ -92,8 +93,6 @@ namespace Coco
 		m_ViewportFocused = ImGui::IsWindowFocused(0);
 		m_ViewportHovered = ImGui::IsWindowHovered(0);
 		m_CanMousePick = m_ViewportHovered;
-
-		m_EditorCamera->SetControlEnabled(m_ViewportFocused);
 
 		//Snapping
 		bool snap = Input::IsKeyPressed(KeyCodes::Left_Control);
@@ -158,16 +157,16 @@ namespace Coco
 		{
 			switch ((KeyCodes)args->Key)
 			{
-			case KeyCodes::Q:
+			case KeyCodes::Grave_Accent:
 				m_GizmoType = -1;
 				break;
-			case KeyCodes::E:
+			case KeyCodes::D1:
 				m_GizmoType = ImGuizmo::TRANSLATE;
 				break;
-			case KeyCodes::R:
+			case KeyCodes::D2:
 				m_GizmoType = ImGuizmo::ROTATE;
 				break;
-			case KeyCodes::T:
+			case KeyCodes::D3:
 				m_GizmoType = ImGuizmo::SCALE;
 				break;
 			}
