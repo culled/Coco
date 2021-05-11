@@ -1,7 +1,7 @@
 #pragma once
 #include <Coco.h>
 
-#include "../Controllers/EditorCameraController.h"
+#include "../Controllers/EditorCamera.h"
 #include "glm/glm.hpp"
 
 namespace Coco
@@ -27,7 +27,7 @@ namespace Coco
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
 		Ref<Scene> m_Context = nullptr;
-		Scope<EditorCameraController> m_Controller = nullptr;
+		Scope<EditorCamera> m_EditorCamera = nullptr;
 
 		int m_GizmoType = -1;
 	};

@@ -13,8 +13,8 @@ namespace Coco
 	{
 		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight());
 
-		m_Controller = CreateScope<EditorCameraController>(CreateRef<SceneCamera>(SceneCamera::Projection::Orthographic, 1.0f));
-		m_Controller->SetControlEnabled(true);
+		m_EditorCamera = CreateScope<EditorCamera>(5.0f);
+		m_EditorCamera->SetControlEnabled(true);
 	}
 
 	ScenePanel::ScenePanel(const Ref<Scene>& scene) : ScenePanel()
@@ -38,16 +38,13 @@ namespace Coco
 
 			float aspect = m_ViewportSize.x / m_ViewportSize.y;
 
-			if (aspect != m_Controller->GetCamera()->GetAspectRatio())
+			if (aspect != m_EditorCamera->GetCamera()->GetAspectRatio())
 			{
-				m_Controller->GetCamera()->SetAspectRatio(aspect);
+				m_EditorCamera->GetCamera()->SetAspectRatio(aspect);
 			}
 		}
 
-		if (m_ViewportFocused)
-		{
-			m_Controller->OnUpdate(timestep);
-		}
+		m_EditorCamera->OnUpdate(timestep);
 
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
@@ -55,7 +52,7 @@ namespace Coco
 		Renderer::ResetStats();
 
 		//m_Context->Update(timestep);
-		m_Context->DrawForCamera(static_cast<Camera>(*m_Controller->GetCamera().get()), m_Controller->GetTransform());
+		m_Context->DrawForCamera(static_cast<Camera>(*m_EditorCamera->GetCamera()), m_EditorCamera->GetTransform());
 
 		m_Framebuffer->Unbind();
 	}
@@ -76,6 +73,8 @@ namespace Coco
 		m_ViewportFocused = ImGui::IsWindowFocused(0);
 		m_ViewportHovered = ImGui::IsWindowHovered(0);
 
+		m_EditorCamera->SetControlEnabled(m_ViewportFocused);
+
 		//Snapping
 		bool snap = Input::IsKeyPressed(KeyCodes::Left_Control);
 		float snapValue = 0.5f;
@@ -95,8 +94,8 @@ namespace Coco
 			double yOffset = ImGui::GetWindowSize().y - viewportSize.y;
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + yOffset, viewportSize.x, viewportSize.y);
 
-			const glm::mat4& cameraProjection = m_Controller->GetCamera()->GetProjectionMatrix();
-			glm::mat4 cameraView = glm::inverse(m_Controller->GetTransform());
+			const glm::mat4& cameraProjection = m_EditorCamera->GetCamera()->GetProjectionMatrix();
+			glm::mat4 cameraView = glm::inverse(m_EditorCamera->GetTransform());
 
 			auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
 			glm::mat4 transform = transformComponent;
@@ -124,10 +123,7 @@ namespace Coco
 	{
 		EventDispatcher::Dispatch<KeyPressEventArgs>(e, this, &ScenePanel::OnKeyPressed);
 
-		if (m_ViewportHovered && m_Context)
-		{
-			m_Controller->OnEvent(e);
-		}
+		m_EditorCamera->OnEvent(e);
 	}
 
 	void ScenePanel::OnKeyPressed(KeyPressEventArgs* args)

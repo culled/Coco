@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CocoboxApp.h" />
-    <ClInclude Include="src\Controllers\EditorCameraController.h">
+    <ClInclude Include="src\Controllers\EditorCamera.h">
       <Filter>Controllers</Filter>
     </ClInclude>
     <ClInclude Include="src\EditorLayer.h" />
@@ -26,7 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CocoboxApp.cpp" />
-    <ClCompile Include="src\Controllers\EditorCameraController.cpp">
+    <ClCompile Include="src\Controllers\EditorCamera.cpp">
       <Filter>Controllers</Filter>
     </ClCompile>
     <ClCompile Include="src\EditorLayer.cpp" />

@@ -4,7 +4,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/InspectorPanel.h"
 #include "Panels/ScenePanel.h"
-#include "Controllers/EditorCameraController.h"
+#include "Controllers/EditorCamera.h"
 
 namespace Coco
 {
