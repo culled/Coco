@@ -2,12 +2,14 @@
 #include "Renderer.h"
 
 #include "RenderCommand.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Coco
 {
 	SceneData Renderer::s_SceneData;
 	RenderStats Renderer::s_RenderStats;
 	PrimativeRenderData Renderer::s_PrimativeData;
+	BatchRenderData Renderer::s_BatchData;
 
 	void Renderer::Init()
 	{
@@ -33,6 +35,7 @@ namespace Coco
 
 	void Renderer::BeginScene(const Camera& camera, const glm::mat4& cameraTransform)
 	{
+		BeginBatch();
 		s_SceneData.ViewProjectionMatrix = camera.GetProjectionMatrix() * glm::inverse(cameraTransform);
 		s_RenderStats.StartTimer();
 	}
@@ -40,6 +43,19 @@ namespace Coco
 	void Renderer::EndScene()
 	{
 		s_RenderStats.EndTimer();
+	}
+
+	void Renderer::SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform)
+	{
+		/*for (int i = 0; i < vao->GetVertexCount(); i++)
+		{
+			s_BatchData.VertexBufferPtr->Position = transform * vao->Get;
+			s_Data.QuadVertexBufferPtr->Color = color;
+			s_Data.QuadVertexBufferPtr->TexIndex = 0;
+			s_Data.QuadVertexBufferPtr->TilingFactor = 1.0f;
+			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
+			s_Data.QuadVertexBufferPtr++;
+		}*/
 	}
 
 	void Renderer::SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform)
@@ -71,5 +87,16 @@ namespace Coco
 	void Renderer::ResetStats()
 	{
 		s_RenderStats = RenderStats();
+	}
+
+	void Renderer::BeginBatch()
+	{
+		s_BatchData.IndexCount = 0;
+		s_BatchData.VertexBufferPtr = s_BatchData.VertexBufferBase;
+		s_BatchData.TextureSlotIndex = 1;
+	}
+
+	void Renderer::FlushBatch()
+	{
 	}
 }

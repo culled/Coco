@@ -19,13 +19,6 @@ namespace Coco
 
 		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
-		/*m_EditorCameraEntity = m_ActiveScene->CreateEntity("Camera");
-		m_EditorCameraEntity.AddComponent<CameraComponent>(SceneCamera::Projection::Orthographic, (float)Application::Get().GetMainWindow().GetWidth() / (float)Application::Get().GetMainWindow().GetHeight());
-
-
-		m_SquareEntity = m_ActiveScene->CreateEntity("Square");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(MaterialLibrary::Get("Flat Color"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));*/
-
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 	}

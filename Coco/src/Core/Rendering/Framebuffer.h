@@ -5,32 +5,41 @@
 
 namespace Coco
 {
-	enum class FramebufferType : uint32_t
+	enum class FramebufferTextureFormat
 	{
 		None = 0,
-		Color = 1,
-		Depth = 2,
-		Stencil = 4
+
+		//Color
+		RGBA32 = 1,
+		RGB24,
+		R32,
+
+		//Depth / stencil
+		Depth24Stencil8,
+
+		//Defaults
+		Depth = Depth24Stencil8
 	};
 
-	constexpr enum FramebufferType operator|(const FramebufferType left, const FramebufferType right)
+	struct COCO_API FramebufferTexture
 	{
-		return (enum FramebufferType)(uint32_t(left) | uint32_t(right));
-	}
+		FramebufferTexture() = default;
+		FramebufferTexture(FramebufferTextureFormat format, TextureFilteringMode filtering = TextureFilteringMode::Linear) : TextureFormat(format), Filtering(filtering) {}
 
-	constexpr enum FramebufferType operator&(const FramebufferType left, const FramebufferType right)
-	{
-		return (enum FramebufferType)(uint32_t(left) & uint32_t(right));
-	}
+		FramebufferTextureFormat TextureFormat = FramebufferTextureFormat::None;
+		TextureFilteringMode Filtering = TextureFilteringMode::Linear;
+		TextureWrapMode WrapMode = TextureWrapMode::Clamp;
+	};
 
 	struct COCO_API FramebufferCreationProperties
-	{
-		TextureFormat Format = TextureFormat::RGB24;
-		TextureFilteringMode Filtering = TextureFilteringMode::Linear;
-		uint32_t Samples = 1;
-		FramebufferType Attachments = FramebufferType::Color;
+	{		
+		FramebufferCreationProperties() = default;
+		FramebufferCreationProperties(std::initializer_list< FramebufferTexture> attachments) : Attachments(attachments) {}
 
+		uint32_t Samples = 1;
 		bool ScreenTarget = false;
+
+		std::vector<FramebufferTexture> Attachments;
 	};
 
 	class COCO_API Framebuffer
@@ -47,7 +56,10 @@ namespace Coco
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 
-		virtual uint32_t GetColorAttachmentID() const = 0;
+		virtual uint32_t GetColorAttachmentID(int index = 0) const = 0;
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
+
+		virtual void ClearColorAttachment(uint32_t index, const void* value) = 0;
 
 		static Ref<Framebuffer> Create(uint32_t width, uint32_t height, FramebufferCreationProperties creationProperties = FramebufferCreationProperties());
 	};

@@ -17,6 +17,8 @@ namespace Coco
 		SceneCamera* GetCamera() const { return m_Camera.get(); }
 		glm::mat4 GetTransform() const;
 
+		bool GetOrthographic() const { return m_Orthographic; }
+
 	private:
 		float m_ZoomLevel = 1.0f;
 		float m_MinZoom = 0.1f;

@@ -83,6 +83,8 @@ namespace Coco
 		static void BeginScene(const Camera& camera, const glm::mat4& cameraTransform);
 		static void EndScene();
 
+		static void SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
+
 		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
 		static void SubmitImmediateQuad(Ref<Material> material, const glm::mat4& transform);
 
@@ -90,8 +92,12 @@ namespace Coco
 		static RenderStats GetStats() { return s_RenderStats; }
 
 	private:
+		static void BeginBatch();
+		static void FlushBatch();
+
 		static SceneData s_SceneData;
 		static RenderStats s_RenderStats;
 		static PrimativeRenderData s_PrimativeData;
+		static BatchRenderData s_BatchData;
 	};
 }

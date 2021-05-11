@@ -13,6 +13,7 @@ namespace Coco
 
 		void OnImGuiRender();
 
+		static void SetSelectedEntity(Entity entity);
 		static Entity GetSelectedEntity() { return s_SelectedEntity; }
 
 	private:

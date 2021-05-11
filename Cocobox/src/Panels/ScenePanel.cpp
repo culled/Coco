@@ -11,7 +11,8 @@ namespace Coco
 {
 	ScenePanel::ScenePanel()
 	{
-		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight());
+		m_Framebuffer = Framebuffer::Create(Application::Get().GetMainWindow().GetWidth(), Application::Get().GetMainWindow().GetHeight(), 
+			{ FramebufferTextureFormat::RGB24, FramebufferTextureFormat::R32, FramebufferTextureFormat::Depth });
 
 		m_EditorCamera = CreateScope<EditorCamera>(5.0f);
 		m_EditorCamera->SetControlEnabled(true);
@@ -46,13 +47,28 @@ namespace Coco
 
 		m_EditorCamera->OnUpdate(timestep);
 
+		Renderer::ResetStats();
+
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 		RenderCommand::Clear();
-		Renderer::ResetStats();
+
+		int clearValue = -1;
+		m_Framebuffer->ClearColorAttachment(1, &clearValue);
 
 		//m_Context->Update(timestep);
 		m_Context->DrawForCamera(static_cast<Camera>(*m_EditorCamera->GetCamera()), m_EditorCamera->GetTransform());
+
+		if (m_ViewportHovered)
+		{
+			auto [mx, my] = ImGui::GetMousePos();
+			int mouseX = ((int)mx - m_ViewportBounds[0].x);
+			int mouseY = ((int)(m_ViewportSize.y - (my - m_ViewportBounds[0].y)));
+
+			int pixel = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+
+			m_HoveredEntity = pixel == -1 ? Entity() : Entity((entt::entity)pixel, m_Context.get());
+		}
 
 		m_Framebuffer->Unbind();
 	}
@@ -65,13 +81,17 @@ namespace Coco
 		ImGui::Begin("Scene");
 
 		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+		double yOffset = ImGui::GetWindowSize().y - viewportSize.y;
 
 		m_ViewportSize = { viewportSize.x, viewportSize.y };
+		m_ViewportBounds[0] = { ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + yOffset };
+		m_ViewportBounds[1] = { m_ViewportBounds[0].x + viewportSize.x, m_ViewportBounds[0].y + viewportSize.y };
 
 		ImGui::Image((void*)(uint64_t)m_Framebuffer->GetColorAttachmentID(), { viewportSize.x, viewportSize.y }, { 0.0f, 1.0f }, { 1.0f, 0.0f });
 
 		m_ViewportFocused = ImGui::IsWindowFocused(0);
 		m_ViewportHovered = ImGui::IsWindowHovered(0);
+		m_CanMousePick = m_ViewportHovered;
 
 		m_EditorCamera->SetControlEnabled(m_ViewportFocused);
 
@@ -88,11 +108,10 @@ namespace Coco
 		Entity selectedEntity = SceneHierarchyPanel::GetSelectedEntity();
 		if (selectedEntity && m_GizmoType != -1)
 		{
-			ImGuizmo::SetOrthographic(true);
+			ImGuizmo::SetOrthographic(m_EditorCamera->GetOrthographic());
 			ImGuizmo::SetDrawlist();
 
-			double yOffset = ImGui::GetWindowSize().y - viewportSize.y;
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + yOffset, viewportSize.x, viewportSize.y);
+			ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, viewportSize.x, viewportSize.y);
 
 			const glm::mat4& cameraProjection = m_EditorCamera->GetCamera()->GetProjectionMatrix();
 			glm::mat4 cameraView = glm::inverse(m_EditorCamera->GetTransform());
@@ -101,6 +120,8 @@ namespace Coco
 			glm::mat4 transform = transformComponent;
 
 			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			ImGuizmo::AllowAxisFlip(false);
 
 			if (ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
 				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::MODE::LOCAL, glm::value_ptr(transform),
@@ -113,6 +134,9 @@ namespace Coco
 				glm::vec3 deltaRotation = finalRotation - transformComponent.Rotation;
 				transformComponent.Rotation += deltaRotation;
 			}
+
+			if (ImGuizmo::IsOver())
+				m_CanMousePick = false;
 		}
 
 		ImGui::End();
@@ -122,8 +146,10 @@ namespace Coco
 	void ScenePanel::OnEvent(DispatchedEvent& e)
 	{
 		EventDispatcher::Dispatch<KeyPressEventArgs>(e, this, &ScenePanel::OnKeyPressed);
+		EventDispatcher::Dispatch<MouseButtonReleaseEventArgs>(e, this, &ScenePanel::OnMouseButtonReleased);
 
-		m_EditorCamera->OnEvent(e);
+		if(m_ViewportHovered)
+			m_EditorCamera->OnEvent(e);
 	}
 
 	void ScenePanel::OnKeyPressed(KeyPressEventArgs* args)
@@ -145,6 +171,14 @@ namespace Coco
 				m_GizmoType = ImGuizmo::SCALE;
 				break;
 			}
+		}
+	}
+
+	void ScenePanel::OnMouseButtonReleased(MouseButtonReleaseEventArgs* args)
+	{
+		if (args->Button == (int)MouseButtons::Button_1 && m_CanMousePick)
+		{
+			SceneHierarchyPanel::SetSelectedEntity(m_HoveredEntity);
 		}
 	}
 }

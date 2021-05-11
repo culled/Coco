@@ -53,11 +53,23 @@ namespace Coco
 			case Shader::ShaderUniformType::Float:
 				m_Shader->SetFloat(it.first, static_cast<FloatMaterialProperty*>(it.second.get())->Value);
 				break;
+			case Shader::ShaderUniformType::Float2:
+				m_Shader->SetVector2(it.first, static_cast<Vector2MaterialProperty*>(it.second.get())->Value);
+				break;
+			case Shader::ShaderUniformType::Float3:
+				m_Shader->SetVector3(it.first, static_cast<Vector3MaterialProperty*>(it.second.get())->Value);
+				break;
 			case Shader::ShaderUniformType::Float4:
 				m_Shader->SetVector4(it.first, static_cast<Vector4MaterialProperty*>(it.second.get())->Value);
 				break;
+			case Shader::ShaderUniformType::Mat3:
+				m_Shader->SetMatrix3(it.first, static_cast<Mat3MaterialProperty*>(it.second.get())->Value);
+				break;
 			case Shader::ShaderUniformType::Mat4:
 				m_Shader->SetMatrix4(it.first, static_cast<Mat4MaterialProperty*>(it.second.get())->Value);
+				break;
+			case Shader::ShaderUniformType::Int:
+				m_Shader->SetInt(it.first, static_cast<IntMaterialProperty*>(it.second.get())->Value);
 				break;
 			}
 		}

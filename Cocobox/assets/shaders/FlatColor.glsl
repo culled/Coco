@@ -17,10 +17,13 @@ void main()
 #version 330 core
 
 layout(location = 0) out vec4 a_Color;
+layout(location = 1) out int a_ID;
 
 uniform vec4 u_Color;
+uniform int u_ID;
 
 void main()
 {
 	a_Color = u_Color;
+	a_ID = u_ID;
 }

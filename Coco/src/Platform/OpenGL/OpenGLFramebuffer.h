@@ -3,20 +3,18 @@
 
 #include "Core/Rendering/Framebuffer.h"
 
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace Coco
 {
-	struct COCO_API OpenGLFramebufferTexture
+	struct COCO_API OpenGLFramebufferTexture : public FramebufferTexture
 	{
-		TextureFormat Format = TextureFormat::RGB24;
-		TextureFilteringMode Filtering = TextureFilteringMode::Linear;
 		uint32_t ID = 0;
 
 		OpenGLFramebufferTexture() {}
 
-		OpenGLFramebufferTexture(TextureFormat format, TextureFilteringMode filtering) :
-			Format(format), Filtering(filtering) {}
+		OpenGLFramebufferTexture(FramebufferTexture tex) :
+			FramebufferTexture(tex.TextureFormat, tex.Filtering) {}
 	};
 
 	class COCO_API OpenGLFramebuffer : public Framebuffer
@@ -34,13 +32,22 @@ namespace Coco
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
 
-		virtual uint32_t GetColorAttachmentID() const override { return m_Attachments.at(GL_COLOR_ATTACHMENT0).ID; }
+		virtual uint32_t GetColorAttachmentID(int index) const override { return m_ColorAttachments[index].ID; }
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
+
+		virtual void ClearColorAttachment(uint32_t index, const void* value) override;
+
 	private:
 		uint32_t m_Id = 0;
 		uint32_t m_Width, m_Height;
 		bool m_ScreenTarget;
+		uint32_t m_Samples;
 
-		std::unordered_map<uint32_t, OpenGLFramebufferTexture> m_Attachments;
+		std::vector<OpenGLFramebufferTexture> m_ColorAttachments;
+		std::vector<OpenGLFramebufferTexture> m_DepthAttachments;
+
+	private:
+		void DeleteTextures();
 	};
 }
 

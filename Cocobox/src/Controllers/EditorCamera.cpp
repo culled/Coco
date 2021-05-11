@@ -73,8 +73,6 @@ namespace Coco
 
 	void EditorCamera::OnEvent(DispatchedEvent& e)
 	{
-		if (!m_ControlEnabled) return;
-
 		EventDispatcher::Dispatch<ScrollEventArgs>(e, this, &EditorCamera::OnMouseScrolled);
 		EventDispatcher::Dispatch<CursorPositionEventArgs>(e, this, &EditorCamera::OnCursorMoved);
 	}
@@ -87,9 +85,9 @@ namespace Coco
 	glm::mat4 EditorCamera::GetTransform() const
 	{
 		glm::vec3 camPos = m_Origin - (m_LookDirection * m_ZoomLevel);
-		glm::mat4 camOrientation = glm::lookAt(camPos, m_Origin, m_UpDirection);
+		glm::mat4 camTransform = glm::lookAt(camPos, m_Origin, m_UpDirection);
 
-		return glm::inverse(camOrientation);
+		return glm::inverse(camTransform);
 	}
 
 	float EditorCamera::CalculateZoomSpeed()
@@ -118,7 +116,7 @@ namespace Coco
 
 		if (Input::IsMouseButtonPressed(MouseButtons::Button_3))
 		{
-			m_Origin += m_RightDirection * (-delta.x * 0.01f * m_SpeedMulti) + m_UpDirection * (delta.y * 0.01f * m_SpeedMulti);
+			m_Origin += m_RightDirection * (-delta.x * 0.009f * m_SpeedMulti) + m_UpDirection * (delta.y * 0.009f * m_SpeedMulti);
 		}
 		else if (Input::IsMouseButtonPressed(MouseButtons::Button_2))
 		{

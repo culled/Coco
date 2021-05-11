@@ -51,6 +51,11 @@ namespace Coco
 		ImGui::End();
 	}
 
+	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+	{
+		s_SelectedEntity = entity;
+	}
+
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
 		auto& name = entity.GetComponent<TagComponent>().Name;

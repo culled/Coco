@@ -54,6 +54,7 @@ namespace Coco
 			}
 
 			rendererComponent.Material->SetVector4("u_Color", rendererComponent.Color);
+			rendererComponent.Material->SetInt("u_ID", (int)entity);
 
 			Renderer::SubmitImmediateQuad(rendererComponent.Material, transform);
 		}
