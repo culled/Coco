@@ -53,8 +53,8 @@ namespace Coco
 				rendererComponent.Material = MaterialLibrary::Get("Flat Color");
 			}
 
-			rendererComponent.Material->SetVector4("u_Color", rendererComponent.Color);
-			rendererComponent.Material->SetInt("u_ID", (int)entity);
+			rendererComponent.Material->SetInt("ID", (int)entity);
+			rendererComponent.Material->SetVector4("Color", rendererComponent.Color);
 
 			Renderer::SubmitImmediateQuad(rendererComponent.Material, transform);
 		}

@@ -1,29 +1,42 @@
 //Flat color shader
 
 #type vertex
-#version 330 core
+#version 450 core
 
 layout(location = 0) in vec3 a_Pos;
+layout(location = 1) in vec4 a_Color;
+layout (location = 2) out vec4 o_Color;
+layout (location = 3) out flat int o_ID;
 
-uniform mat4 u_ViewProjectionMatrix;
-uniform mat4 u_ModelMatrix;
+layout(std140, binding = 0) uniform Transform
+{
+	mat4 ViewProjectionMatrix;
+	mat4 ModelMatrix;
+} u_Transform;
+
+layout(std140, binding = 1) uniform Material
+{
+	int ID;
+	vec4 Color;
+} u_Material;
 
 void main()
 {
-	gl_Position = u_ViewProjectionMatrix * u_ModelMatrix * vec4(a_Pos, 1.0);
+	o_Color = u_Material.Color;
+	o_ID = u_Material.ID;
+	gl_Position = u_Transform.ViewProjectionMatrix * u_Transform.ModelMatrix * vec4(a_Pos, 1.0);
 }
 
 #type fragment
-#version 330 core
+#version 450 core
 
 layout(location = 0) out vec4 a_Color;
 layout(location = 1) out int a_ID;
-
-uniform vec4 u_Color;
-uniform int u_ID;
+layout (location = 2) in vec4 i_Color;
+layout (location = 3) in flat int i_ID;
 
 void main()
 {
-	a_Color = u_Color;
-	a_ID = u_ID;
+	a_Color = i_Color;
+	a_ID = i_ID;
 }

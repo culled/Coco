@@ -1,22 +1,22 @@
 project "ImGuizmo"
-location "../../Coco/vendor/ImGuizmo"
+location "%{wks.location}/Coco/vendor/ImGuizmo"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
     staticruntime "On"
 
-    targetdir ("../../bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("../../bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files
     {
-        "../../Coco/vendor/ImGuizmo/ImGuizmo.h",
-        "../../Coco/vendor/ImGuizmo/ImGuizmo.cpp"
+        "%{wks.location}/Coco/vendor/ImGuizmo/ImGuizmo.h",
+        "%{wks.location}/Coco/vendor/ImGuizmo/ImGuizmo.cpp"
     }
 
     includedirs
     {
-        "../../Coco/vendor/imgui"
+        "%{wks.location}/Coco/vendor/imgui"
     }
 
     filter "system:windows"

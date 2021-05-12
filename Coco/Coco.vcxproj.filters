@@ -192,6 +192,9 @@
     <ClInclude Include="src\Core\Timing\Timestep.h">
       <Filter>src\Core\Timing</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Utils\Math.h">
+      <Filter>src\Core\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Utils\PlatformUtils.h">
       <Filter>src\Core\Utils</Filter>
     </ClInclude>
@@ -1470,7 +1473,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Utils\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1536,6 +1538,9 @@
     <ClCompile Include="src\Core\Scene\SceneSerializer.cpp">
       <Filter>src\Core\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Utils\Math.cpp">
+      <Filter>src\Core\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\GLFWInput.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1572,6 +1577,5 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Utils\Math.cpp" />
   </ItemGroup>
 </Project>

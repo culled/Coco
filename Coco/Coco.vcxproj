@@ -77,10 +77,10 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;COCO_IMGUI=1;COCO_ASSERTS=1;GLFW_INCLUDE_NONE;COCO_PLATFORM_WINDOWS;COCO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;C:\VulkanSDK\1.2.176.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;vendor\VulkanSDKDebug\Lib\shaderc_sharedd.lib;vendor\VulkanSDKDebug\Lib\spirv-cross-cored.lib;vendor\VulkanSDKDebug\Lib\spirv-cross-glsld.lib;vendor\VulkanSDKDebug\Lib\spirv-cross-reflectd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -97,13 +97,13 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;COCO_IMGUI=1;COCO_ASSERTS=1;GLFW_INCLUDE_NONE;COCO_PLATFORM_WINDOWS;COCO_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;C:\VulkanSDK\1.2.176.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.2.176.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-glsl.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-reflect.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -121,13 +121,13 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;COCO_IMGUI=1;COCO_ASSERTS=1;GLFW_INCLUDE_NONE;COCO_PLATFORM_WINDOWS;COCO_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;vendor\entt\single_include\entt;vendor\yaml-cpp\include;vendor\ImGuizmo;C:\VulkanSDK\1.2.176.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.2.176.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-glsl.lib;C:\VulkanSDK\1.2.176.1\Lib\spirv-cross-reflect.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

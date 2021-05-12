@@ -5,72 +5,36 @@
 
 namespace Coco
 {
-#pragma region Material Properties
-	struct COCO_API MaterialProperty
+	struct COCO_API MaterialLayoutElement
 	{
-		Shader::ShaderUniformType Type = Shader::ShaderUniformType::None;
+		std::string Name = "";
+		ShaderDataType Type = ShaderDataType::None;
+		uint32_t Offset = 0;
+		uint32_t Size = 0;
 
-		MaterialProperty() = default;
-		MaterialProperty(const Shader::ShaderUniformType& type) : Type(type) {}
-		virtual ~MaterialProperty() = default;
+		MaterialLayoutElement() = default;
+		MaterialLayoutElement(std::string name, ShaderDataType type) :
+			Name(name), Type(type) {}
 	};
 
-	struct COCO_API IntMaterialProperty : public MaterialProperty
+	class COCO_API MaterialLayout
 	{
-		int Value = 0;
+	public:
+		MaterialLayout() = default;
+		MaterialLayout(std::initializer_list<MaterialLayoutElement> elements)
+		{
+			Initialize(elements);
+		}
 
-		IntMaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Int) {}
-		virtual ~IntMaterialProperty() = default;
+		uint32_t GetSize() { return m_Size; }
+		const MaterialLayoutElement& GetElement(std::string name);
 
+	private:
+		void Initialize(const std::vector<MaterialLayoutElement>& elements);
+
+		std::unordered_map<std::string, MaterialLayoutElement> m_Elements;
+		uint32_t m_Size = 0;
 	};
-	struct COCO_API FloatMaterialProperty : public MaterialProperty
-	{
-		float Value = 0.0f;
-
-		FloatMaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Float) {}
-		virtual ~FloatMaterialProperty() = default;
-	};
-
-	struct COCO_API Vector2MaterialProperty : public MaterialProperty
-	{
-		glm::vec2 Value = glm::vec2(0.0f);
-
-		Vector2MaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Float2) {}
-		virtual ~Vector2MaterialProperty() = default;
-	};
-
-	struct COCO_API Vector3MaterialProperty : public MaterialProperty
-	{
-		glm::vec3 Value = glm::vec3(0.0f);
-
-		Vector3MaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Float3) {}
-		virtual ~Vector3MaterialProperty() = default;
-	};
-
-	struct COCO_API Vector4MaterialProperty : public MaterialProperty
-	{
-		glm::vec4 Value = glm::vec4(0.0f);
-
-		Vector4MaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Float4) {}
-		virtual ~Vector4MaterialProperty() = default;
-	};
-
-	struct COCO_API Mat3MaterialProperty : public MaterialProperty
-	{
-		glm::mat3 Value = glm::mat3(0.0f);
-
-		Mat3MaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Mat3) {}
-		virtual ~Mat3MaterialProperty() = default;
-	};
-
-	struct COCO_API Mat4MaterialProperty : public MaterialProperty
-	{
-		glm::mat4 Value = glm::mat4(0.0f);
-
-		Mat4MaterialProperty() : MaterialProperty(Shader::ShaderUniformType::Mat4) {}
-		virtual ~Mat4MaterialProperty() = default;
-	};
-#pragma endregion
 
 	class COCO_API Material
 	{
@@ -83,6 +47,7 @@ namespace Coco
 
 		Ref<Shader> GetShader() { return m_Shader; }
 
+		void SetLayout(uint32_t location, MaterialLayout layout);
 		void SetInt(const std::string& name, const int& value);
 
 		void SetFloat(const std::string& name, const float& value);
@@ -95,7 +60,8 @@ namespace Coco
 
 	private:
 		Ref<Shader> m_Shader = nullptr;
-		std::unordered_map<std::string, Scope<MaterialProperty>> m_Uniforms;
+		Ref<UniformBuffer> m_Buffer = nullptr;
+		MaterialLayout m_Layout;
 	};
 
 	class COCO_API MaterialLibrary
