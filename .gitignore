@@ -365,3 +365,6 @@ FodyWeavers.xsd
 # BuildDirectories
 bin/
 bin-int/
+
+# Vulkan
+Coco/vendor/VulkanSDK
