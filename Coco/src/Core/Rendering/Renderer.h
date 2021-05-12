@@ -11,7 +11,21 @@ namespace Coco
 {
 	struct COCO_API SceneData
 	{
-		glm::mat4 ViewProjectionMatrix;
+		struct COCO_API CameraData
+		{
+			glm::mat4 ViewProjectionMatrix;
+			glm::mat4 ModelMatrix;
+		};
+
+		/*struct COCO_API TransformData
+		{
+			glm::mat4 ModelMatrix;
+			int32_t ID;
+			glm::vec4 Color;
+		};*/
+
+		Ref<UniformBuffer> CameraBuffer;
+		//Ref<UniformBuffer> TransformBuffer;
 	};
 
 	struct COCO_API BatchVertex

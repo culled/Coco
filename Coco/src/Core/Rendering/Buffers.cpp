@@ -68,4 +68,19 @@ namespace Coco
 		return nullptr;
 	}
 #pragma endregion
+
+	Ref<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t binding)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::None:
+			ASSERT_CORE(false, "No render api");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return CreateRef<OpenGLUniformBuffer>(size, binding);
+		}
+
+		ASSERT_CORE(false, "Invalid API");
+		return nullptr;
+	}
 }

@@ -17,7 +17,10 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
-		MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
+		Ref<Material> mat = MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
+
+		mat->SetLayout(1, { {"ID", ShaderDataType::Int},
+												{"Color", ShaderDataType::Float4} });
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);

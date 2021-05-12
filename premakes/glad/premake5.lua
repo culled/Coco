@@ -1,22 +1,22 @@
 project "Glad"
-    location "../../Coco/vendor/glad"
+    location "%{wks.location}/Coco/vendor/glad"
     kind "StaticLib"
     language "C"
     staticruntime "on"
 
-    targetdir ("../../bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("../../bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files
     {
-        "../../Coco/vendor/glad/include/glad/glad.h",
-        "../../Coco/vendor/glad/include/KHR/khrplatform.h",
-        "../../Coco/vendor/glad/src/glad.c"
+        "%{wks.location}/Coco/vendor/glad/include/glad/glad.h",
+        "%{wks.location}/Coco/vendor/glad/include/KHR/khrplatform.h",
+        "%{wks.location}/Coco/vendor/glad/src/glad.c"
     }
 
     includedirs
     {
-        "../../Coco/vendor/glad/include"
+        "%{wks.location}/Coco/vendor/glad/include"
     }
 
     filter "system:windows"

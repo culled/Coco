@@ -1,7 +1,9 @@
 #pragma once
 #include "Core/Base.h"
 
-#include "glm/glm.hpp"
+#include "Buffers.h"
+
+#include <glm/glm.hpp>
 
 namespace Coco
 {
@@ -38,8 +40,9 @@ namespace Coco
 		virtual void SetInt(const std::string & name, const int& value) = 0;
 		virtual void SetIntArray(const std::string & name, int* values, uint32_t count) = 0;
 
+		virtual void BindBuffer(const Ref<UniformBuffer>& buf, uint32_t location) = 0;
+
 		virtual const std::string& GetName() = 0;
-		virtual std::unordered_map<std::string, ShaderUniformType> GetUniforms() = 0;
 
 		static Ref<Shader> CreateFromFile(const std::string & shaderPath, const std::string & name = "");
 		static Ref<Shader> CreateFromSource(const std::string & name, const std::string & vertSource, const std::string & fragSource);

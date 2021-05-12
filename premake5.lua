@@ -11,6 +11,8 @@ workspace "Coco"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+VulkanSDK = os.getenv("VULKAN_SDK")
+
 -- Include directories relative to solution folder
 IncludeDir = {}
 IncludeDir["src"] =     "Coco/src"
@@ -23,6 +25,25 @@ IncludeDir["stb"] =     "Coco/vendor/stb"
 IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
 IncludeDir["yaml"] =    "Coco/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] ="Coco/vendor/ImGuizmo"
+IncludeDir["VulkanSDK"] = "%{VulkanSDK}/Include"
+
+LibraryDir = "%{VulkanSDK}/Lib"
+DebugLibraryDir = "vendor/VulkanSDKDebug/Lib"
+
+Library = {}
+Library["Vulkan"] = "%{LibraryDir}/vulkan-1.lib"
+Library["VulkanUtils"] = "%{LibraryDir}/VkLayer_utils.lib"
+
+Library["ShaderC_Debug"] =              "%{DebugLibraryDir}/shaderc_sharedd.lib"
+Library["SpirV_Cross_Debug"] =          "%{DebugLibraryDir}/spirv-cross-cored.lib"
+Library["SpirV_Cross_GLSL_Debug"] =     "%{DebugLibraryDir}/spirv-cross-glsld.lib"
+Library["SpirV_Cross_Reflect_Debug"] =  "%{DebugLibraryDir}/spirv-cross-reflectd.lib"
+Library["SpirV_Tools_Debug"] =          "%{DebugLibraryDir}/SPIRV-Toolsd.lib"
+
+Library["ShaderC_Release"] =                "%{LibraryDir}/shaderc_shared.lib"
+Library["SpirV_Cross_Release"] =            "%{LibraryDir}/spirv-cross-core.lib"
+Library["SpirV_Cross_GLSL_Release"] =       "%{LibraryDir}/spirv-cross-glsl.lib"
+Library["SpirV_Cross_Reflect_Release"] =    "%{LibraryDir}/spirv-cross-reflect.lib"
 
 group "Dependencies"
     include "premakes/glfw"
@@ -37,7 +58,7 @@ project "Coco"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -66,7 +87,8 @@ project "Coco"
         "%{IncludeDir.stb}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml}",
-        "%{IncludeDir.ImGuizmo}"
+        "%{IncludeDir.ImGuizmo}",
+        "%{IncludeDir.VulkanSDK}"
     }
 
     links
@@ -99,23 +121,47 @@ project "Coco"
         defines "COCO_DEBUG"
         runtime "Debug"
         symbols "on"
+
+        links
+        {
+            "%{Library.ShaderC_Debug}",
+            "%{Library.SpirV_Cross_Debug}",
+            "%{Library.SpirV_Cross_GLSL_Debug}",
+            "%{Library.SpirV_Cross_Reflect_Debug}"
+        }
     
     filter "configurations:Release"
         defines "COCO_RELEASE"
         runtime "Release"
         optimize "on"
 
+        links
+        {
+            "%{Library.ShaderC_Release}",
+            "%{Library.SpirV_Cross_Release}",
+            "%{Library.SpirV_Cross_GLSL_Release}",
+            "%{Library.SpirV_Cross_Reflect_Release}"
+        }
+
     filter "configurations:Dist"
         defines "COCO_DIST"
         runtime "Release"
         optimize "on"
+
+        links
+        {
+            "%{Library.ShaderC_Release}",
+            "%{Library.SpirV_Cross_Release}",
+            "%{Library.SpirV_Cross_GLSL_Release}",
+            "%{Library.SpirV_Cross_Reflect_Release}"
+        }
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
     
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -174,7 +220,7 @@ project "Cocobox"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
         
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

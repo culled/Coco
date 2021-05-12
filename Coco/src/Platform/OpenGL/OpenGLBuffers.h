@@ -46,4 +46,18 @@ namespace Coco
 		uint32_t m_Count;
 	};
 #pragma endregion
+
+#pragma region UniformBuffer
+	class COCO_API OpenGLUniformBuffer : public UniformBuffer
+	{
+	public:
+		OpenGLUniformBuffer(uint32_t size, uint32_t binding);
+		virtual ~OpenGLUniformBuffer();
+
+		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0) override;
+		virtual uint32_t GetID() const override { return m_Id; }
+	private:
+		uint32_t m_Id;
+	};
+#pragma endregion
 }

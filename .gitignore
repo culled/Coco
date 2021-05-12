@@ -368,3 +368,4 @@ bin-int/
 
 # Vulkan
 Coco/vendor/VulkanSDK
+/Coco/vendor/VulkanSDKDebug

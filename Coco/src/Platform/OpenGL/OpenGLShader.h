@@ -8,6 +8,8 @@ namespace Coco {
 	class COCO_API OpenGLShader : public Shader
 	{
 	public:
+		using ShaderMap = std::unordered_map<GLenum, std::string>;
+
 		OpenGLShader(const std::string& filePath, const std::string& name = "");
 		OpenGLShader(const std::string& name, const std::string& vertSource, const std::string& fragSource);
 		virtual ~OpenGLShader();
@@ -16,7 +18,6 @@ namespace Coco {
 		virtual void Unbind() override;
 
 		virtual const std::string& GetName() override { return m_Name; }
-		virtual std::unordered_map<std::string, Shader::ShaderUniformType> GetUniforms() override;
 
 		virtual void SetMatrix4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void SetMatrix3(const std::string& name, const glm::mat3& matrix) override;
@@ -29,16 +30,27 @@ namespace Coco {
 		virtual void SetInt(const std::string& name, const int& value) override;
 		virtual void SetIntArray(const std::string& name, int* values, uint32_t count) override;
 
+		virtual void BindBuffer(const Ref<UniformBuffer>& buf, uint32_t location) override;
+
+		static std::string s_CacheDirectory;
+
 	private:
-		int32_t GetUniformLocation(const std::string& name);
 		uint32_t m_ProgramId;
 		std::string m_Name;
+		std::string m_FilePath;
 		std::unordered_map<std::string, uint32_t> m_UniformCache;
+		std::unordered_map < GLenum, std:: vector<uint32_t >> m_VulkanSpirV; //Holds bytecode for each Vulkan vertex/fragment shader
+		std::unordered_map < GLenum, std:: vector<uint32_t >> m_OpenGLSpirV; //Holds bytecode for each OpenGL vertex/fragment shader
+		ShaderMap m_OpenGLSourceCode;
 
 	private:
+		int32_t GetUniformLocation(const std::string& name);
 		std::string ReadFile(const std::string& filePath);
-		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
-		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
-
+		ShaderMap PreProcess(const std::string& source);
+		//void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+		void CompileOrGetVulkanBinaries(const ShaderMap& shaderSources);
+		void CompileOrGetOpenGLBinaries();
+		void CreateProgram();
+		void Reflect(GLenum type, const std::vector<uint32_t>& shaderData);
 	};
 }

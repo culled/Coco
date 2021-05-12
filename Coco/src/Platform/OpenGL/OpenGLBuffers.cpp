@@ -71,4 +71,23 @@ namespace Coco
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 #pragma endregion
+
+#pragma region UniformBuffer
+	OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t size, uint32_t binding)
+	{
+		glCreateBuffers(1, &m_Id);
+		glNamedBufferData(m_Id, size, nullptr, GL_DYNAMIC_DRAW);
+		glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_Id);
+	}
+
+	OpenGLUniformBuffer::~OpenGLUniformBuffer()
+	{
+		glDeleteBuffers(1, &m_Id);
+	}
+
+	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
+	{
+		glNamedBufferSubData(m_Id, offset, size, data);
+	}
+#pragma endregion
 }
