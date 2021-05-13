@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 #include "Core/Rendering/Renderer.h"
+#include "Core/Rendering/Renderer2D.h"
 #include "Core/Components/Components.h"
 #include "Core/Components/RenderingComponents.h"
 
@@ -43,22 +44,16 @@ namespace Coco
 	{
 		auto view = m_Registry.view<SpriteRendererComponent>();
 		Renderer::BeginScene(camera, cameraTransform);
+		Renderer2D::BeginBatch(ShaderLibrary::Get("FlatColorBatched"));
 
 		for (auto entity : view)
 		{
 			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			if (!rendererComponent.Material)
-			{
-				rendererComponent.Material = MaterialLibrary::Get("Flat Color");
-			}
-
-			rendererComponent.Material->SetInt("ID", (int)entity);
-			rendererComponent.Material->SetVector4("Color", rendererComponent.Color);
-
-			Renderer::SubmitImmediateQuad(rendererComponent.Material, transform);
+			Renderer2D::SubmitBatchedQuad(transform, (uint32_t)entity, nullptr, rendererComponent.Color);
 		}
 
+		Renderer2D::FlushBatch();
 		Renderer::EndScene();
 	}
 

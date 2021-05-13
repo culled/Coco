@@ -19,6 +19,8 @@ namespace Coco
 
 		Ref<Material> mat = MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
 
+		ShaderLibrary::Load("assets/shaders/FlatColorBatched.glsl");
+
 		mat->SetLayout(1, { {"ID", ShaderDataType::Int},
 												{"Color", ShaderDataType::Float4} });
 

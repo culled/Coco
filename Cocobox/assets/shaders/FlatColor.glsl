@@ -4,9 +4,9 @@
 #version 450 core
 
 layout(location = 0) in vec3 a_Pos;
-layout(location = 1) in vec4 a_Color;
-layout (location = 2) out vec4 o_Color;
-layout (location = 3) out flat int o_ID;
+
+layout (location = 0) out vec4 o_Color;
+layout (location = 1) out flat int o_ID;
 
 layout(std140, binding = 0) uniform Transform
 {
@@ -30,10 +30,11 @@ void main()
 #type fragment
 #version 450 core
 
+layout (location = 0) in vec4 i_Color;
+layout (location = 1) in flat int i_ID;
+
 layout(location = 0) out vec4 a_Color;
 layout(location = 1) out int a_ID;
-layout (location = 2) in vec4 i_Color;
-layout (location = 3) in flat int i_ID;
 
 void main()
 {

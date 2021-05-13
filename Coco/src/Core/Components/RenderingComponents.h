@@ -11,11 +11,10 @@ namespace Coco
 	struct COCO_API SpriteRendererComponent
 	{
 		glm::vec4 Color = glm::vec4(1.0f);
-		Ref<Material> Material;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const Ref<Coco::Material>& material, const glm::vec4& color = glm::vec4(1.0f)) : Material(material), Color(color) {}
+		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
 	};
 
 	struct COCO_API MeshDataComponent

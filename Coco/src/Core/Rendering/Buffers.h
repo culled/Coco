@@ -16,6 +16,14 @@ namespace Coco
 		Bool
 	};
 
+	enum class BufferUpdateType
+	{
+		None = 0,
+		Static,
+		Dynamic,
+		Stream
+	};
+
 	/*@brief Gets the number of size in bytes of a given ShaderDataType
 	* @param type - The type of shader data
 	*
@@ -151,18 +159,21 @@ namespace Coco
 		/*@brief Unbinds this vertex buffer from use*/
 		virtual void Unbind() const = 0;
 
+		virtual void CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset) = 0;
 		virtual void SetData(const void* data, uint32_t size) = 0;
 
 		virtual void SetLayout(const VertexBufferLayout& layout) = 0;
 		virtual const VertexBufferLayout& GetLayout() = 0;
 		virtual uint32_t GetVertexCount() const = 0;
+		virtual uint32_t GetID() const = 0;
+		virtual uint32_t GetSize() const = 0;
 
 		/*@brief Creates a vertex buffer for the given array of verticies
 		* 		@param verticies - An array of vertex attribute values
 		* 		@param size - The size (in bytes) of the verticies array
 		*/
-		static Ref<VertexBuffer> Create(float* verticies, uint32_t size);
-		static Ref<VertexBuffer> Create(uint32_t size);
+		static Ref<VertexBuffer> Create(float* verticies, uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
+		static Ref<VertexBuffer> Create(uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
 	};
 
 	class COCO_API IndexBuffer
@@ -185,7 +196,7 @@ namespace Coco
 		* 		@param indicies - An array of indicies
 		* 		@param count - The number of indicies given
 		*/
-		static Ref<IndexBuffer> Create(uint32_t * indicies, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t * indicies, uint32_t count, BufferUpdateType type = BufferUpdateType::Static);
 	};
 
 	class COCO_API UniformBuffer
@@ -196,7 +207,7 @@ namespace Coco
 		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0) = 0;
 		virtual uint32_t GetID() const = 0;
 
-		static Ref<UniformBuffer> Create(uint32_t size, uint32_t binding);
+		static Ref<UniformBuffer> Create(uint32_t size, uint32_t binding, BufferUpdateType type = BufferUpdateType::Static);
 	};
 }
 

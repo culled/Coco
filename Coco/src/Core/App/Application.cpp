@@ -8,6 +8,7 @@
 #include "Core/Timing/Timestep.h"
 #include "Core/Rendering/RendererAPI.h"
 #include "Core/Rendering/Renderer.h"
+#include "Core/Rendering/Renderer2D.h"
 
 namespace Coco
 {
@@ -38,6 +39,7 @@ namespace Coco
 
 		RendererAPI::GetCurrent().Init();
 		Renderer::Init();
+		Renderer2D::Init();
 
 #if COCO_IMGUI
 		m_ImGuiLayer = CreateRef<ImGuiLayer>();
@@ -50,6 +52,7 @@ namespace Coco
 	Application::~Application()
 	{
 		LOG_CORE_INFO("Shut down");
+		Renderer2D::Shutdown();
 		Renderer::Shutdown();
 		RendererAPI::Destroy();
 	}

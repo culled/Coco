@@ -8,12 +8,14 @@ namespace Coco
 	class COCO_API OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer(uint32_t size);
-		OpenGLVertexBuffer(float* verticies, uint32_t size);
+		OpenGLVertexBuffer(uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
+		OpenGLVertexBuffer(float* verticies, uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
 		virtual ~OpenGLVertexBuffer();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual void CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset) override;
 
 		virtual void SetData(const void* data, uint32_t size) override;
 
@@ -21,6 +23,9 @@ namespace Coco
 		inline virtual const VertexBufferLayout& GetLayout() override { return m_Layout; }
 
 		virtual uint32_t GetVertexCount() const override { return m_Size / m_Layout.GetStride(); }
+
+		virtual uint32_t GetID() const override { return m_Id; }
+		virtual uint32_t GetSize() const override { return m_Size; }
 
 	private:
 		uint32_t m_Id;
@@ -33,7 +38,7 @@ namespace Coco
 	class COCO_API OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(uint32_t* indicies, uint32_t count);
+		OpenGLIndexBuffer(uint32_t* indicies, uint32_t count, BufferUpdateType type = BufferUpdateType::Static);
 		virtual ~OpenGLIndexBuffer();
 
 		virtual void Bind() const override;
@@ -51,7 +56,7 @@ namespace Coco
 	class COCO_API OpenGLUniformBuffer : public UniformBuffer
 	{
 	public:
-		OpenGLUniformBuffer(uint32_t size, uint32_t binding);
+		OpenGLUniformBuffer(uint32_t size, uint32_t binding, BufferUpdateType type = BufferUpdateType::Static);
 		virtual ~OpenGLUniformBuffer();
 
 		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0) override;

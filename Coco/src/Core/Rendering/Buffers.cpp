@@ -21,7 +21,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region VertexBuffer
-	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -29,14 +29,14 @@ namespace Coco
 			ASSERT_CORE(false, "No render api");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLVertexBuffer>(size);
+			return CreateRef<OpenGLVertexBuffer>(size, type);
 		}
 
 		ASSERT_CORE(false, "Invalid API");
 		return nullptr;
 	}
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, uint32_t size, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -44,7 +44,7 @@ namespace Coco
 			ASSERT_CORE(false, "No render api");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLVertexBuffer>(verticies, size);
+			return CreateRef<OpenGLVertexBuffer>(verticies, size, type);
 		}
 
 		ASSERT_CORE(false, "Invalid API");
@@ -53,7 +53,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region IndexBuffer
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t count, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -61,7 +61,7 @@ namespace Coco
 			ASSERT_CORE(false, "No render api");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLIndexBuffer>(indicies, count);
+			return CreateRef<OpenGLIndexBuffer>(indicies, count, type);
 		}
 
 		ASSERT_CORE(false, "Invalid API");
@@ -69,7 +69,7 @@ namespace Coco
 	}
 #pragma endregion
 
-	Ref<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t binding)
+	Ref<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t binding, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -77,7 +77,7 @@ namespace Coco
 			ASSERT_CORE(false, "No render api");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLUniformBuffer>(size, binding);
+			return CreateRef<OpenGLUniformBuffer>(size, binding, type);
 		}
 
 		ASSERT_CORE(false, "Invalid API");

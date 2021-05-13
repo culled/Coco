@@ -2,6 +2,7 @@
 #include "Core/Base.h"
 
 #include "Shader.h"
+#include <any>
 
 namespace Coco
 {
@@ -11,10 +12,13 @@ namespace Coco
 		ShaderDataType Type = ShaderDataType::None;
 		uint32_t Offset = 0;
 		uint32_t Size = 0;
+		std::any Value;
 
 		MaterialLayoutElement() = default;
 		MaterialLayoutElement(std::string name, ShaderDataType type) :
 			Name(name), Type(type) {}
+
+		bool operator== (const MaterialLayoutElement& other);
 	};
 
 	class COCO_API MaterialLayout
@@ -27,7 +31,7 @@ namespace Coco
 		}
 
 		uint32_t GetSize() { return m_Size; }
-		const MaterialLayoutElement& GetElement(std::string name);
+		MaterialLayoutElement& GetElement(std::string name);
 
 	private:
 		void Initialize(const std::vector<MaterialLayoutElement>& elements);
@@ -57,6 +61,8 @@ namespace Coco
 
 		void SetMatrix3(const std::string& name, const glm::mat3& value);
 		void SetMatrix4(const std::string& name, const glm::mat4& value);
+
+		bool operator ==(const Material& other);
 
 	private:
 		Ref<Shader> m_Shader = nullptr;

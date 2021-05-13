@@ -1473,6 +1473,7 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1577,5 +1578,6 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Renderer2D.cpp" />
   </ItemGroup>
 </Project>

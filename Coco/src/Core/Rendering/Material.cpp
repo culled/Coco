@@ -7,7 +7,42 @@
 
 namespace Coco
 {
-	const MaterialLayoutElement& MaterialLayout::GetElement(std::string name)
+	bool MaterialLayoutElement::operator==(const MaterialLayoutElement& other)
+	{
+		if (other.Type != this->Type) return false;
+
+		if (!other.Value.has_value() || !this->Value.has_value()) return false;
+
+		switch (this->Type)
+		{
+		case ShaderDataType::Bool:
+			return std::any_cast<bool>(other.Value) == std::any_cast<bool>(this->Value);
+		case ShaderDataType::Int:
+			return std::any_cast<int>(other.Value) == std::any_cast<int>(this->Value);
+		case ShaderDataType::Float:
+			return std::any_cast<float>(other.Value) == std::any_cast<float>(this->Value);
+		case ShaderDataType::Float2:
+			return std::any_cast<glm::vec2>(other.Value) == std::any_cast<glm::vec2>(this->Value);
+		case ShaderDataType::Float3:
+			return std::any_cast<glm::vec3>(other.Value) == std::any_cast<glm::vec3>(this->Value);
+		case ShaderDataType::Float4:
+			return std::any_cast<glm::vec4>(other.Value) == std::any_cast<glm::vec4>(this->Value);
+		case ShaderDataType::Int2:
+			return std::any_cast<glm::ivec2>(other.Value) == std::any_cast<glm::ivec2>(this->Value);
+		case ShaderDataType::Int3:
+			return std::any_cast<glm::ivec3>(other.Value) == std::any_cast<glm::ivec3>(this->Value);
+		case ShaderDataType::Int4:
+			return std::any_cast<glm::ivec4>(other.Value) == std::any_cast<glm::ivec4>(this->Value);
+		case ShaderDataType::Mat3:
+			return std::any_cast<glm::mat3>(other.Value) == std::any_cast<glm::mat3>(this->Value);
+		case ShaderDataType::Mat4:
+			return std::any_cast<glm::mat4>(other.Value) == std::any_cast<glm::mat4>(this->Value);
+		}
+
+		ASSERT_CORE(false, "Invalid shader type");
+	}
+
+	MaterialLayoutElement& MaterialLayout::GetElement(std::string name)
 	{
 		ASSERT_CORE(m_Elements.find(name) != m_Elements.end(), "Could not find element with that name");
 		return m_Elements[name];
@@ -61,7 +96,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(&value, element.Size, element.Offset);
 	}
 
@@ -69,7 +105,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(&value, element.Size, element.Offset);
 	}
 
@@ -77,7 +114,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
 	}
 
@@ -85,7 +123,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
 	}
 
@@ -93,7 +132,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
 	}
 
@@ -101,7 +141,8 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
 	}
 
@@ -109,8 +150,14 @@ namespace Coco
 	{
 		ASSERT_CORE(m_Buffer, "Buffer has not been created");
 
-		const auto& element = m_Layout.GetElement(name);
+		auto& element = m_Layout.GetElement(name);
+		element.Value = value;
 		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+	}
+
+	bool Material::operator==(const Material& other)
+	{
+		return false;
 	}
 
 	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;

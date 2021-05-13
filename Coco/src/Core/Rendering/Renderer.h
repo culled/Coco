@@ -11,30 +11,20 @@ namespace Coco
 {
 	struct COCO_API SceneData
 	{
-		struct COCO_API CameraData
-		{
-			glm::mat4 ViewProjectionMatrix;
-			glm::mat4 ModelMatrix;
-		};
-
-		/*struct COCO_API TransformData
-		{
-			glm::mat4 ModelMatrix;
-			int32_t ID;
-			glm::vec4 Color;
-		};*/
-
-		Ref<UniformBuffer> CameraBuffer;
-		//Ref<UniformBuffer> TransformBuffer;
+		Ref<UniformBuffer> TransformBuffer;
 	};
 
-	struct COCO_API BatchVertex
+	struct COCO_API TransformData
+	{
+		glm::mat4 ViewProjectionMatrix;
+		glm::mat4 ModelMatrix;
+	};
+
+	/*struct COCO_API BatchVertex
 	{
 		glm::vec3 Position;
 		glm::vec2 TexCoord;
-		glm::vec4 Color;
-		float TexIndex;
-		float TilingFactor;
+		float ID;
 	};
 
 	struct COCO_API BatchRenderData
@@ -44,18 +34,14 @@ namespace Coco
 		static const uint32_t MaxIndiciesPerDrawcall = MaxTrianglesPerDrawcall * 3;
 		static const uint32_t MaxTextureSlots = 32; //TODO: render capabilities
 
-		uint32_t IndexCount = 0;
-		BatchVertex* VertexBufferBase = nullptr;
-		BatchVertex* VertexBufferPtr = nullptr;
+		Ref<VertexBuffer> VertexBuffer = nullptr;
+		Ref<VertexArray> VertexArray = nullptr;
+
+		uint32_t BufferSize = 0;
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1; //0 = white texture
-	};
-
-	struct COCO_API PrimativeRenderData
-	{
-		Ref<VertexArray> QuadVertexArray = nullptr;
-	};
+	};*/
 
 	struct COCO_API RenderStats
 	{
@@ -91,6 +77,9 @@ namespace Coco
 
 	class COCO_API Renderer {
 	public:
+		//using BatchMap = std::unordered_map<Ref<Material>, BatchRenderData>;
+		//using BatchMapIterator = std::unordered_map<Ref<Material>, BatchRenderData>::iterator;
+
 		static void Init();
 		static void Shutdown();
 
@@ -100,7 +89,6 @@ namespace Coco
 		static void SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
 
 		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
-		static void SubmitImmediateQuad(Ref<Material> material, const glm::mat4& transform);
 
 		static void ResetStats();
 		static RenderStats GetStats() { return s_RenderStats; }
@@ -109,9 +97,14 @@ namespace Coco
 		static void BeginBatch();
 		static void FlushBatch();
 
+		//static BatchRenderData* CreateBatch(const Ref<Material>& material);
+
 		static SceneData s_SceneData;
 		static RenderStats s_RenderStats;
-		static PrimativeRenderData s_PrimativeData;
-		static BatchRenderData s_BatchData;
+		static Ref<Texture2D> s_WhiteTexture;
+
+		//static BatchMap s_BatchedData;
+
+		friend class Renderer2D;
 	};
 }

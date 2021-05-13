@@ -5,22 +5,34 @@
 
 namespace Coco
 {
+	static GLenum GetUpdateType(BufferUpdateType type)
+	{
+		switch (type)
+		{
+		case BufferUpdateType::Static: return GL_STATIC_DRAW;
+		case BufferUpdateType::Dynamic: return GL_DYNAMIC_DRAW;
+		case BufferUpdateType::Stream: return GL_STREAM_DRAW;
+		}
+
+		ASSERT_CORE(false, "Invalid update type");
+	}
+
 #pragma region VertexBuffer
-	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) :
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size, BufferUpdateType type) :
 		m_Size(size)
 	{
 		glCreateBuffers(1, &m_Id);
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
-		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GetUpdateType(type));
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size) :
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size, BufferUpdateType type) :
 		m_Size(size)
 	{
 		glCreateBuffers(1, &m_Id);
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
-		glBufferData(GL_ARRAY_BUFFER, size, verticies, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, verticies, GetUpdateType(type));
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -39,6 +51,15 @@ namespace Coco
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLVertexBuffer::CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset)
+	{
+		glBindBuffer(GL_COPY_READ_BUFFER, m_Id);
+		glBindBuffer(GL_COPY_WRITE_BUFFER, destination->GetID());
+		glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, offset, m_Size);
+		glBindBuffer(GL_COPY_READ_BUFFER, 0);
+		glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
+	}
+
 	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
@@ -47,12 +68,12 @@ namespace Coco
 #pragma endregion
 
 #pragma region IndexBuffer
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indicies, uint32_t count)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indicies, uint32_t count, BufferUpdateType type)
 		: m_Count(count)
 	{
 		glCreateBuffers(1, &m_Id);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indicies, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indicies, GetUpdateType(type));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
@@ -73,10 +94,10 @@ namespace Coco
 #pragma endregion
 
 #pragma region UniformBuffer
-	OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t size, uint32_t binding)
+	OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t size, uint32_t binding, BufferUpdateType type)
 	{
 		glCreateBuffers(1, &m_Id);
-		glNamedBufferData(m_Id, size, nullptr, GL_DYNAMIC_DRAW);
+		glNamedBufferData(m_Id, size, nullptr, GetUpdateType(type));
 		glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_Id);
 	}
 
