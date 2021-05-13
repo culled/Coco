@@ -99,7 +99,9 @@ namespace Coco
 			s_QuadBatch.TextureSlots[i]->Bind(i);
 
 		s_QuadBatch.Shader->Bind();
+		s_QuadBatch.VertexArray->Bind();
 		RenderCommand::DrawIndexed(s_QuadBatch.VertexArray, s_QuadBatch.CurrentIndexCount);
+		s_QuadBatch.VertexArray->Unbind();
 
 		Renderer::s_RenderStats.DrawCalls++;
 		Renderer::s_RenderStats.IndiciesDrawn += s_QuadBatch.CurrentIndexCount;

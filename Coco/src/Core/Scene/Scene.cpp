@@ -42,11 +42,11 @@ namespace Coco
 
 	void Scene::DrawForCamera(const Camera& camera, const glm::mat4& cameraTransform)
 	{
-		auto view = m_Registry.view<SpriteRendererComponent>();
+		auto spriteView = m_Registry.view<SpriteRendererComponent>();
 		Renderer::BeginScene(camera, cameraTransform);
 		Renderer2D::BeginBatch(ShaderLibrary::Get("FlatColorBatched"));
 
-		for (auto entity : view)
+		for (auto entity : spriteView)
 		{
 			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
 
@@ -54,6 +54,17 @@ namespace Coco
 		}
 
 		Renderer2D::FlushBatch();
+
+		ShaderLibrary::Get("FlatColor")->Bind();
+
+		auto meshView = m_Registry.view<MeshRendererComponent>();
+		for (auto entity : meshView)
+		{
+			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, MeshRendererComponent>(entity);
+
+			Renderer::SubmitMesh(rendererComponent.Data, transform);
+		}
+
 		Renderer::EndScene();
 	}
 

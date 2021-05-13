@@ -87,6 +87,17 @@ namespace Coco
 		s_RenderStats.VerticiesDrawn += vao->GetVertexCount();
 	}
 
+	void Renderer::SubmitMesh(const Ref<MeshData>& meshData, const glm::mat4& transform)
+	{
+		s_SceneData.TransformBuffer->SetData(glm::value_ptr(transform), sizeof(glm::mat4), sizeof(glm::mat4));
+
+		RenderCommand::DrawIndexed(meshData->GetVAO());
+
+		s_RenderStats.DrawCalls++;
+		s_RenderStats.IndiciesDrawn += meshData->GetVAO()->GetIndexBuffer()->GetCount();
+		s_RenderStats.VerticiesDrawn += meshData->GetVAO()->GetVertexCount();
+	}
+
 	void Renderer::ResetStats()
 	{
 		s_RenderStats = RenderStats();

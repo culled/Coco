@@ -6,6 +6,7 @@
 #include "Textures.h"
 #include "VertexArray.h"
 #include "Material.h"
+#include "MeshData.h"
 
 namespace Coco
 {
@@ -87,8 +88,8 @@ namespace Coco
 		static void EndScene();
 
 		static void SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
-
 		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
+		static void SubmitMesh(const Ref<MeshData>& meshData, const glm::mat4& transform);
 
 		static void ResetStats();
 		static RenderStats GetStats() { return s_RenderStats; }

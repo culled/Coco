@@ -1,10 +1,12 @@
 #pragma once
 #include "Core/Base.h"
 
+#include "Core/Rendering/MeshData.h"
 #include "Core/Rendering/Camera.h"
 #include "Core/Rendering/Material.h"
 #include "Core/Rendering/VertexArray.h"
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
 
 namespace Coco
 {
@@ -17,13 +19,13 @@ namespace Coco
 		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
 	};
 
-	struct COCO_API MeshDataComponent
+	struct COCO_API MeshRendererComponent
 	{
-		Ref<VertexArray> VAO = nullptr;
+		Ref<MeshData> Data = nullptr;
 
-		MeshDataComponent() = default;
-		MeshDataComponent(const MeshDataComponent&) = default;
-		MeshDataComponent(const Ref<VertexArray>& vao) : VAO(vao) {}
+		MeshRendererComponent() = default;
+		MeshRendererComponent(const MeshRendererComponent&) = default;
+		MeshRendererComponent(const Ref<MeshData>& data) : Data(data) {}
 	};
 
 	struct COCO_API CameraComponent

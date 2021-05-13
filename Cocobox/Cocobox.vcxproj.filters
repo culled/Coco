@@ -40,7 +40,4 @@
       <Filter>Panels</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\FlatColorBatched.glsl" />
-  </ItemGroup>
 </Project>

@@ -161,6 +161,7 @@ namespace Coco
 
 		virtual void CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset) = 0;
 		virtual void SetData(const void* data, uint32_t size) = 0;
+		virtual void Resize(const float* verticies, uint32_t size) = 0;
 
 		virtual void SetLayout(const VertexBufferLayout& layout) = 0;
 		virtual const VertexBufferLayout& GetLayout() = 0;
@@ -191,6 +192,8 @@ namespace Coco
 		* 		@returns The number of indicies in this buffer
 		*/
 		virtual uint32_t GetCount() const = 0;
+
+		virtual void Resize(const uint32_t* indicies, uint32_t count) = 0;
 
 		/*@brief Creates an index layout for the given array of indicies
 		* 		@param indicies - An array of indicies

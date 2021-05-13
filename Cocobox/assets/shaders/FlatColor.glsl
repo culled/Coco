@@ -22,7 +22,7 @@ layout(std140, binding = 1) uniform Material
 
 void main()
 {
-	o_Color = u_Material.Color;
+	o_Color = vec4(0.8, 0.1, 0.2, 1.0);
 	o_ID = u_Material.ID;
 	gl_Position = u_Transform.ViewProjectionMatrix * u_Transform.ModelMatrix * vec4(a_Pos, 1.0);
 }

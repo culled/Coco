@@ -17,6 +17,7 @@ namespace Coco
 
 		virtual void CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset) override;
 
+		virtual void Resize(const float* verticies, uint32_t size) override;
 		virtual void SetData(const void* data, uint32_t size) override;
 
 		inline virtual void SetLayout(const VertexBufferLayout& layout) override { m_Layout = layout; }
@@ -31,6 +32,7 @@ namespace Coco
 		uint32_t m_Id;
 		VertexBufferLayout m_Layout;
 		uint32_t m_Size;
+		BufferUpdateType m_Type;
 	};
 #pragma endregion
 
@@ -46,9 +48,12 @@ namespace Coco
 
 		inline virtual uint32_t GetCount() const override { return m_Count; }
 
+		virtual void Resize(const uint32_t* indicies, uint32_t count) override;
+
 	private:
 		uint32_t m_Id;
 		uint32_t m_Count;
+		BufferUpdateType m_Type;
 	};
 #pragma endregion
 

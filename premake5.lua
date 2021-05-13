@@ -25,6 +25,7 @@ IncludeDir["stb"] =     "Coco/vendor/stb"
 IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
 IncludeDir["yaml"] =    "Coco/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] ="Coco/vendor/ImGuizmo"
+IncludeDir["assimp"] ="Coco/vendor/assimp/include"
 IncludeDir["VulkanSDK"] = "%{VulkanSDK}/Include"
 
 LibraryDir = "%{VulkanSDK}/Lib"
@@ -51,6 +52,7 @@ group "Dependencies"
     include "premakes/imgui"
     include "premakes/yaml-cpp"
     include "premakes/imguizmo"
+    include "premakes/assimp"
 group ""
 
 project "Coco"
@@ -88,6 +90,7 @@ project "Coco"
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml}",
         "%{IncludeDir.ImGuizmo}",
+        "%{IncludeDir.assimp}",
         "%{IncludeDir.VulkanSDK}"
     }
 
@@ -98,6 +101,7 @@ project "Coco"
         "ImGui",
         "Yaml-cpp",
         "ImGuizmo",
+        "Assimp",
         "opengl32.lib"
     }
 
@@ -179,7 +183,8 @@ project "Sandbox"
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
-        "%{IncludeDir.yaml}"
+        "%{IncludeDir.yaml}",
+        "%{IncludeDir.assimp}"
     }
 
     links
@@ -239,7 +244,8 @@ project "Cocobox"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml}",
-        "%{IncludeDir.ImGuizmo}"
+        "%{IncludeDir.ImGuizmo}",
+        "%{IncludeDir.assimp}"
     }
     
     links

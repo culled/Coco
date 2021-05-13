@@ -3,6 +3,7 @@
 #include "Core/Scene/SceneSerializer.h"
 #include "Core/Utils/PlatformUtils.h"
 #include "Core/Input/KeyCodes.h"
+#include "Core/Components/RenderingComponents.h"
 
 namespace Coco
 {
@@ -26,6 +27,22 @@ namespace Coco
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
+
+		Entity meshEntity = m_ActiveScene->CreateEntity("Mesh");
+
+		glm::vec3 verts[] = {
+			glm::vec3(-1.0f, -1.0f, 1.0f),
+			glm::vec3( 1.0f, -1.0f, 0.0f),
+			glm::vec3( 1.0f,  1.0f, 1.0f),
+			glm::vec3(-1.0f,  1.0f, 0.0f)
+		};
+
+		uint32_t indicies[] = {
+			0, 1, 2, 2, 3, 0
+		};
+
+		Ref<MeshData> meshData = CreateRef<MeshData>(verts, 4, indicies, 6);
+		meshEntity.AddComponent<MeshRendererComponent>(meshData);
 	}
 
 	void EditorLayer::OnDetached()

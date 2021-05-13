@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_IMGUI=1;COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;..\Coco\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_IMGUI=1;COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;..\Coco\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COCO_IMGUI=1;COCO_ASSERTS=1;COCO_PLATFORM_WINDOWS;COCO_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Coco\src;..\Coco\vendor\spdlog\include;..\Coco\vendor\glm;..\Coco\vendor\imgui;..\Coco\vendor\entt\single_include\entt;..\Coco\vendor\yaml-cpp\include;..\Coco\vendor\ImGuizmo;..\Coco\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -150,9 +150,6 @@
     <ProjectReference Include="..\Coco\Coco.vcxproj">
       <Project>{49B2837C-35E9-840D-DED5-6A10CAEB000F}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\FlatColorBatched.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

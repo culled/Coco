@@ -39,9 +39,9 @@ namespace Coco
 					ImGui::CloseCurrentPopup();
 				}
 
-				if (!selectedEntity.HasComponent<MeshDataComponent>() && ImGui::MenuItem("Mesh Data"))
+				if (!selectedEntity.HasComponent<MeshRendererComponent>() && ImGui::MenuItem("Mesh Renderer"))
 				{
-					selectedEntity.AddComponent<MeshDataComponent>();
+					selectedEntity.AddComponent<MeshRendererComponent>();
 					ImGui::CloseCurrentPopup();
 				}
 
@@ -255,6 +255,10 @@ namespace Coco
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](SpriteRendererComponent& spriteRendererComponent) {
 			ImGui::ColorEdit4("Color", glm::value_ptr(spriteRendererComponent.Color));
+			});
+
+		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](MeshRendererComponent& mrc) {
+			ImGui::Text("Mesh Renderer");
 			});
 	}
 }

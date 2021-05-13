@@ -159,10 +159,16 @@
     <ClInclude Include="src\Core\Rendering\Material.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Rendering\MeshData.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Rendering\RenderCommand.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Rendering\Renderer.h">
+      <Filter>src\Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Rendering\Renderer2D.h">
       <Filter>src\Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Rendering\RendererAPI.h">
@@ -1473,7 +1479,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Rendering\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\App\Application.cpp">
@@ -1515,7 +1520,13 @@
     <ClCompile Include="src\Core\Rendering\Material.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Rendering\MeshData.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Rendering\Renderer.cpp">
+      <Filter>src\Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Rendering\Renderer2D.cpp">
       <Filter>src\Core\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Rendering\RendererAPI.cpp">
@@ -1578,6 +1589,5 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Rendering\Renderer2D.cpp" />
   </ItemGroup>
 </Project>
