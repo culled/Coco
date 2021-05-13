@@ -25,8 +25,7 @@ namespace Coco
 		float m_MinZoom = 0.1f;
 		float m_PerspectiveFOV = 75.0f;
 
-		float m_MoveSpeed = 1.5f;
-		float m_RotateSpeed = 90.0f;
+		float m_MoveSpeed = 1.0f;
 		float m_ZoomSpeed = 0.1f;
 		float m_SpeedMulti = 1.0f;
 		glm::vec3 m_MousePosition = glm::vec3(0.0f);

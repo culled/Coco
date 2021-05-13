@@ -99,7 +99,8 @@ namespace Coco
 
 	float EditorCamera::CalculateZoomSpeed()
 	{
-		return std::sqrt(m_ZoomLevel);
+		//return std::sqrt(m_ZoomLevel);
+		return m_ZoomLevel;
 	}
 
 	void EditorCamera::OnMouseScrolled(ScrollEventArgs* args)
@@ -129,7 +130,7 @@ namespace Coco
 
 		if (Input::IsMouseButtonPressed(MouseButtons::Button_3))
 		{
-			m_Origin += m_RightDirection * (-delta.x * 0.009f * m_SpeedMulti) + m_UpDirection * (delta.y * 0.009f * m_SpeedMulti);
+			m_Origin += m_RightDirection * (-delta.x * 0.002f * m_SpeedMulti) + m_UpDirection * (delta.y * 0.002f * m_SpeedMulti);
 		}
 		else if (Input::IsMouseButtonPressed(MouseButtons::Button_2))
 		{

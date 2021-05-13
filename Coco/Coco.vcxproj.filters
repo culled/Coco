@@ -82,6 +82,12 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\obj-loader">
+      <UniqueIdentifier>{01D376B0-6DE9-7446-B660-006822B645CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\obj-loader\Source">
+      <UniqueIdentifier>{E15515EA-CD7A-646A-F6C5-49FAE2496388}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor\stb">
       <UniqueIdentifier>{8BD3C5A8-778B-07F6-E092-E051CC69A2E6}</UniqueIdentifier>
     </Filter>
@@ -1476,6 +1482,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\obj-loader\Source\OBJ_Loader.h">
+      <Filter>vendor\obj-loader\Source</Filter>
+    </ClInclude>
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
@@ -1489,6 +1498,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\App\Window.cpp">
       <Filter>src\Core\App</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Dependencies\OBJLoader.cpp">
+      <Filter>src\Core\Dependencies</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Dependencies\stb_image.cpp">
       <Filter>src\Core\Dependencies</Filter>

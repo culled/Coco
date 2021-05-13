@@ -15,18 +15,18 @@ VulkanSDK = os.getenv("VULKAN_SDK")
 
 -- Include directories relative to solution folder
 IncludeDir = {}
-IncludeDir["src"] =     "Coco/src"
-IncludeDir["spdlog"] =  "Coco/vendor/spdlog/include"
-IncludeDir["GLFW"] =    "Coco/vendor/glfw/include"
-IncludeDir["Glad"] =    "Coco/vendor/glad/include"
-IncludeDir["ImGui"] =   "Coco/vendor/imgui"
-IncludeDir["glm"] =     "Coco/vendor/glm"
-IncludeDir["stb"] =     "Coco/vendor/stb"
-IncludeDir["entt"] =    "Coco/vendor/entt/single_include/entt"
-IncludeDir["yaml"] =    "Coco/vendor/yaml-cpp/include"
-IncludeDir["ImGuizmo"] ="Coco/vendor/ImGuizmo"
-IncludeDir["assimp"] ="Coco/vendor/assimp/include"
-IncludeDir["VulkanSDK"] = "%{VulkanSDK}/Include"
+IncludeDir["src"] =         "Coco/src"
+IncludeDir["spdlog"] =      "Coco/vendor/spdlog/include"
+IncludeDir["GLFW"] =        "Coco/vendor/glfw/include"
+IncludeDir["Glad"] =        "Coco/vendor/glad/include"
+IncludeDir["ImGui"] =       "Coco/vendor/imgui"
+IncludeDir["glm"] =         "Coco/vendor/glm"
+IncludeDir["stb"] =         "Coco/vendor/stb"
+IncludeDir["entt"] =        "Coco/vendor/entt/single_include/entt"
+IncludeDir["yaml"] =        "Coco/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] =    "Coco/vendor/ImGuizmo"
+IncludeDir["objloader"] =  "Coco/vendor/obj-loader/Source"
+IncludeDir["VulkanSDK"] =   "%{VulkanSDK}/Include"
 
 LibraryDir = "%{VulkanSDK}/Lib"
 DebugLibraryDir = "vendor/VulkanSDKDebug/Lib"
@@ -52,7 +52,6 @@ group "Dependencies"
     include "premakes/imgui"
     include "premakes/yaml-cpp"
     include "premakes/imguizmo"
-    include "premakes/assimp"
 group ""
 
 project "Coco"
@@ -75,7 +74,8 @@ project "Coco"
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/vendor/entt/single_include/entt/entt.hpp",
-        "%{prj.name}/vendor/stb/stb_image.h"
+        "%{prj.name}/vendor/stb/stb_image.h",
+        "%{IncludeDir.objloader}/OBJ_Loader.h"
     }
 
     includedirs
@@ -90,7 +90,7 @@ project "Coco"
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml}",
         "%{IncludeDir.ImGuizmo}",
-        "%{IncludeDir.assimp}",
+        "%{IncludeDir.objloader}",
         "%{IncludeDir.VulkanSDK}"
     }
 
@@ -101,7 +101,6 @@ project "Coco"
         "ImGui",
         "Yaml-cpp",
         "ImGuizmo",
-        "Assimp",
         "opengl32.lib"
     }
 
@@ -183,8 +182,7 @@ project "Sandbox"
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
-        "%{IncludeDir.yaml}",
-        "%{IncludeDir.assimp}"
+        "%{IncludeDir.yaml}"
     }
 
     links
@@ -244,8 +242,8 @@ project "Cocobox"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml}",
-        "%{IncludeDir.ImGuizmo}",
-        "%{IncludeDir.assimp}"
+        "%{IncludeDir.objloader}",
+        "%{IncludeDir.ImGuizmo}"
     }
     
     links

@@ -5,6 +5,8 @@
 #include "Core/Input/KeyCodes.h"
 #include "Core/Components/RenderingComponents.h"
 
+#include <OBJ_Loader.h>
+
 namespace Coco
 {
 	const char* EditorLayer::s_SceneFileFilter = "Cocobox Scene (*.cocoscene)\0*.cocoscene\0";
@@ -28,21 +30,30 @@ namespace Coco
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 
-		Entity meshEntity = m_ActiveScene->CreateEntity("Mesh");
 
-		glm::vec3 verts[] = {
-			glm::vec3(-1.0f, -1.0f, 1.0f),
-			glm::vec3( 1.0f, -1.0f, 0.0f),
-			glm::vec3( 1.0f,  1.0f, 1.0f),
-			glm::vec3(-1.0f,  1.0f, 0.0f)
-		};
+		objl::Loader Loader;
 
-		uint32_t indicies[] = {
-			0, 1, 2, 2, 3, 0
-		};
+		if (Loader.LoadFile("assets/models/Ferrari.obj"))
+		{
+			for (size_t i = 0; i < Loader.LoadedMeshes.size(); i++)
+			{
+				objl::Mesh mesh = Loader.LoadedMeshes[i];
 
-		Ref<MeshData> meshData = CreateRef<MeshData>(verts, 4, indicies, 6);
-		meshEntity.AddComponent<MeshRendererComponent>(meshData);
+				Entity meshEntity = m_ActiveScene->CreateEntity(mesh.MeshName);
+
+				glm::vec3* positions = new glm::vec3[mesh.Vertices.size()];
+
+				for (size_t p = 0; p < mesh.Vertices.size(); p++)
+				{
+					positions[p] = glm::vec3(mesh.Vertices[p].Position.X * 0.01f, mesh.Vertices[p].Position.Y * 0.01f, mesh.Vertices[p].Position.Z * 0.01f);
+				}
+
+				Ref<MeshData> meshData = CreateRef<MeshData>(positions, mesh.Vertices.size(), mesh.Indices.data(), mesh.Indices.size());
+				meshEntity.AddComponent<MeshRendererComponent>(meshData);
+
+				delete[] positions;
+			}
+		}
 	}
 
 	void EditorLayer::OnDetached()
