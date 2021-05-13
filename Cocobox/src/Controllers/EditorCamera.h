@@ -10,6 +10,7 @@ namespace Coco
 		virtual ~EditorCamera() = default;
 
 		void OnUpdate(Timestep timestep);
+		void SetMouseHovering(bool hovering);
 		void OnEvent(DispatchedEvent& e);
 
 		void SetControlEnabled(bool enabled);
@@ -32,6 +33,7 @@ namespace Coco
 
 		bool m_Orthographic = false;
 		bool m_ControlEnabled = false;
+		bool m_MouseHovering = false, m_WasHovering = false;
 
 		EventDispatcher m_Dispatcher;
 

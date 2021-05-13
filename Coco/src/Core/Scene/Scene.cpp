@@ -50,7 +50,7 @@ namespace Coco
 		{
 			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::SubmitBatchedQuad(transform, (uint32_t)entity, nullptr, rendererComponent.Color);
+			Renderer2D::SubmitBatchedSprite(transform, (uint32_t)entity, nullptr, rendererComponent.Color);
 		}
 
 		Renderer2D::FlushBatch();

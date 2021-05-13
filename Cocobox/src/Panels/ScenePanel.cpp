@@ -46,6 +46,7 @@ namespace Coco
 		}
 
 		m_EditorCamera->SetControlEnabled(m_ViewportFocused);
+		m_EditorCamera->SetMouseHovering(m_ViewportHovered);
 		m_EditorCamera->OnUpdate(timestep);
 
 		Renderer::ResetStats();
@@ -146,9 +147,7 @@ namespace Coco
 	{
 		EventDispatcher::Dispatch<KeyPressEventArgs>(e, this, &ScenePanel::OnKeyPressed);
 		EventDispatcher::Dispatch<MouseButtonReleaseEventArgs>(e, this, &ScenePanel::OnMouseButtonReleased);
-
-		if(m_ViewportHovered)
-			m_EditorCamera->OnEvent(e);
+		m_EditorCamera->OnEvent(e);
 	}
 
 	void ScenePanel::OnKeyPressed(KeyPressEventArgs* args)

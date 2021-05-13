@@ -71,6 +71,13 @@ namespace Coco
 		}
 	}
 
+	void EditorCamera::SetMouseHovering(bool hovering)
+	{
+		m_MouseHovering = hovering;
+
+		if (!hovering) m_WasHovering = false;
+	}
+
 	void EditorCamera::OnEvent(DispatchedEvent& e)
 	{
 		EventDispatcher::Dispatch<ScrollEventArgs>(e, this, &EditorCamera::OnMouseScrolled);
@@ -113,6 +120,12 @@ namespace Coco
 		glm::vec3 pos = glm::vec3(args->xPos, args->yPos, 0.0f);
 
 		glm::vec3 delta = glm::vec3(args->xPos - m_MousePosition.x, args->yPos - m_MousePosition.y, 0.0f);
+
+		if (!m_WasHovering)
+		{
+			delta = glm::vec3(0.0f);
+			m_WasHovering = true;
+		}
 
 		if (Input::IsMouseButtonPressed(MouseButtons::Button_3))
 		{

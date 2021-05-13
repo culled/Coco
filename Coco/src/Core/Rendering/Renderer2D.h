@@ -3,6 +3,8 @@
 #include "Renderer.h"
 #include "Material.h"
 #include "VertexArray.h"
+#include "SubTextures.h"
+#include "Textures.h"
 
 #include <glm/glm.hpp>
 
@@ -56,10 +58,14 @@ namespace Coco
 		static void FlushBatch();
 
 		static void SubmitImmediateQuad(const Ref<Material>& material, const glm::mat4& transform);
-		static void SubmitBatchedQuad(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture = nullptr, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& tiling = glm::vec2(1.0f));
+		static void SubmitBatchedSprite(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture = nullptr, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& tiling = glm::vec2(1.0f));
+		static void SubmitBatchedSubSprite(const glm::mat4& transform, uint32_t id, const Ref<SubTexture2D>& texture = nullptr, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& tiling = glm::vec2(1.0f));
 
 	private:
 		static PrimativeRenderData s_PrimativeData;
 		static BatchedQuads s_QuadBatch;
+
+	private:
+		static void BatchQuad(const glm::mat4& transform, uint32_t id, uint32_t texIndex, const glm::vec4& color, const glm::vec2& tiling);
 	};
 }

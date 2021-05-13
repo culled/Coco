@@ -111,7 +111,7 @@ namespace Coco
 		Renderer::SubmitImmediate(s_PrimativeData.QuadVertexArray, material, transform);
 	}
 
-	void Renderer2D::SubmitBatchedQuad(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture, const glm::vec4& color, const glm::vec2& tiling)
+	void Renderer2D::SubmitBatchedSprite(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture, const glm::vec4& color, const glm::vec2& tiling)
 	{
 		if (s_QuadBatch.CurrentIndexCount >= BatchedQuads::MaxIndiciesPerDrawcall)
 		{
@@ -119,11 +119,11 @@ namespace Coco
 			BeginBatch(s_QuadBatch.Shader);
 		}
 
-		int textureSlot = -1;
+		uint32_t textureSlot = 0;
 
 		if (texture)
 		{
-			for (int i = 0; i < s_QuadBatch.TextureSlotIndex; i++)
+			for (uint32_t i = 1; i < s_QuadBatch.TextureSlotIndex; i++)
 			{
 				if (*texture == *s_QuadBatch.TextureSlots[i])
 				{
@@ -132,7 +132,7 @@ namespace Coco
 				}
 			}
 
-			if (textureSlot == -1)
+			if (textureSlot == 0)
 			{
 				if (s_QuadBatch.TextureSlotIndex >= BatchedQuads::MaxTextureSlots)
 				{
@@ -141,22 +141,61 @@ namespace Coco
 				}
 
 				textureSlot = s_QuadBatch.TextureSlotIndex;
-				s_QuadBatch.TextureSlots[s_QuadBatch.TextureSlotIndex] = texture;
+				s_QuadBatch.TextureSlots[textureSlot] = texture;
 				s_QuadBatch.TextureSlotIndex++;
 			}
 		}
-		else
-		{
-			textureSlot = 0;
-		}
 		
+		BatchQuad(transform, id, textureSlot, color, tiling);
+	}
+
+	void Renderer2D::SubmitBatchedSubSprite(const glm::mat4& transform, uint32_t id, const Ref<SubTexture2D>& texture, const glm::vec4& color, const glm::vec2& tiling)
+	{
+		if (s_QuadBatch.CurrentIndexCount >= BatchedQuads::MaxIndiciesPerDrawcall)
+		{
+			FlushBatch();
+			BeginBatch(s_QuadBatch.Shader);
+		}
+
+		uint32_t textureSlot = 0;
+
+		if (texture)
+		{
+			for (uint32_t i = 1; i < s_QuadBatch.TextureSlotIndex; i++)
+			{
+				if (*(texture->GetTexture()) == *s_QuadBatch.TextureSlots[i])
+				{
+					textureSlot = i;
+					break;
+				}
+			}
+
+			if (textureSlot == 0)
+			{
+				if (s_QuadBatch.TextureSlotIndex >= BatchedQuads::MaxTextureSlots)
+				{
+					FlushBatch();
+					BeginBatch(s_QuadBatch.Shader);
+				}
+
+				textureSlot = s_QuadBatch.TextureSlotIndex;
+				s_QuadBatch.TextureSlots[textureSlot] = texture->GetTexture();
+				s_QuadBatch.TextureSlotIndex++;
+			}
+		}
+
+		BatchQuad(transform, id, textureSlot, color, tiling);
+	}
+
+	void Renderer2D::BatchQuad(const glm::mat4& transform, uint32_t id, uint32_t texIndex, const glm::vec4& color, const glm::vec2& tiling)
+	{
 		for (int i = 0; i < 4; i++)
 		{
 			s_QuadBatch.QuadVertexPtr->Position = transform * s_QuadBatch.QuadVertexPositions[i];
 			s_QuadBatch.QuadVertexPtr->TexCoord = s_QuadBatch.QuadVertexTexCoords[i] * tiling;
 			s_QuadBatch.QuadVertexPtr->ID = id;
 			s_QuadBatch.QuadVertexPtr->Color = color;
-			s_QuadBatch.QuadVertexPtr->TexID = (float)textureSlot;
+			s_QuadBatch.QuadVertexPtr->TexID = (float)texIndex;
 			s_QuadBatch.QuadVertexPtr++;
 		}
 
