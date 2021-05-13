@@ -33,7 +33,7 @@ namespace Coco
 
 		objl::Loader Loader;
 
-		if (Loader.LoadFile("assets/models/Ferrari.obj"))
+		if (Loader.LoadFile("assets/models/Sponza-master/sponza.obj"))
 		{
 			for (size_t i = 0; i < Loader.LoadedMeshes.size(); i++)
 			{

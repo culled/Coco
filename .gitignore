@@ -368,3 +368,6 @@ bin-int/
 
 # Vulkan
 Coco/vendor/VulkanSDKDebug
+
+# Models
+Cocobox/assets/models/Sponza-master
