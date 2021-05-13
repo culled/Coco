@@ -22,6 +22,6 @@
 [submodule "Coco/vendor/ImGuizmo"]
 	path = Coco/vendor/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo
-[submodule "Coco/vendor/assimp"]
-	path = Coco/vendor/assimp
-	url = https://github.com/assimp/assimp
+[submodule "Coco/vendor/obj-loader"]
+	path = Coco/vendor/obj-loader
+	url = https://github.com/Bly7/OBJ-Loader
