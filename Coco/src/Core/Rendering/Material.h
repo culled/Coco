@@ -6,52 +6,45 @@
 
 namespace Coco
 {
-	struct COCO_API MaterialLayoutElement
+	struct COCO_API MaterialProperty : public ShaderUniform
 	{
-		std::string Name = "";
-		ShaderDataType Type = ShaderDataType::None;
-		uint32_t Offset = 0;
-		uint32_t Size = 0;
 		std::any Value;
 
-		MaterialLayoutElement() = default;
-		MaterialLayoutElement(std::string name, ShaderDataType type) :
-			Name(name), Type(type) {}
-
-		bool operator== (const MaterialLayoutElement& other);
-	};
-
-	class COCO_API MaterialLayout
-	{
-	public:
-		MaterialLayout() = default;
-		MaterialLayout(std::initializer_list<MaterialLayoutElement> elements)
+		MaterialProperty(const ShaderUniform& uniform) : ShaderUniform(uniform)
 		{
-			Initialize(elements);
+			switch (uniform.Type)
+			{
+			case ShaderDataType::Int: Value = 0; break;
+			case ShaderDataType::Int2: Value = glm::ivec2(0); break;
+			case ShaderDataType::Int3: Value = glm::ivec3(0); break;
+			case ShaderDataType::Int4: Value = glm::ivec4(0); break;
+
+			case ShaderDataType::Float: Value = 0.0f; break;
+			case ShaderDataType::Float2: Value = glm::vec2(0.0f); break;
+			case ShaderDataType::Float3: Value = glm::vec3(0.0f); break;
+			case ShaderDataType::Float4: Value = glm::vec4(0.0f); break;
+
+			case ShaderDataType::Mat3: Value = glm::mat3(1.0f); break;
+			case ShaderDataType::Mat4: Value = glm::mat4(1.0f); break;
+
+			case ShaderDataType::Bool: Value = false; break;
+			}
 		}
-
-		uint32_t GetSize() { return m_Size; }
-		MaterialLayoutElement& GetElement(std::string name);
-
-	private:
-		void Initialize(const std::vector<MaterialLayoutElement>& elements);
-
-		std::unordered_map<std::string, MaterialLayoutElement> m_Elements;
-		uint32_t m_Size = 0;
 	};
 
 	class COCO_API Material
 	{
 	public:
 		Material() = default;
-		Material(const Ref<Shader>& shader);
+		Material(const std::string& name, const Ref<Shader>& shader);
 		virtual ~Material();
 
-		void Use();
+		void Bind();
 
-		Ref<Shader> GetShader() { return m_Shader; }
+		const Ref<Shader>& GetShader() const { return m_Shader; }
+		const std::string& GetName() const { return m_Name; }
+		std::vector<MaterialProperty>& GetProperties() { return m_Properties; }
 
-		void SetLayout(uint32_t location, MaterialLayout layout);
 		void SetInt(const std::string& name, const int& value);
 
 		void SetFloat(const std::string& name, const float& value);
@@ -66,8 +59,11 @@ namespace Coco
 
 	private:
 		Ref<Shader> m_Shader = nullptr;
-		Ref<UniformBuffer> m_Buffer = nullptr;
-		MaterialLayout m_Layout;
+		std::string m_Name;
+		std::vector<MaterialProperty> m_Properties;
+
+	private:
+		MaterialProperty& GetProperty(const std::string& name);
 	};
 
 	class COCO_API MaterialLibrary

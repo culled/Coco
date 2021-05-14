@@ -20,20 +20,15 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
-		Ref<Material> mat = MaterialLibrary::Create("Flat Color", m_Shaders.Load("assets/shaders/FlatColor.glsl"));
-
-		ShaderLibrary::Load("assets/shaders/FlatColorBatched.glsl");
-
-		mat->SetLayout(1, { {"ID", ShaderDataType::Int},
-												{"Color", ShaderDataType::Float4} });
+		Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/FlatColor.glsl");
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 
 
-		objl::Loader Loader;
+		/*objl::Loader Loader;
 
-		if (Loader.LoadFile("assets/models/Sponza-master/sponza.obj"))
+		if (Loader.LoadFile("assets/models/Simple.obj"))
 		{
 			for (size_t i = 0; i < Loader.LoadedMeshes.size(); i++)
 			{
@@ -41,19 +36,32 @@ namespace Coco
 
 				Entity meshEntity = m_ActiveScene->CreateEntity(mesh.MeshName);
 
-				glm::vec3* positions = new glm::vec3[mesh.Vertices.size()];
+				MeshData::MeshVertexData* vertices = new MeshData::MeshVertexData[mesh.Vertices.size()];
 
 				for (size_t p = 0; p < mesh.Vertices.size(); p++)
 				{
-					positions[p] = glm::vec3(mesh.Vertices[p].Position.X * 0.01f, mesh.Vertices[p].Position.Y * 0.01f, mesh.Vertices[p].Position.Z * 0.01f);
+					vertices[p].Position = glm::vec3(mesh.Vertices[p].Position.X, mesh.Vertices[p].Position.Y, mesh.Vertices[p].Position.Z);
+					vertices[p].TexCoords = glm::vec2(mesh.Vertices[p].TextureCoordinate.X, mesh.Vertices[p].TextureCoordinate.Y);
 				}
 
-				Ref<MeshData> meshData = CreateRef<MeshData>(positions, mesh.Vertices.size(), mesh.Indices.data(), mesh.Indices.size());
-				meshEntity.AddComponent<MeshRendererComponent>(meshData);
+				Ref<Material> mat = nullptr;
 
-				delete[] positions;
+				if (!MaterialLibrary::Exists(mesh.MeshMaterial.name))
+				{
+					mat = MaterialLibrary::Create(mesh.MeshMaterial.name, shader);
+					mat->SetVector4("s_Material.Color", glm::vec4(1.0f));
+				}
+				else
+				{
+					mat = MaterialLibrary::Get(mesh.MeshMaterial.name);
+				}
+
+				Ref<MeshData> meshData = CreateRef<MeshData>(vertices, mesh.Vertices.size(), mesh.Indices.data(), mesh.Indices.size());
+				meshEntity.AddComponent<MeshRendererComponent>(meshData, mat);
+
+				delete[] vertices;
 			}
-		}
+		}*/
 	}
 
 	void EditorLayer::OnDetached()

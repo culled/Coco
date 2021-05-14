@@ -1,4 +1,4 @@
-//Batched flat color shader
+//Batched sprite shader
 
 #type vertex
 #version 450 core
@@ -14,11 +14,10 @@ layout (location = 1) out flat int o_ID;
 layout (location = 2) out vec2 o_TexCoord;
 layout (location = 3) out flat int o_Tex;
 
-layout(std140, binding = 0) uniform Transform
+layout(std140, binding = 0) uniform Scene
 {
 	mat4 ViewProjectionMatrix;
-	mat4 ModelMatrix;
-} u_Transform;
+} u_Scene;
 
 void main()
 {
@@ -27,7 +26,7 @@ void main()
 	o_TexCoord = a_TexCoord;
 	o_Tex = int(a_Tex);
 
-	gl_Position = u_Transform.ViewProjectionMatrix * vec4(a_Pos, 1.0);
+	gl_Position = u_Scene.ViewProjectionMatrix * vec4(a_Pos, 1.0);
 }
 
 #type fragment

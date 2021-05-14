@@ -22,8 +22,6 @@ namespace Coco
 		virtual void OnEvent(DispatchedEvent& e) override;
 
 	private:
-		ShaderLibrary m_Shaders;
-
 		Ref<Scene> m_ActiveScene = nullptr;
 
 		bool m_Vsync = true;

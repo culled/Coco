@@ -69,10 +69,11 @@ namespace Coco
 		m_Size = size;
 	}
 
-	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 #pragma endregion
 
@@ -98,6 +99,13 @@ namespace Coco
 
 	void OpenGLIndexBuffer::Unbind() const
 	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLIndexBuffer::SetData(const uint32_t* indicies, uint32_t count)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Id);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indicies);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 

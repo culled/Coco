@@ -32,9 +32,10 @@ namespace Coco
 			Ref<VertexBuffer> VertexBuffer = nullptr;
 			Ref<VertexArray> VertexArray = nullptr;
 
-			BatchedQuadVertex* QuadVertexBase = nullptr;
+			std::array<BatchedQuadVertex, MaxVerticiesPerDrawcall> QuadVertexBase;
 			BatchedQuadVertex* QuadVertexPtr = nullptr;
 
+			uint32_t CurrentVertexCount = 0;
 			uint32_t CurrentIndexCount = 0;
 
 			std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
@@ -43,7 +44,7 @@ namespace Coco
 			glm::vec4 QuadVertexPositions[4];
 			glm::vec2 QuadVertexTexCoords[4];
 
-			Ref<Shader> Shader;
+			Ref<Material> Material;
 		};
 
 		struct COCO_API PrimativeRenderData
@@ -54,10 +55,11 @@ namespace Coco
 		static void Init();
 		static void Shutdown();
 
-		static void BeginBatch(const Ref<Shader>& shader);
+		static void BeginBatch(const Ref<Material>& material);
 		static void FlushBatch();
 
 		static void SubmitImmediateQuad(const Ref<Material>& material, const glm::mat4& transform);
+		static void SubmitImmediateSprite(const glm::mat4& transform, uint32_t id, const Ref<Material>& material = nullptr);
 		static void SubmitBatchedSprite(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture = nullptr, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& tiling = glm::vec2(1.0f));
 		static void SubmitBatchedSubSprite(const glm::mat4& transform, uint32_t id, const Ref<SubTexture2D>& texture = nullptr, const glm::vec4& color = glm::vec4(1.0f), const glm::vec2& tiling = glm::vec2(1.0f));
 

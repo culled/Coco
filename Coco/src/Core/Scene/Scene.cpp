@@ -44,7 +44,7 @@ namespace Coco
 	{
 		auto spriteView = m_Registry.view<SpriteRendererComponent>();
 		Renderer::BeginScene(camera, cameraTransform);
-		Renderer2D::BeginBatch(ShaderLibrary::Get("FlatColorBatched"));
+		Renderer2D::BeginBatch(MaterialLibrary::Get("SpriteBatched"));
 
 		for (auto entity : spriteView)
 		{
@@ -55,14 +55,12 @@ namespace Coco
 
 		Renderer2D::FlushBatch();
 
-		ShaderLibrary::Get("FlatColor")->Bind();
-
 		auto meshView = m_Registry.view<MeshRendererComponent>();
 		for (auto entity : meshView)
 		{
 			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, MeshRendererComponent>(entity);
 
-			Renderer::SubmitMesh(rendererComponent.Data, transform);
+			Renderer::SubmitMeshImmediate(rendererComponent.Data, rendererComponent.RenderMaterial, transform, (uint32_t)entity);
 		}
 
 		Renderer::EndScene();

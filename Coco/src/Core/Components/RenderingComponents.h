@@ -13,19 +13,21 @@ namespace Coco
 	struct COCO_API SpriteRendererComponent
 	{
 		glm::vec4 Color = glm::vec4(1.0f);
+		Ref<Material> RenderMaterial = nullptr;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
+		SpriteRendererComponent(const glm::vec4& color, const Ref<Material>& material = nullptr) : Color(color), RenderMaterial(material) {}
 	};
 
 	struct COCO_API MeshRendererComponent
 	{
 		Ref<MeshData> Data = nullptr;
+		Ref<Material> RenderMaterial = nullptr;
 
 		MeshRendererComponent() = default;
 		MeshRendererComponent(const MeshRendererComponent&) = default;
-		MeshRendererComponent(const Ref<MeshData>& data) : Data(data) {}
+		MeshRendererComponent(const Ref<MeshData>& data, const Ref<Material>& material = nullptr) : Data(data), RenderMaterial(material) {}
 	};
 
 	struct COCO_API CameraComponent

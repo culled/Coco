@@ -14,6 +14,7 @@ namespace Coco
 		static bool DrawVec3Control(const char* label, glm::vec3& value, float speed = 0.1f, glm::vec3 resetValue = glm::vec3(0.0f), float labelColumnWidth = 75.0f);
 
 		void DrawEntityComponents(Entity entity);
+		static void DrawMaterialProperties(const Ref<Material>& material);
 
 		template<typename T>
 		void DrawComponent(const char* label, Entity entity, void(*DrawFunction)(T&))

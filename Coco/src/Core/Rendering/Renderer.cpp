@@ -10,15 +10,34 @@ namespace Coco
 	SceneData Renderer::s_SceneData;
 	RenderStats Renderer::s_RenderStats;
 	Ref<Texture2D> Renderer::s_WhiteTexture = nullptr;
-	//Renderer::BatchMap Renderer::s_BatchedData;
+	BatchRenderData Renderer::s_BatchData;
 
 	void Renderer::Init()
 	{
-		s_SceneData.TransformBuffer = UniformBuffer::Create(sizeof(TransformData), 0);
+		MaterialLibrary::Create("Error", ShaderLibrary::Load("assets/shaders/Error.glsl"));
+
+		s_SceneData.SceneDataBuffer = UniformBuffer::Create(sizeof(ShaderSceneData), 0);
+		s_SceneData.ModelDataBuffer = UniformBuffer::Create(sizeof(ShaderModelData), 1);
 
 		s_WhiteTexture = Texture2D::Create(1, 1, TextureFormat::RGBA32);
 		uint32_t whiteTextureData = 0xffffffff;
 		s_WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+
+		s_BatchData.VertexBuffer = VertexBuffer::Create(BatchRenderData::MaxVerticiesPerDrawcall * sizeof(BatchedVertex), BufferUpdateType::Dynamic);
+		s_BatchData.VertexBuffer->SetLayout({
+			{ShaderDataType::Float3, "a_Pos"},
+			{ShaderDataType::Float2, "a_TexCoord"},
+			{ShaderDataType::Float, "a_ID"},
+			{ShaderDataType::Float4, "a_Color"},
+			{ShaderDataType::Float, "a_TexID"}
+			});
+
+		uint32_t* batchIndicies = new uint32_t[BatchRenderData::MaxIndiciesPerDrawcall];
+
+		s_BatchData.IndexBuffer = IndexBuffer::Create(batchIndicies, BatchRenderData::MaxIndiciesPerDrawcall, BufferUpdateType::Dynamic);
+
+		s_BatchData.VertexArray = VertexArray::Create(s_BatchData.VertexBuffer, s_BatchData.IndexBuffer);
+		delete[] batchIndicies;
 	}
 
 	void Renderer::Shutdown()
@@ -27,12 +46,10 @@ namespace Coco
 
 	void Renderer::BeginScene(const Camera& camera, const glm::mat4& cameraTransform)
 	{
-		glm::mat4 vp = camera.GetProjectionMatrix() * glm::inverse(cameraTransform);
-		s_SceneData.TransformBuffer->SetData(glm::value_ptr(vp), sizeof(TransformData));
+		s_SceneData.SceneData.ViewProjectionMatrix = camera.GetProjectionMatrix() * glm::inverse(cameraTransform);
+		s_SceneData.SceneDataBuffer->SetData(&s_SceneData.SceneData, sizeof(ShaderSceneData));
 
 		s_RenderStats.StartTimer();
-
-		BeginBatch();
 	}
 
 	void Renderer::EndScene()
@@ -40,62 +57,82 @@ namespace Coco
 		s_RenderStats.EndTimer();
 	}
 
-	void Renderer::SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform)
+	void Renderer::SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform, int32_t ID)
 	{
-		/*BatchMapIterator it = std::find_if(s_BatchedData.begin(), s_BatchedData.end(), [&](const Ref<Material>& mat) {
-			return *mat.get() == *material.get();
-			});
+		s_SceneData.ModelData.ModelMatrix = transform;
+		s_SceneData.ModelData.ID = (float)ID;
+		s_SceneData.ModelDataBuffer->SetData(&s_SceneData.ModelData, sizeof(ShaderModelData));
 
-		BatchRenderData* data = nullptr;
-
-		if (it == s_BatchedData.end())
+		if (!material)
 		{
-			//This material is different, so we need a new batch
-			data = CreateBatch(material);
+			MaterialLibrary::Get("Error")->Bind();
 		}
 		else
 		{
-			data = &(it->second);
+			material->Bind();
 		}
 
-
-		for (const auto& buffer : vao->GetVertexBuffers())
-		{
-			buffer->CopyTo(data->VertexBuffer, data->BufferSize);
-			data->BufferSize += buffer->GetSize();
-		}*/
-		/*for (int i = 0; i < vao->GetVertexCount(); i++)
-		{
-			s_BatchData.VertexBufferPtr->Position = transform * vao->Get;
-			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexIndex = 0;
-			s_Data.QuadVertexBufferPtr->TilingFactor = 1.0f;
-			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
-			s_Data.QuadVertexBufferPtr++;
-		}*/
-	}
-
-	void Renderer::SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform)
-	{
-		s_SceneData.TransformBuffer->SetData(glm::value_ptr(transform), sizeof(glm::mat4), sizeof(glm::mat4));
-		material->Use();
-
+		vao->Bind();
 		RenderCommand::DrawIndexed(vao);
+		vao->Unbind();
 
 		s_RenderStats.DrawCalls++;
 		s_RenderStats.IndiciesDrawn += vao->GetIndexBuffer()->GetCount();
 		s_RenderStats.VerticiesDrawn += vao->GetVertexCount();
 	}
 
-	void Renderer::SubmitMesh(const Ref<MeshData>& meshData, const glm::mat4& transform)
+	void Renderer::SubmitMeshImmediate(const Ref<MeshData>& meshData, const Ref<Material>& material, const glm::mat4& transform, int32_t ID)
 	{
-		s_SceneData.TransformBuffer->SetData(glm::value_ptr(transform), sizeof(glm::mat4), sizeof(glm::mat4));
+		s_SceneData.ModelData.ModelMatrix = transform;
+		s_SceneData.ModelData.ID = (float)ID;
+		s_SceneData.ModelDataBuffer->SetData(&s_SceneData.ModelData, sizeof(ShaderModelData));
 
+		if (!material)
+		{
+			MaterialLibrary::Get("Error")->Bind();
+		}
+		else
+		{
+			material->Bind();
+		}
+
+		meshData->GetVAO()->Bind();
 		RenderCommand::DrawIndexed(meshData->GetVAO());
+		meshData->GetVAO()->Unbind();
 
 		s_RenderStats.DrawCalls++;
 		s_RenderStats.IndiciesDrawn += meshData->GetVAO()->GetIndexBuffer()->GetCount();
 		s_RenderStats.VerticiesDrawn += meshData->GetVAO()->GetVertexCount();
+	}
+
+	void Renderer::SubmitMeshBatched(const Ref<MeshData>& meshData, const glm::mat4& transform, int32_t ID)
+	{
+		if (s_BatchData.CurrentVertexCount + meshData->GetVertexCount() >= BatchRenderData::MaxVerticiesPerDrawcall ||
+			s_BatchData.CurrentIndexCount + meshData->GetIndexCount() >= BatchRenderData::MaxIndiciesPerDrawcall)
+		{
+			FlushBatch();
+			BeginBatch(s_BatchData.Material);
+		}
+
+		for (uint32_t i = 0; i < meshData->GetVertexCount(); i++)
+		{
+			const auto& vertex = meshData->GetVertex(i);
+			s_BatchData.VertexPtr->Position = transform * glm::vec4(vertex.Position, 1.0f);
+			s_BatchData.VertexPtr->TexCoord = vertex.TexCoords;
+			s_BatchData.VertexPtr->ID = ID;
+			s_BatchData.VertexPtr->Color = glm::vec4(0.8f, 0.1f, 0.2f, 1.0f);
+			s_BatchData.VertexPtr->TexID = 0.0f;
+			s_BatchData.VertexPtr++;
+		}
+
+		s_BatchData.CurrentVertexCount += meshData->GetVertexCount();
+
+		for (uint32_t i = 0; i < meshData->GetIndexCount(); i++)
+		{
+			s_BatchData.Indicies[i + s_BatchData.CurrentIndexCount] = meshData->GetIndex(i);
+		}
+
+		s_BatchData.CurrentIndexCount += meshData->GetIndexCount();
 	}
 
 	void Renderer::ResetStats()
@@ -103,33 +140,36 @@ namespace Coco
 		s_RenderStats = RenderStats();
 	}
 
-	void Renderer::BeginBatch()
+	void Renderer::BeginBatch(const Ref<Material>& material)
 	{
-		//s_BatchedData.clear();
+		s_BatchData.CurrentIndexCount = 0;
+		s_BatchData.CurrentVertexCount = 0;
+		s_BatchData.VertexPtr = s_BatchData.VertexBase.data();
+		s_BatchData.Material = material;
 	}
 
 	void Renderer::FlushBatch()
 	{
+		if (s_BatchData.CurrentIndexCount == 0) return;
+
+		uint32_t dataSize = s_BatchData.CurrentVertexCount * sizeof(BatchedVertex);
+		s_BatchData.VertexBuffer->SetData(s_BatchData.VertexBase.data(), dataSize);
+		s_BatchData.IndexBuffer->SetData(s_BatchData.Indicies.data(), s_BatchData.CurrentIndexCount);
+
+		//for (int i = 0; i < s_QuadBatch.TextureSlotIndex; i++)
+		//	s_QuadBatch.TextureSlots[i]->Bind(i);
+
+		s_BatchData.Material->Bind();
+		s_BatchData.VertexArray->Bind();
+
+		//For some reason, the IBO gets unbound from the VAO once it changes.
+		//This is a quick way to rebind it.
+		s_BatchData.IndexBuffer->Bind();
+		RenderCommand::DrawIndexed(s_BatchData.VertexArray, s_BatchData.CurrentIndexCount);
+		s_BatchData.VertexArray->Unbind();
+
+		s_RenderStats.DrawCalls++;
+		s_RenderStats.IndiciesDrawn += s_BatchData.CurrentIndexCount;
+		s_RenderStats.VerticiesDrawn += s_BatchData.CurrentVertexCount;
 	}
-
-	/*BatchRenderData* Renderer::CreateBatch(const Ref<Material>& material)
-	{
-		BatchRenderData data;
-
-		data.VertexBuffer = VertexBuffer::Create(BatchRenderData::MaxVerticiesPerDrawcall * sizeof(BatchVertex), BufferUpdateType::Dynamic);
-		data.VertexBuffer->SetLayout({
-			{ShaderDataType::Float3, "a_Pos"},
-			{ShaderDataType::Float2, "a_TexCoord"},
-			{ShaderDataType::Float, "a_ID"}
-			});
-
-		uint32_t* batchIndicies = new uint32_t[BatchRenderData::MaxIndiciesPerDrawcall];
-		Ref<IndexBuffer> batchIBO = IndexBuffer::Create(batchIndicies, BatchRenderData::MaxIndiciesPerDrawcall, BufferUpdateType::Dynamic);
-
-		data.VertexArray = VertexArray::Create(data.VertexBuffer, batchIBO);
-		delete[] batchIndicies;
-
-		s_BatchedData[material] = data;
-		return &s_BatchedData[material];
-	}*/
 }

@@ -7,23 +7,20 @@
 
 namespace Coco
 {
+	struct COCO_API ShaderUniform
+	{
+		std::string Name = "";
+		ShaderDataType Type = ShaderDataType::None;
+		uint32_t Location = 0;
+
+		ShaderUniform() = default;
+		ShaderUniform(const std::string& name, ShaderDataType type, uint32_t location) :
+			Name(name), Type(type), Location(location) {}
+	};
+
 	class COCO_API Shader
 	{
 	public:
-		enum class ShaderUniformType
-		{
-			None = 0,
-			Float,
-			Int,
-			Bool,
-			Float2,
-			Float3,
-			Float4,
-			Mat3,
-			Mat4,
-			Sampler2D
-		};
-
 		virtual ~Shader() = default;
 
 		virtual void Bind() = 0;
@@ -43,6 +40,7 @@ namespace Coco
 		virtual void BindBuffer(const Ref<UniformBuffer>& buf, uint32_t location) = 0;
 
 		virtual const std::string& GetName() = 0;
+		virtual const std::vector<ShaderUniform>& GetUniforms() const = 0;
 
 		static Ref<Shader> CreateFromFile(const std::string & shaderPath, const std::string & name = "");
 		static Ref<Shader> CreateFromSource(const std::string & name, const std::string & vertSource, const std::string & fragSource);

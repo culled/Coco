@@ -10,22 +10,32 @@
 
 namespace Coco
 {
-	struct COCO_API SceneData
-	{
-		Ref<UniformBuffer> TransformBuffer;
-	};
-
-	struct COCO_API TransformData
+	struct COCO_API ShaderSceneData
 	{
 		glm::mat4 ViewProjectionMatrix;
-		glm::mat4 ModelMatrix;
 	};
 
-	/*struct COCO_API BatchVertex
+	struct COCO_API ShaderModelData
+	{
+		glm::mat4 ModelMatrix;
+		float ID;
+	};
+
+	struct COCO_API SceneData
+	{
+		ShaderSceneData SceneData;
+		ShaderModelData ModelData;
+		Ref<UniformBuffer> SceneDataBuffer;
+		Ref<UniformBuffer> ModelDataBuffer;
+	};
+
+	struct COCO_API BatchedVertex
 	{
 		glm::vec3 Position;
 		glm::vec2 TexCoord;
 		float ID;
+		glm::vec4 Color;
+		float TexID;
 	};
 
 	struct COCO_API BatchRenderData
@@ -36,13 +46,21 @@ namespace Coco
 		static const uint32_t MaxTextureSlots = 32; //TODO: render capabilities
 
 		Ref<VertexBuffer> VertexBuffer = nullptr;
+		Ref<IndexBuffer> IndexBuffer = nullptr;
 		Ref<VertexArray> VertexArray = nullptr;
 
-		uint32_t BufferSize = 0;
+		std::array<BatchedVertex, MaxVerticiesPerDrawcall> VertexBase;
+		BatchedVertex* VertexPtr = nullptr;
+		uint32_t CurrentVertexCount = 0;
+
+		std::array<uint32_t, MaxIndiciesPerDrawcall> Indicies;
+		uint32_t CurrentIndexCount = 0;
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1; //0 = white texture
-	};*/
+
+		Ref<Material> Material;
+	};
 
 	struct COCO_API RenderStats
 	{
@@ -87,24 +105,21 @@ namespace Coco
 		static void BeginScene(const Camera& camera, const glm::mat4& cameraTransform);
 		static void EndScene();
 
-		static void SubmitBatched(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
-		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform);
-		static void SubmitMesh(const Ref<MeshData>& meshData, const glm::mat4& transform);
+		static void BeginBatch(const Ref<Material>& material);
+		static void FlushBatch();
+
+		static void SubmitImmediate(Ref<VertexArray> vao, Ref<Material> material, const glm::mat4& transform, int32_t ID = -1);
+		static void SubmitMeshImmediate(const Ref<MeshData>& meshData, const Ref<Material>& material, const glm::mat4& transform, int32_t ID = -1);
+		static void SubmitMeshBatched(const Ref<MeshData>& meshData, const glm::mat4& transform, int32_t ID = -1);
 
 		static void ResetStats();
 		static RenderStats GetStats() { return s_RenderStats; }
 
 	private:
-		static void BeginBatch();
-		static void FlushBatch();
-
-		//static BatchRenderData* CreateBatch(const Ref<Material>& material);
-
 		static SceneData s_SceneData;
 		static RenderStats s_RenderStats;
 		static Ref<Texture2D> s_WhiteTexture;
-
-		//static BatchMap s_BatchedData;
+		static BatchRenderData s_BatchData;
 
 		friend class Renderer2D;
 	};

@@ -31,23 +31,22 @@ namespace Coco {
 			std::filesystem::create_directories(OpenGLShader::s_CacheDirectory);
 	}
 
-	static Shader::ShaderUniformType GetUniformType(GLenum uniformType)
+	static ShaderDataType GetUniformType(GLenum uniformType)
 	{
 		switch (uniformType)
 		{
-		case GL_FLOAT:			return Shader::ShaderUniformType::Float;
-		case GL_INT:				return Shader::ShaderUniformType::Int;
-		case GL_BOOL:				return Shader::ShaderUniformType::Bool;
-		case GL_FLOAT_VEC2: return Shader::ShaderUniformType::Float2;
-		case GL_FLOAT_VEC3: return Shader::ShaderUniformType::Float3;
-		case GL_FLOAT_VEC4: return Shader::ShaderUniformType::Float4;
-		case GL_FLOAT_MAT3: return Shader::ShaderUniformType::Mat3;
-		case GL_FLOAT_MAT4: return Shader::ShaderUniformType::Mat4;
-		case GL_SAMPLER_2D: return Shader::ShaderUniformType::Sampler2D;
+		case GL_FLOAT:			return ShaderDataType::Float;
+		case GL_INT:				return ShaderDataType::Int;
+		case GL_BOOL:				return ShaderDataType::Bool;
+		case GL_FLOAT_VEC2: return ShaderDataType::Float2;
+		case GL_FLOAT_VEC3: return ShaderDataType::Float3;
+		case GL_FLOAT_VEC4: return ShaderDataType::Float4;
+		case GL_FLOAT_MAT3: return ShaderDataType::Mat3;
+		case GL_FLOAT_MAT4: return ShaderDataType::Mat4;
 		}
 
 		ASSERT_CORE(false, "Unknown uniform type");
-		return Shader::ShaderUniformType::None;
+		return ShaderDataType::None;
 	}
 
 	static const char* GetCachedOpenGLShaderExtension(GLenum type)
@@ -275,6 +274,7 @@ namespace Coco {
 
 		compileOptions.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_2);
 		compileOptions.SetOptimizationLevel(shaderc_optimization_level_performance);
+		compileOptions.SetGenerateDebugInfo();
 
 		std::filesystem::path cacheDirectory = s_CacheDirectory;
 
@@ -333,6 +333,9 @@ namespace Coco {
 
 		compileOptions.SetTargetEnvironment(shaderc_target_env_opengl, shaderc_env_version_opengl_4_5);
 		compileOptions.SetOptimizationLevel(shaderc_optimization_level_performance);
+		compileOptions.SetAutoMapLocations(true);
+		compileOptions.SetAutoBindUniforms(true);
+		compileOptions.SetGenerateDebugInfo();
 
 		std::filesystem::path cacheDirectory = s_CacheDirectory;
 
@@ -435,18 +438,20 @@ namespace Coco {
 			glDeleteShader(shader);
 		}
 
-		for (auto&& [type, data] : m_OpenGLSpirV)
-		{
-			Reflect(type, data);
-		}
-
 		m_ProgramId = program;
+
+		for (auto&& [type, data] : m_VulkanSpirV)
+		{
+			//Reflect(type, data);
+			GetUniforms(type, data);
+		}
 	}
 
 	void OpenGLShader::Reflect(GLenum type, const std::vector<uint32_t>& shaderData)
 	{
-		spirv_cross::Compiler compiler(shaderData);
-		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
+		spirv_cross::CompilerGLSL compiler(shaderData);
+		auto active = compiler.get_active_interface_variables();
+		spirv_cross::ShaderResources resources = compiler.get_shader_resources(active);
 
 		LOG_CORE_TRACE("Reflecting shader {0} ({1}):", m_Name, ShaderTypeToString(type));
 		LOG_CORE_TRACE("	- {0} samplers", resources.sampled_images.size());
@@ -477,7 +482,7 @@ namespace Coco {
 		{
 			const auto& bufferType = compiler.get_type(constant.base_type_id);
 			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
-			uint32_t bindingLocation = compiler.get_decoration(constant.id, spv::DecorationBinding);
+			uint32_t bindingLocation = compiler.get_decoration(constant.id, spv::DecorationLocation);
 			int memberCount = bufferType.member_types.size();
 
 			LOG_CORE_TRACE("		- {0}:", constant.name);
@@ -487,7 +492,99 @@ namespace Coco {
 
 			for (int i = 0; i < memberCount; i++)
 			{
-				LOG_CORE_TRACE("				- {0}", compiler.get_member_name(bufferType.self, i));
+				LOG_CORE_TRACE("				- {0}:", compiler.get_member_name(bufferType.self, i));
+				LOG_CORE_TRACE("					- Type = {0}", compiler.get_type(bufferType.member_types[i]).self);
+			}
+		}
+	}
+
+	void OpenGLShader::GetUniforms(GLenum type, const std::vector<uint32_t>& shaderData)
+	{
+		spirv_cross::CompilerGLSL compiler(shaderData);
+		auto active = compiler.get_active_interface_variables();
+		spirv_cross::ShaderResources resources = compiler.get_shader_resources(active);
+
+		LOG_CORE_TRACE("Shader \"{0}\": {1} push constants:", m_Name, resources.push_constant_buffers.size());
+
+		for (const auto& constant : resources.push_constant_buffers)
+		{
+			const auto& bufferType = compiler.get_type(constant.base_type_id);
+			int memberCount = bufferType.member_types.size();
+
+			LOG_CORE_TRACE("	- {0}:", constant.name);
+			LOG_CORE_TRACE("		- {0} Members:", memberCount);
+
+			for (int i = 0; i < memberCount; i++)
+			{
+				std::string memberName = constant.name + "." + compiler.get_member_name(bufferType.self, i);
+				LOG_CORE_TRACE("			- {0}:", memberName);
+
+				ShaderDataType uniformType = ShaderDataType::None;
+
+				const auto& type = compiler.get_type(bufferType.member_types[i]);
+
+				switch (type.columns)
+				{
+				case 1:
+					switch (type.vecsize)
+					{
+					case 1:
+						switch (type.basetype)
+						{
+						case spirv_cross::SPIRType::BaseType::Int:
+							uniformType = ShaderDataType::Int;
+							break;
+						case spirv_cross::SPIRType::BaseType::Float:
+							uniformType = ShaderDataType::Float;
+							break;
+						}
+						break;
+					case 2:
+						switch (type.basetype)
+						{
+						case spirv_cross::SPIRType::BaseType::Int:
+							uniformType = ShaderDataType::Int2;
+							break;
+						case spirv_cross::SPIRType::BaseType::Float:
+							uniformType = ShaderDataType::Float2;
+							break;
+						}
+						break;
+					case 3:
+						switch (type.basetype)
+						{
+						case spirv_cross::SPIRType::BaseType::Int:
+							uniformType = ShaderDataType::Int3;
+							break;
+						case spirv_cross::SPIRType::BaseType::Float:
+							uniformType = ShaderDataType::Float3;
+							break;
+						}
+						break;
+					case 4:
+						switch (type.basetype)
+						{
+						case spirv_cross::SPIRType::BaseType::Int:
+							uniformType = ShaderDataType::Int4;
+							break;
+						case spirv_cross::SPIRType::BaseType::Float:
+							uniformType = ShaderDataType::Float4;
+							break;
+						}
+						break;
+					}
+					break;
+				case 3:
+					uniformType = ShaderDataType::Mat3;
+					break;
+				case 4:
+					uniformType = ShaderDataType::Mat4;
+					break;
+				}
+
+				ASSERT_CORE(uniformType != ShaderDataType::None, "Invalid uniform type");
+
+				m_Uniforms.emplace_back(memberName, uniformType, GetUniformLocation(memberName));
 			}
 		}
 	}
@@ -511,20 +608,19 @@ namespace Coco {
 
 	int32_t OpenGLShader::GetUniformLocation(const std::string& name)
 	{
-		auto it = m_UniformCache.find(name);
+		std::vector<ShaderUniform>::iterator it = std::find_if(m_Uniforms.begin(), m_Uniforms.end(), [&](const auto& uniform) {
+			return uniform.Name == name;
+			});
 
-		if (it == m_UniformCache.end())
+		if (it != m_Uniforms.end())
 		{
-			int32_t location = glGetUniformLocation(m_ProgramId, name.c_str());
-			ASSERT_CORE(location > -1, "Invalid uniform location");
+			return it->Location;
+		}
 
-			m_UniformCache[name] = (uint32_t)location;
-			return location;
-		}
-		else
-		{
-			return (*it).second;
-		}
+		int32_t location = glGetUniformLocation(m_ProgramId, name.c_str());
+		ASSERT_CORE(location > -1, "Invalid uniform location");
+
+		return location;
 	}
 
 	/*std::unordered_map<std::string, Shader::ShaderUniformType> OpenGLShader::GetUniforms()

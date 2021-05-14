@@ -7,157 +7,102 @@
 
 namespace Coco
 {
-	bool MaterialLayoutElement::operator==(const MaterialLayoutElement& other)
+	Material::Material(const std::string& name, const Ref<Shader>& shader) :
+		m_Name(name), m_Shader(shader)
 	{
-		if (other.Type != this->Type) return false;
+		const auto& uniforms = shader->GetUniforms();
 
-		if (!other.Value.has_value() || !this->Value.has_value()) return false;
-
-		switch (this->Type)
+		for (const auto& uniform : uniforms)
 		{
-		case ShaderDataType::Bool:
-			return std::any_cast<bool>(other.Value) == std::any_cast<bool>(this->Value);
-		case ShaderDataType::Int:
-			return std::any_cast<int>(other.Value) == std::any_cast<int>(this->Value);
-		case ShaderDataType::Float:
-			return std::any_cast<float>(other.Value) == std::any_cast<float>(this->Value);
-		case ShaderDataType::Float2:
-			return std::any_cast<glm::vec2>(other.Value) == std::any_cast<glm::vec2>(this->Value);
-		case ShaderDataType::Float3:
-			return std::any_cast<glm::vec3>(other.Value) == std::any_cast<glm::vec3>(this->Value);
-		case ShaderDataType::Float4:
-			return std::any_cast<glm::vec4>(other.Value) == std::any_cast<glm::vec4>(this->Value);
-		case ShaderDataType::Int2:
-			return std::any_cast<glm::ivec2>(other.Value) == std::any_cast<glm::ivec2>(this->Value);
-		case ShaderDataType::Int3:
-			return std::any_cast<glm::ivec3>(other.Value) == std::any_cast<glm::ivec3>(this->Value);
-		case ShaderDataType::Int4:
-			return std::any_cast<glm::ivec4>(other.Value) == std::any_cast<glm::ivec4>(this->Value);
-		case ShaderDataType::Mat3:
-			return std::any_cast<glm::mat3>(other.Value) == std::any_cast<glm::mat3>(this->Value);
-		case ShaderDataType::Mat4:
-			return std::any_cast<glm::mat4>(other.Value) == std::any_cast<glm::mat4>(this->Value);
-		}
-
-		ASSERT_CORE(false, "Invalid shader type");
-	}
-
-	MaterialLayoutElement& MaterialLayout::GetElement(std::string name)
-	{
-		ASSERT_CORE(m_Elements.find(name) != m_Elements.end(), "Could not find element with that name");
-		return m_Elements[name];
-	}
-
-	void MaterialLayout::Initialize(const std::vector<MaterialLayoutElement>& elements)
-	{
-		m_Size = 0;
-
-		for (auto& element : elements)
-		{
-			m_Elements[element.Name] = element;
-			auto& e = m_Elements[element.Name];
-
-			e.Size = ShaderDataTypeSize(element.Type);
-
-			if (m_Size > 0)
-			{
-				e.Offset = m_Size + (uint32_t)(e.Size - (float)e.Size / (float)m_Size);
-			}
-			else
-			{
-				e.Offset = 0;
-			}
-
-			m_Size = e.Offset + e.Size;
+			m_Properties.emplace_back(uniform);
 		}
 	}
-
-	Material::Material(const Ref<Shader>& shader) :
-		m_Shader(shader)
-	{}
 
 	Material::~Material()
 	{
 	}
 
-	void Material::Use()
+	void Material::Bind()
 	{
 		m_Shader->Bind();
-	}
 
-	void Material::SetLayout(uint32_t location, MaterialLayout layout)
-	{
-		m_Layout = layout;
+		for (const auto& prop : m_Properties)
+		{
+			switch (prop.Type)
+			{
+			case ShaderDataType::Int: m_Shader->SetInt(prop.Name, std::any_cast<int>(prop.Value)); break;
 
-		m_Buffer = UniformBuffer::Create(m_Layout.GetSize(), location);
+			case ShaderDataType::Float: m_Shader->SetFloat(prop.Name, std::any_cast<float>(prop.Value)); break;
+			case ShaderDataType::Float2: m_Shader->SetVector2(prop.Name, std::any_cast<glm::vec2>(prop.Value)); break;
+			case ShaderDataType::Float3: m_Shader->SetVector3(prop.Name, std::any_cast<glm::vec3>(prop.Value)); break;
+			case ShaderDataType::Float4: m_Shader->SetVector4(prop.Name, std::any_cast<glm::vec4>(prop.Value)); break;
+
+			case ShaderDataType::Mat3: m_Shader->SetMatrix3(prop.Name, std::any_cast<glm::mat3>(prop.Value)); break;
+			case ShaderDataType::Mat4: m_Shader->SetMatrix4(prop.Name, std::any_cast<glm::mat4>(prop.Value)); break;
+			}
+		}
 	}
 
 	void Material::SetInt(const std::string& name, const int& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(&value, element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetFloat(const std::string& name, const float& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(&value, element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetVector2(const std::string& name, const glm::vec2& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetVector3(const std::string& name, const glm::vec3& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetVector4(const std::string& name, const glm::vec4& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetMatrix3(const std::string& name, const glm::mat3& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	void Material::SetMatrix4(const std::string& name, const glm::mat4& value)
 	{
-		ASSERT_CORE(m_Buffer, "Buffer has not been created");
-
-		auto& element = m_Layout.GetElement(name);
-		element.Value = value;
-		m_Buffer->SetData(glm::value_ptr(value), element.Size, element.Offset);
+		auto& prop = GetProperty(name);
+		prop.Value = value;
 	}
 
 	bool Material::operator==(const Material& other)
 	{
 		return false;
+	}
+
+	MaterialProperty& Material::GetProperty(const std::string& name)
+	{
+		std::vector<MaterialProperty>::iterator it = std::find_if(m_Properties.begin(), m_Properties.end(), [&](const auto& prop) {
+			return prop.Name == name;
+			});
+
+		if (it == m_Properties.end())
+		{
+			ASSERT_CORE(false, "Could not find property");
+			return *m_Properties.begin();
+		}
+
+		return *it;
 	}
 
 	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
@@ -170,7 +115,7 @@ namespace Coco
 
 	Ref<Material> MaterialLibrary::Create(const std::string& name, const Ref<Shader>& shader)
 	{
-		auto material = CreateRef<Material>(shader);
+		auto material = CreateRef<Material>(name, shader);
 		Add(name, material);
 		return material;
 	}

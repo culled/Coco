@@ -5,6 +5,8 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "SceneHierarchyPanel.h"
 
+#include <any>
+
 namespace Coco
 {
 	void InspectorPanel::OnImGuiRender()
@@ -258,7 +260,27 @@ namespace Coco
 			});
 
 		DrawComponent<MeshRendererComponent>("Mesh Renderer", entity, [](MeshRendererComponent& mrc) {
-			ImGui::Text("Mesh Renderer");
+			if(mrc.RenderMaterial)
+			{
+				DrawMaterialProperties(mrc.RenderMaterial);
+			}
 			});
+	}
+
+	void InspectorPanel::DrawMaterialProperties(const Ref<Material>& material)
+	{
+		ImGui::Text("Material: %s", material->GetName().c_str());
+
+		for (auto& prop : material->GetProperties())
+		{
+			switch (prop.Type)
+			{
+			case ShaderDataType::Float4:
+				glm::vec4 v = std::any_cast<glm::vec4>(prop.Value);
+				ImGui::ColorEdit4(prop.Name.c_str(), glm::value_ptr(v));
+				prop.Value = v;
+				break;
+			}
+		}
 	}
 }

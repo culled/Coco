@@ -68,6 +68,7 @@ namespace Coco {
 		}
 
 		m_VertexBuffers.push_back(buffer);
+		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer> buffer)
@@ -76,6 +77,7 @@ namespace Coco {
 		buffer->Bind();
 
 		m_IndexBuffer = buffer;
+		glBindVertexArray(0);
 	}
 
 	uint32_t OpenGLVertexArray::GetVertexCount() const

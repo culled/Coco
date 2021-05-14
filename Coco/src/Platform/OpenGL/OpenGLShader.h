@@ -18,6 +18,7 @@ namespace Coco {
 		virtual void Unbind() override;
 
 		virtual const std::string& GetName() override { return m_Name; }
+		virtual const std::vector<ShaderUniform>& GetUniforms() const override { return m_Uniforms; }
 
 		virtual void SetMatrix4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void SetMatrix3(const std::string& name, const glm::mat3& matrix) override;
@@ -38,19 +39,19 @@ namespace Coco {
 		uint32_t m_ProgramId;
 		std::string m_Name;
 		std::string m_FilePath;
-		std::unordered_map<std::string, uint32_t> m_UniformCache;
 		std::unordered_map < GLenum, std:: vector<uint32_t >> m_VulkanSpirV; //Holds bytecode for each Vulkan vertex/fragment shader
 		std::unordered_map < GLenum, std:: vector<uint32_t >> m_OpenGLSpirV; //Holds bytecode for each OpenGL vertex/fragment shader
 		ShaderMap m_OpenGLSourceCode;
+		std::vector<ShaderUniform> m_Uniforms;
 
 	private:
 		int32_t GetUniformLocation(const std::string& name);
 		std::string ReadFile(const std::string& filePath);
 		ShaderMap PreProcess(const std::string& source);
-		//void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 		void CompileOrGetVulkanBinaries(const ShaderMap& shaderSources);
 		void CompileOrGetOpenGLBinaries();
 		void CreateProgram();
 		void Reflect(GLenum type, const std::vector<uint32_t>& shaderData);
+		void GetUniforms(GLenum type, const std::vector<uint32_t>& shaderData);
 	};
 }

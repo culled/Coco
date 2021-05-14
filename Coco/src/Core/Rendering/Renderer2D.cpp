@@ -12,18 +12,19 @@ namespace Coco
 
 	void Renderer2D::Init()
 	{
+		MaterialLibrary::Create("SpriteBatched", ShaderLibrary::Load("assets/shaders/SpriteBatched.glsl"));
+
 		float verts[] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f,
-			-0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		Ref<VertexBuffer> quadVBO = VertexBuffer::Create(verts, sizeof(verts));
 		quadVBO->SetLayout({ 
 			{ShaderDataType::Float3, "a_Pos"},
-			{ShaderDataType::Float4, "a_Color"},
-			{ShaderDataType::Int, "a_ID"}
+			{ShaderDataType::Float2, "a_TexCoords"}
 			});
 
 		uint32_t indicies[] = { 0, 1, 2, 2, 3, 0 };
@@ -71,41 +72,38 @@ namespace Coco
 		s_QuadBatch.QuadVertexTexCoords[2] = glm::vec2(1.0f, 1.0f);
 		s_QuadBatch.QuadVertexTexCoords[3] = glm::vec2(0.0f, 1.0f);
 
-		s_QuadBatch.QuadVertexBase = new BatchedQuadVertex[BatchedQuads::MaxVerticiesPerDrawcall];
-
 		s_QuadBatch.TextureSlots[0] = Renderer::s_WhiteTexture;
 	}
 
 	void Renderer2D::Shutdown()
 	{
-		delete[] s_QuadBatch.QuadVertexBase;
 	}
 
-	void Renderer2D::BeginBatch(const Ref<Shader>& shader)
+	void Renderer2D::BeginBatch(const Ref<Material>& material)
 	{
 		s_QuadBatch.CurrentIndexCount = 0;
-		s_QuadBatch.QuadVertexPtr = s_QuadBatch.QuadVertexBase;
-		s_QuadBatch.Shader = shader;
+		s_QuadBatch.CurrentVertexCount = 0;
+		s_QuadBatch.QuadVertexPtr = s_QuadBatch.QuadVertexBase.data();
+		s_QuadBatch.Material = material;
 	}
 
 	void Renderer2D::FlushBatch()
 	{
 		if (s_QuadBatch.CurrentIndexCount == 0) return;
 
-		uint32_t dataSize = (uint32_t)(s_QuadBatch.QuadVertexPtr - s_QuadBatch.QuadVertexBase) * sizeof(BatchedQuadVertex);
-		s_QuadBatch.VertexBuffer->SetData(s_QuadBatch.QuadVertexBase, dataSize);
+		s_QuadBatch.VertexBuffer->SetData(s_QuadBatch.QuadVertexBase.data(), s_QuadBatch.CurrentVertexCount * sizeof(BatchedQuadVertex));
 
 		for (int i = 0; i < s_QuadBatch.TextureSlotIndex; i++)
 			s_QuadBatch.TextureSlots[i]->Bind(i);
 
-		s_QuadBatch.Shader->Bind();
+		s_QuadBatch.Material->Bind();
 		s_QuadBatch.VertexArray->Bind();
 		RenderCommand::DrawIndexed(s_QuadBatch.VertexArray, s_QuadBatch.CurrentIndexCount);
 		s_QuadBatch.VertexArray->Unbind();
 
 		Renderer::s_RenderStats.DrawCalls++;
 		Renderer::s_RenderStats.IndiciesDrawn += s_QuadBatch.CurrentIndexCount;
-		Renderer::s_RenderStats.VerticiesDrawn += s_QuadBatch.CurrentIndexCount / 6 * 4;
+		Renderer::s_RenderStats.VerticiesDrawn += s_QuadBatch.CurrentVertexCount;
 	}
 
 	void Renderer2D::SubmitImmediateQuad(const Ref<Material>& material, const glm::mat4& transform)
@@ -113,12 +111,17 @@ namespace Coco
 		Renderer::SubmitImmediate(s_PrimativeData.QuadVertexArray, material, transform);
 	}
 
+	void Renderer2D::SubmitImmediateSprite(const glm::mat4& transform, uint32_t id, const Ref<Material>& material)
+	{
+		Renderer::SubmitImmediate(s_PrimativeData.QuadVertexArray, material, transform, id);
+	}
+
 	void Renderer2D::SubmitBatchedSprite(const glm::mat4& transform, uint32_t id, const Ref<Texture2D>& texture, const glm::vec4& color, const glm::vec2& tiling)
 	{
 		if (s_QuadBatch.CurrentIndexCount >= BatchedQuads::MaxIndiciesPerDrawcall)
 		{
 			FlushBatch();
-			BeginBatch(s_QuadBatch.Shader);
+			BeginBatch(s_QuadBatch.Material);
 		}
 
 		uint32_t textureSlot = 0;
@@ -139,7 +142,7 @@ namespace Coco
 				if (s_QuadBatch.TextureSlotIndex >= BatchedQuads::MaxTextureSlots)
 				{
 					FlushBatch();
-					BeginBatch(s_QuadBatch.Shader);
+					BeginBatch(s_QuadBatch.Material);
 				}
 
 				textureSlot = s_QuadBatch.TextureSlotIndex;
@@ -156,7 +159,7 @@ namespace Coco
 		if (s_QuadBatch.CurrentIndexCount >= BatchedQuads::MaxIndiciesPerDrawcall)
 		{
 			FlushBatch();
-			BeginBatch(s_QuadBatch.Shader);
+			BeginBatch(s_QuadBatch.Material);
 		}
 
 		uint32_t textureSlot = 0;
@@ -177,7 +180,7 @@ namespace Coco
 				if (s_QuadBatch.TextureSlotIndex >= BatchedQuads::MaxTextureSlots)
 				{
 					FlushBatch();
-					BeginBatch(s_QuadBatch.Shader);
+					BeginBatch(s_QuadBatch.Material);
 				}
 
 				textureSlot = s_QuadBatch.TextureSlotIndex;
@@ -201,6 +204,7 @@ namespace Coco
 			s_QuadBatch.QuadVertexPtr++;
 		}
 
+		s_QuadBatch.CurrentVertexCount += 4;
 		s_QuadBatch.CurrentIndexCount += 6;
 	}
 }
