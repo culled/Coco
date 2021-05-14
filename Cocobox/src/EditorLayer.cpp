@@ -20,13 +20,13 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
-		Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/FlatColor.glsl");
+		Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
+		Ref<Texture2D> tex = Texture2D::Create("assets/textures/HDIcon.png");
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 
-
-		/*objl::Loader Loader;
+		objl::Loader Loader;
 
 		if (Loader.LoadFile("assets/models/Simple.obj"))
 		{
@@ -49,7 +49,8 @@ namespace Coco
 				if (!MaterialLibrary::Exists(mesh.MeshMaterial.name))
 				{
 					mat = MaterialLibrary::Create(mesh.MeshMaterial.name, shader);
-					mat->SetVector4("s_Material.Color", glm::vec4(1.0f));
+					mat->SetVector4("s_Material.Tint", glm::vec4(1.0f));
+					mat->SetTexture2D("u_Texture", tex);
 				}
 				else
 				{
@@ -61,7 +62,7 @@ namespace Coco
 
 				delete[] vertices;
 			}
-		}*/
+		}
 	}
 
 	void EditorLayer::OnDetached()

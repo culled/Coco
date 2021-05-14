@@ -28,17 +28,27 @@ namespace Coco
 
 		for (const auto& prop : m_Properties)
 		{
-			switch (prop.Type)
+			if (prop.Value.has_value())
 			{
-			case ShaderDataType::Int: m_Shader->SetInt(prop.Name, std::any_cast<int>(prop.Value)); break;
+				switch (prop.Type)
+				{
+				case ShaderDataType::Int: m_Shader->SetInt(prop.Name, std::any_cast<int>(prop.Value)); break;
 
-			case ShaderDataType::Float: m_Shader->SetFloat(prop.Name, std::any_cast<float>(prop.Value)); break;
-			case ShaderDataType::Float2: m_Shader->SetVector2(prop.Name, std::any_cast<glm::vec2>(prop.Value)); break;
-			case ShaderDataType::Float3: m_Shader->SetVector3(prop.Name, std::any_cast<glm::vec3>(prop.Value)); break;
-			case ShaderDataType::Float4: m_Shader->SetVector4(prop.Name, std::any_cast<glm::vec4>(prop.Value)); break;
+				case ShaderDataType::Float: m_Shader->SetFloat(prop.Name, std::any_cast<float>(prop.Value)); break;
+				case ShaderDataType::Float2: m_Shader->SetVector2(prop.Name, std::any_cast<glm::vec2>(prop.Value)); break;
+				case ShaderDataType::Float3: m_Shader->SetVector3(prop.Name, std::any_cast<glm::vec3>(prop.Value)); break;
+				case ShaderDataType::Float4: m_Shader->SetVector4(prop.Name, std::any_cast<glm::vec4>(prop.Value)); break;
 
-			case ShaderDataType::Mat3: m_Shader->SetMatrix3(prop.Name, std::any_cast<glm::mat3>(prop.Value)); break;
-			case ShaderDataType::Mat4: m_Shader->SetMatrix4(prop.Name, std::any_cast<glm::mat4>(prop.Value)); break;
+				case ShaderDataType::Mat3: m_Shader->SetMatrix3(prop.Name, std::any_cast<glm::mat3>(prop.Value)); break;
+				case ShaderDataType::Mat4: m_Shader->SetMatrix4(prop.Name, std::any_cast<glm::mat4>(prop.Value)); break;
+
+				case ShaderDataType::Sampler2D:
+					auto& texture = std::any_cast<Ref<Texture2D>>(prop.Value);
+
+					if (texture)
+						texture->Bind(prop.Location);
+					break;
+				}
 			}
 		}
 	}
@@ -80,6 +90,12 @@ namespace Coco
 	}
 
 	void Material::SetMatrix4(const std::string& name, const glm::mat4& value)
+	{
+		auto& prop = GetProperty(name);
+		prop.Value = value;
+	}
+
+	void Material::SetTexture2D(const std::string& name, const Ref<Texture2D>& value)
 	{
 		auto& prop = GetProperty(name);
 		prop.Value = value;

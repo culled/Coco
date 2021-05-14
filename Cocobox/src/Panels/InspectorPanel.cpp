@@ -273,12 +273,47 @@ namespace Coco
 
 		for (auto& prop : material->GetProperties())
 		{
+			ImGui::Text(prop.Name.c_str());
+			std::string sId = "##" + prop.Name;
+
 			switch (prop.Type)
 			{
 			case ShaderDataType::Float4:
-				glm::vec4 v = std::any_cast<glm::vec4>(prop.Value);
-				ImGui::ColorEdit4(prop.Name.c_str(), glm::value_ptr(v));
+				glm::vec4 v = std::any_cast<glm::vec4>(prop.Value);		
+				ImGui::ColorEdit4(sId.c_str(), glm::value_ptr(v));
 				prop.Value = v;
+				break;
+			case ShaderDataType::Sampler2D:
+				bool selectTexture = false;
+				if (prop.Value.has_value())
+				{
+					Ref<Texture2D> tex = std::any_cast<Ref<Texture2D>>(prop.Value);
+
+					if (tex)
+					{
+						if (ImGui::ImageButton((ImTextureID)tex->GetID(), ImVec2(64, 64), ImVec2(0, 1), ImVec2(1, 0)))
+						{
+							selectTexture = true;
+						}
+					}
+					else
+					{
+						if (ImGui::Button(sId.c_str(), ImVec2(64, 64)))
+						{
+							selectTexture = true;
+						}
+					}
+				}
+				else
+				{
+					if (ImGui::Button(sId.c_str(), ImVec2(64, 64)))
+					{
+						selectTexture = true;
+					}
+				}
+
+				if(selectTexture)
+					//TODO
 				break;
 			}
 		}

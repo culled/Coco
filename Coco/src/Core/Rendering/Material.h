@@ -2,6 +2,7 @@
 #include "Core/Base.h"
 
 #include "Shader.h"
+#include "Textures.h"
 #include <any>
 
 namespace Coco
@@ -54,6 +55,8 @@ namespace Coco
 
 		void SetMatrix3(const std::string& name, const glm::mat3& value);
 		void SetMatrix4(const std::string& name, const glm::mat4& value);
+
+		void SetTexture2D(const std::string& name, const Ref<Texture2D>& value);
 
 		bool operator ==(const Material& other);
 

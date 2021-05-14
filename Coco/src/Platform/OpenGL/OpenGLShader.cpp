@@ -504,7 +504,8 @@ namespace Coco {
 		auto active = compiler.get_active_interface_variables();
 		spirv_cross::ShaderResources resources = compiler.get_shader_resources(active);
 
-		LOG_CORE_TRACE("Shader \"{0}\": {1} push constants:", m_Name, resources.push_constant_buffers.size());
+		LOG_CORE_TRACE("Shader \"{0}\":", m_Name);
+		LOG_CORE_TRACE(" - {0} push constants:", resources.push_constant_buffers.size());
 
 		for (const auto& constant : resources.push_constant_buffers)
 		{
@@ -520,6 +521,7 @@ namespace Coco {
 				LOG_CORE_TRACE("			- {0}:", memberName);
 
 				ShaderDataType uniformType = ShaderDataType::None;
+				uint32_t location = 0;
 
 				const auto& type = compiler.get_type(bufferType.member_types[i]);
 
@@ -586,6 +588,17 @@ namespace Coco {
 
 				m_Uniforms.emplace_back(memberName, uniformType, GetUniformLocation(memberName));
 			}
+		}
+
+		LOG_CORE_TRACE(" - {0} samplers:", resources.sampled_images.size());
+
+		for (const auto& sampler : resources.sampled_images)
+		{
+			std::string memberName = sampler.name;
+			auto location = compiler.get_decoration(sampler.id, spv::Decoration::DecorationBinding);
+			LOG_CORE_TRACE("	- {0} at {1}", sampler.name, location);
+
+			m_Uniforms.emplace_back(memberName, ShaderDataType::Sampler2D, location);
 		}
 	}
 #pragma endregion
