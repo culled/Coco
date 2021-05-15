@@ -401,7 +401,7 @@ namespace Coco {
 		for (auto&& [type, spirV] : m_OpenGLSpirV)
 		{
 			GLuint shaderId = shaderIds.emplace_back(glCreateShader(type));
-			glShaderBinary(1, &shaderId, GL_SHADER_BINARY_FORMAT_SPIR_V, spirV.data(), spirV.size() * sizeof(uint32_t));
+			glShaderBinary(1, &shaderId, GL_SHADER_BINARY_FORMAT_SPIR_V, spirV.data(), (GLsizei)(spirV.size() * sizeof(uint32_t)));
 			glSpecializeShader(shaderId, "main", 0, nullptr, nullptr);
 			glAttachShader(program, shaderId);
 		}
@@ -460,19 +460,19 @@ namespace Coco {
 		for (const auto& buffer : resources.uniform_buffers)
 		{
 			const auto& bufferType = compiler.get_type(buffer.base_type_id);
-			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
+			size_t bufferSize = compiler.get_declared_struct_size(bufferType);
 			uint32_t bindingLocation = compiler.get_decoration(buffer.id, spv::DecorationBinding);
 
-			int memberCount = bufferType.member_types.size();
+			size_t memberCount = bufferType.member_types.size();
 
 			LOG_CORE_TRACE("		- {0}:", buffer.name);
 			LOG_CORE_TRACE("			- Size = {0}", bufferSize);
 			LOG_CORE_TRACE("			- Location = {0}", bindingLocation);
 			LOG_CORE_TRACE("			- Members = {0}:", memberCount);
 
-			for (int i = 0; i < memberCount; i++)
+			for (size_t i = 0; i < memberCount; i++)
 			{
-				LOG_CORE_TRACE("				- {0}", compiler.get_member_name(bufferType.self, i));
+				LOG_CORE_TRACE("				- {0}", compiler.get_member_name(bufferType.self, (uint32_t)i));
 			}
 		}
 
@@ -481,18 +481,18 @@ namespace Coco {
 		for (const auto& constant : resources.push_constant_buffers)
 		{
 			const auto& bufferType = compiler.get_type(constant.base_type_id);
-			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
+			size_t bufferSize = compiler.get_declared_struct_size(bufferType);
 			uint32_t bindingLocation = compiler.get_decoration(constant.id, spv::DecorationLocation);
-			int memberCount = bufferType.member_types.size();
+			size_t memberCount = bufferType.member_types.size();
 
 			LOG_CORE_TRACE("		- {0}:", constant.name);
 			LOG_CORE_TRACE("			- Size = {0}", bufferSize);
 			LOG_CORE_TRACE("			- Location = {0}", bindingLocation);
 			LOG_CORE_TRACE("			- Members = {0}:", memberCount);
 
-			for (int i = 0; i < memberCount; i++)
+			for (size_t i = 0; i < memberCount; i++)
 			{
-				LOG_CORE_TRACE("				- {0}:", compiler.get_member_name(bufferType.self, i));
+				LOG_CORE_TRACE("				- {0}:", compiler.get_member_name(bufferType.self, (uint32_t)i));
 				LOG_CORE_TRACE("					- Type = {0}", compiler.get_type(bufferType.member_types[i]).self);
 			}
 		}
@@ -510,14 +510,14 @@ namespace Coco {
 		for (const auto& constant : resources.push_constant_buffers)
 		{
 			const auto& bufferType = compiler.get_type(constant.base_type_id);
-			int memberCount = bufferType.member_types.size();
+			size_t memberCount = bufferType.member_types.size();
 
 			LOG_CORE_TRACE("	- {0}:", constant.name);
 			LOG_CORE_TRACE("		- {0} Members:", memberCount);
 
-			for (int i = 0; i < memberCount; i++)
+			for (size_t i = 0; i < memberCount; i++)
 			{
-				std::string memberName = constant.name + "." + compiler.get_member_name(bufferType.self, i);
+				std::string memberName = constant.name + "." + compiler.get_member_name(bufferType.self, (uint32_t)i);
 				LOG_CORE_TRACE("			- {0}:", memberName);
 
 				ShaderDataType uniformType = ShaderDataType::None;

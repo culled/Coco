@@ -20,13 +20,13 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
-		Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
-		Ref<Texture2D> tex = Texture2D::Create("assets/textures/HDIcon.png");
+		//Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
+		//Ref<Texture2D> tex = Texture2D::Create("assets/textures/HDIcon.png");
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
 
-		objl::Loader Loader;
+		/*objl::Loader Loader;
 
 		if (Loader.LoadFile("assets/models/Simple.obj"))
 		{
@@ -62,7 +62,7 @@ namespace Coco
 
 				delete[] vertices;
 			}
-		}
+		}*/
 	}
 
 	void EditorLayer::OnDetached()

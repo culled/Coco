@@ -161,21 +161,21 @@ namespace Coco
 		virtual void Unbind() const = 0;
 
 		virtual void CopyTo(const Ref<VertexBuffer>& destination, uint32_t offset) = 0;
-		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0) = 0;
-		virtual void Resize(const float* verticies, uint32_t size) = 0;
+		virtual void SetData(const void* data, size_t size, uint32_t offset = 0) = 0;
+		virtual void Resize(const float* verticies, size_t size) = 0;
 
 		virtual void SetLayout(const VertexBufferLayout& layout) = 0;
 		virtual const VertexBufferLayout& GetLayout() = 0;
-		virtual uint32_t GetVertexCount() const = 0;
+		virtual size_t GetVertexCount() const = 0;
 		virtual uint32_t GetID() const = 0;
-		virtual uint32_t GetSize() const = 0;
+		virtual size_t GetSize() const = 0;
 
 		/*@brief Creates a vertex buffer for the given array of verticies
 		* 		@param verticies - An array of vertex attribute values
 		* 		@param size - The size (in bytes) of the verticies array
 		*/
-		static Ref<VertexBuffer> Create(float* verticies, uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
-		static Ref<VertexBuffer> Create(uint32_t size, BufferUpdateType type = BufferUpdateType::Static);
+		static Ref<VertexBuffer> Create(float* verticies, size_t size, BufferUpdateType type = BufferUpdateType::Static);
+		static Ref<VertexBuffer> Create(size_t size, BufferUpdateType type = BufferUpdateType::Static);
 	};
 
 	class COCO_API IndexBuffer
@@ -192,16 +192,16 @@ namespace Coco
 		/*@brief Gets the number of indicies in this buffer
 		* 		@returns The number of indicies in this buffer
 		*/
-		virtual uint32_t GetCount() const = 0;
+		virtual size_t GetCount() const = 0;
 
-		virtual void SetData(const uint32_t* indicies, uint32_t count) = 0;
-		virtual void Resize(const uint32_t* indicies, uint32_t count) = 0;
+		virtual void SetData(const uint32_t* indicies, size_t count) = 0;
+		virtual void Resize(const uint32_t* indicies, size_t count) = 0;
 
 		/*@brief Creates an index layout for the given array of indicies
 		* 		@param indicies - An array of indicies
 		* 		@param count - The number of indicies given
 		*/
-		static Ref<IndexBuffer> Create(uint32_t * indicies, uint32_t count, BufferUpdateType type = BufferUpdateType::Static);
+		static Ref<IndexBuffer> Create(uint32_t * indicies, size_t count, BufferUpdateType type = BufferUpdateType::Static);
 	};
 
 	class COCO_API UniformBuffer
@@ -209,10 +209,10 @@ namespace Coco
 	public:
 		virtual ~UniformBuffer() = default;
 
-		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0) = 0;
+		virtual void SetData(const void* data, size_t size, uint32_t offset = 0) = 0;
 		virtual uint32_t GetID() const = 0;
 
-		static Ref<UniformBuffer> Create(uint32_t size, uint32_t binding, BufferUpdateType type = BufferUpdateType::Static);
+		static Ref<UniformBuffer> Create(size_t size, uint32_t binding, BufferUpdateType type = BufferUpdateType::Static);
 	};
 }
 

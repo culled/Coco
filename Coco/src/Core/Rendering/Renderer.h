@@ -12,13 +12,13 @@ namespace Coco
 {
 	struct COCO_API ShaderSceneData
 	{
-		glm::mat4 ViewProjectionMatrix;
+		glm::mat4 ViewProjectionMatrix = glm::mat4(1.0f);
 	};
 
 	struct COCO_API ShaderModelData
 	{
-		glm::mat4 ModelMatrix;
-		float ID;
+		glm::mat4 ModelMatrix = glm::mat4(1.0f);
+		float ID = -1.0f;
 	};
 
 	struct COCO_API SceneData
@@ -40,10 +40,10 @@ namespace Coco
 
 	struct COCO_API BatchRenderData
 	{
-		static const uint32_t MaxTrianglesPerDrawcall = 10000;
-		static const uint32_t MaxVerticiesPerDrawcall = MaxTrianglesPerDrawcall * 3;
-		static const uint32_t MaxIndiciesPerDrawcall = MaxTrianglesPerDrawcall * 3;
-		static const uint32_t MaxTextureSlots = 32; //TODO: render capabilities
+		static const size_t MaxTrianglesPerDrawcall = 10000;
+		static const size_t MaxVerticiesPerDrawcall = MaxTrianglesPerDrawcall * 3;
+		static const size_t MaxIndiciesPerDrawcall = MaxTrianglesPerDrawcall * 3;
+		static const size_t MaxTextureSlots = 32; //TODO: render capabilities
 
 		Ref<VertexBuffer> VertexBuffer = nullptr;
 		Ref<IndexBuffer> IndexBuffer = nullptr;
@@ -51,22 +51,22 @@ namespace Coco
 
 		std::array<BatchedVertex, MaxVerticiesPerDrawcall> VertexBase;
 		BatchedVertex* VertexPtr = nullptr;
-		uint32_t CurrentVertexCount = 0;
+		size_t CurrentVertexCount = 0;
 
 		std::array<uint32_t, MaxIndiciesPerDrawcall> Indicies;
-		uint32_t CurrentIndexCount = 0;
+		size_t CurrentIndexCount = 0;
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
-		uint32_t TextureSlotIndex = 1; //0 = white texture
+		size_t TextureSlotIndex = 1; //0 = white texture
 
 		Ref<Material> Material;
 	};
 
 	struct COCO_API RenderStats
 	{
-		uint32_t VerticiesDrawn = 0;
-		uint32_t IndiciesDrawn = 0;
-		uint32_t DrawCalls = 0;
+		size_t VerticiesDrawn = 0;
+		size_t IndiciesDrawn = 0;
+		size_t DrawCalls = 0;
 
 		void StartTimer()
 		{

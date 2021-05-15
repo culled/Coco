@@ -19,7 +19,7 @@ namespace Coco
 		inline virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const { return m_VertexBuffers; }
 		inline virtual const Ref<IndexBuffer>& GetIndexBuffer() const { return m_IndexBuffer; }
 
-		virtual uint32_t GetVertexCount() const override;
+		virtual size_t GetVertexCount() const override;
 
 	private:
 		uint32_t m_Id;

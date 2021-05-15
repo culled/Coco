@@ -16,7 +16,7 @@ namespace Coco
 		m_VAO = VertexArray::Create(m_VBO, m_IBO);
 	}
 
-	MeshData::MeshData(const MeshVertexData* vertices, uint32_t vertexCount, const uint32_t* indicies, uint32_t indexCount, bool dynamic) :
+	MeshData::MeshData(const MeshVertexData* vertices, size_t vertexCount, const uint32_t* indicies, size_t indexCount, bool dynamic) :
 		MeshData(dynamic)
 	{
 		SetVertices(vertices, vertexCount);
@@ -24,13 +24,13 @@ namespace Coco
 		Apply();
 	}
 
-	void MeshData::SetVertices(const MeshVertexData* vertices, uint32_t count)
+	void MeshData::SetVertices(const MeshVertexData* vertices, size_t count)
 	{
 		m_Vertices.resize(count);
 		std::copy(vertices, vertices + count, m_Vertices.begin());
 	}
 
-	void MeshData::SetIndicies(const uint32_t* indicies, uint32_t count)
+	void MeshData::SetIndicies(const uint32_t* indicies, size_t count)
 	{
 		m_Indicies.resize(count);
 		std::copy(indicies, indicies + count, m_Indicies.begin());

@@ -24,10 +24,10 @@ namespace Coco
 
 		struct COCO_API BatchedQuads
 		{
-			static const uint32_t MaxQuadsPerDrawcall = 10000;
-			static const uint32_t MaxVerticiesPerDrawcall = MaxQuadsPerDrawcall * 4;
-			static const uint32_t MaxIndiciesPerDrawcall = MaxQuadsPerDrawcall * 6;
-			static const uint32_t MaxTextureSlots = 32; //TODO: render capabilities
+			static const size_t MaxQuadsPerDrawcall = 10000;
+			static const size_t MaxVerticiesPerDrawcall = MaxQuadsPerDrawcall * 4;
+			static const size_t MaxIndiciesPerDrawcall = MaxQuadsPerDrawcall * 6;
+			static const size_t MaxTextureSlots = 32; //TODO: render capabilities
 
 			Ref<VertexBuffer> VertexBuffer = nullptr;
 			Ref<VertexArray> VertexArray = nullptr;
@@ -35,8 +35,8 @@ namespace Coco
 			std::array<BatchedQuadVertex, MaxVerticiesPerDrawcall> QuadVertexBase;
 			BatchedQuadVertex* QuadVertexPtr = nullptr;
 
-			uint32_t CurrentVertexCount = 0;
-			uint32_t CurrentIndexCount = 0;
+			size_t CurrentVertexCount = 0;
+			size_t CurrentIndexCount = 0;
 
 			std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 			uint32_t TextureSlotIndex = 1; //0 = white texture

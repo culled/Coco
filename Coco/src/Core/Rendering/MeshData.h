@@ -17,16 +17,16 @@ namespace Coco
 		};
 
 		MeshData(bool dynamic = false);
-		MeshData(const MeshVertexData* vertices, uint32_t vertexCount, const uint32_t* indicies, uint32_t indexCount, bool dynamic = false);
+		MeshData(const MeshVertexData* vertices, size_t vertexCount, const uint32_t* indicies, size_t indexCount, bool dynamic = false);
 		virtual ~MeshData() = default;
 
-		void SetVertices(const MeshVertexData* vertices, uint32_t count);
-		uint32_t GetVertexCount() { return m_Vertices.size(); }
-		const MeshVertexData& GetVertex(uint32_t index) const { return m_Vertices[index]; }
+		void SetVertices(const MeshVertexData* vertices, size_t count);
+		size_t GetVertexCount() { return m_Vertices.size(); }
+		const MeshVertexData& GetVertex(size_t index) const { return m_Vertices[index]; }
 
-		void SetIndicies(const uint32_t* indicies, uint32_t count);
-		uint32_t GetIndexCount() { return m_Indicies.size(); }
-		uint32_t GetIndex(uint32_t index) { return m_Indicies[index]; }
+		void SetIndicies(const uint32_t* indicies, size_t count);
+		size_t GetIndexCount() { return m_Indicies.size(); }
+		uint32_t GetIndex(size_t index) { return m_Indicies[index]; }
 
 		Ref<VertexArray> GetVAO() { return m_VAO; }
 		const Ref<VertexArray>& GetVAO() const { return m_VAO; }
@@ -44,4 +44,3 @@ namespace Coco
 		Ref<IndexBuffer> m_IBO;
 	};
 }
-

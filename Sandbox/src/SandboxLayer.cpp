@@ -14,7 +14,7 @@ void SandboxLayer::OnAttached()
 
 	m_Shader = Shader::CreateFromFile("assets/shaders/FlatColor.glsl");
 
-	Ref<Material> mat = CreateRef<Material>(m_Shader);
+	Ref<Material> mat = CreateRef<Material>("Flat Color", m_Shader);
 	mat->SetVector4("u_Color", glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
 
 	m_ActiveScene = CreateRef<Scene>();

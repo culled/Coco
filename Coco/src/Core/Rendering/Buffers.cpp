@@ -21,7 +21,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region VertexBuffer
-	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size, BufferUpdateType type)
+	Ref<VertexBuffer> VertexBuffer::Create(size_t size, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -36,7 +36,7 @@ namespace Coco
 		return nullptr;
 	}
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, uint32_t size, BufferUpdateType type)
+	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, size_t size, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -53,7 +53,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region IndexBuffer
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t count, BufferUpdateType type)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, size_t count, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -69,7 +69,7 @@ namespace Coco
 	}
 #pragma endregion
 
-	Ref<UniformBuffer> UniformBuffer::Create(uint32_t size, uint32_t binding, BufferUpdateType type)
+	Ref<UniformBuffer> UniformBuffer::Create(size_t size, uint32_t binding, BufferUpdateType type)
 	{
 		switch (RendererAPI::GetAPI())
 		{

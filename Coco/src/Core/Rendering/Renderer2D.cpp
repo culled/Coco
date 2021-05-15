@@ -44,7 +44,7 @@ namespace Coco
 		uint32_t* batchIndicies = new uint32_t[BatchedQuads::MaxIndiciesPerDrawcall];
 
 		uint32_t offset = 0;
-		for (uint32_t i = 0; i < BatchedQuads::MaxIndiciesPerDrawcall; i += 6)
+		for (size_t i = 0; i < BatchedQuads::MaxIndiciesPerDrawcall; i += 6)
 		{
 			batchIndicies[i + 0] = offset + 0;
 			batchIndicies[i + 1] = offset + 1;
@@ -93,7 +93,7 @@ namespace Coco
 
 		s_QuadBatch.VertexBuffer->SetData(s_QuadBatch.QuadVertexBase.data(), s_QuadBatch.CurrentVertexCount * sizeof(BatchedQuadVertex));
 
-		for (int i = 0; i < s_QuadBatch.TextureSlotIndex; i++)
+		for (uint32_t i = 0; i < s_QuadBatch.TextureSlotIndex; i++)
 			s_QuadBatch.TextureSlots[i]->Bind(i);
 
 		s_QuadBatch.Material->Bind();
@@ -198,7 +198,7 @@ namespace Coco
 		{
 			s_QuadBatch.QuadVertexPtr->Position = transform * s_QuadBatch.QuadVertexPositions[i];
 			s_QuadBatch.QuadVertexPtr->TexCoord = s_QuadBatch.QuadVertexTexCoords[i] * tiling;
-			s_QuadBatch.QuadVertexPtr->ID = id;
+			s_QuadBatch.QuadVertexPtr->ID = (float)id;
 			s_QuadBatch.QuadVertexPtr->Color = color;
 			s_QuadBatch.QuadVertexPtr->TexID = (float)texIndex;
 			s_QuadBatch.QuadVertexPtr++;

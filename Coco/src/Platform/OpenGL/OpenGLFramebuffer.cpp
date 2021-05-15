@@ -199,7 +199,7 @@ namespace Coco
 
 		if (!buffers.empty())
 		{
-			glDrawBuffers(buffers.size(), buffers.data());
+			glDrawBuffers((GLsizei)buffers.size(), buffers.data());
 		}
 		else
 		{

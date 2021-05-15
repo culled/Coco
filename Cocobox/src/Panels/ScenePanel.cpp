@@ -64,8 +64,8 @@ namespace Coco
 		if (m_ViewportHovered)
 		{
 			auto [mx, my] = ImGui::GetMousePos();
-			int mouseX = ((int)mx - m_ViewportBounds[0].x);
-			int mouseY = ((int)(m_ViewportSize.y - (my - m_ViewportBounds[0].y)));
+			int mouseX = (int)(mx - m_ViewportBounds[0].x);
+			int mouseY = (int)((m_ViewportSize.y - (my - m_ViewportBounds[0].y)));
 
 			int pixel = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 
@@ -129,9 +129,10 @@ namespace Coco
 			{
 				glm::vec3 finalRotation;
 
-				Math::DecomposeTransform(transform, transformComponent.Position, finalRotation, transformComponent.Scale);
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(transform), glm::value_ptr(transformComponent.Position),
+					glm::value_ptr(finalRotation), glm::value_ptr(transformComponent.Scale));
 
-				glm::vec3 deltaRotation = finalRotation - transformComponent.Rotation;
+				glm::vec3 deltaRotation = glm::radians(finalRotation) - transformComponent.Rotation;
 				transformComponent.Rotation += deltaRotation;
 			}
 

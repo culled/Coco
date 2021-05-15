@@ -145,6 +145,8 @@
     <ClInclude Include="src\Core\App\Entrypoint.h" />
     <ClInclude Include="src\Core\App\Log.h" />
     <ClInclude Include="src\Core\App\Window.h" />
+    <ClInclude Include="src\Core\Assets\Asset.h" />
+    <ClInclude Include="src\Core\Assets\AssetManager.h" />
     <ClInclude Include="src\Core\Base.h" />
     <ClInclude Include="src\Core\Components\Components.h" />
     <ClInclude Include="src\Core\Components\RenderingComponents.h" />

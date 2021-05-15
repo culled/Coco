@@ -30,11 +30,11 @@ namespace Coco
 
 		//Update cameras
 		{
-			auto cameraGroup = m_Registry.group<TransformComponent, CameraComponent>();
+			auto cameraView = m_Registry.view<TransformComponent, CameraComponent>();
 
-			for (auto camEntity : cameraGroup)
+			for (auto camEntity : cameraView)
 			{
-				auto [transformComponent, camComponent] = cameraGroup.get(camEntity);
+				auto [transformComponent, camComponent] = cameraView.get(camEntity);
 				DrawForCamera(camComponent.Camera, transformComponent);
 			}
 		}
@@ -42,25 +42,23 @@ namespace Coco
 
 	void Scene::DrawForCamera(const Camera& camera, const glm::mat4& cameraTransform)
 	{
-		auto spriteView = m_Registry.view<SpriteRendererComponent>();
+		auto spriteView = m_Registry.view<TransformComponent, SpriteRendererComponent>();
 		Renderer::BeginScene(camera, cameraTransform);
-		Renderer2D::BeginBatch(MaterialLibrary::Get("SpriteBatched"));
 
 		for (auto entity : spriteView)
 		{
-			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
+			auto [transform, rendererComponent] = spriteView.get(entity);
 
-			Renderer2D::SubmitBatchedSprite(transform, (uint32_t)entity, nullptr, rendererComponent.Color);
+			Renderer2D::SubmitImmediateSprite(transform, (uint32_t)entity, rendererComponent.RenderMaterial);
 		}
 
-		Renderer2D::FlushBatch();
-
-		auto meshView = m_Registry.view<MeshRendererComponent>();
+		auto meshView = m_Registry.view<TransformComponent, MeshRendererComponent>();
 		for (auto entity : meshView)
 		{
-			auto [transform, rendererComponent] = m_Registry.get<TransformComponent, MeshRendererComponent>(entity);
+			auto [transform, rendererComponent] = meshView.get(entity);
 
-			Renderer::SubmitMeshImmediate(rendererComponent.Data, rendererComponent.RenderMaterial, transform, (uint32_t)entity);
+			if(rendererComponent.Data)
+				Renderer::SubmitMeshImmediate(rendererComponent.Data, rendererComponent.RenderMaterial, transform, (uint32_t)entity);
 		}
 
 		Renderer::EndScene();

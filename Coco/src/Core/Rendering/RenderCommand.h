@@ -33,7 +33,7 @@ namespace Coco
 			RendererAPI::s_CurrentAPI->SetClearColor(color);
 		}
 
-		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, size_t indexCount = 0)
 		{
 			RendererAPI::s_CurrentAPI->DrawIndexed(vertexArray, indexCount);
 		}

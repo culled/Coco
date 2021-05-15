@@ -15,10 +15,11 @@ namespace Coco
 		}
 
 		ASSERT_CORE(false, "Invalid update type");
+		return GL_FALSE;
 	}
 
 #pragma region VertexBuffer
-	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size, BufferUpdateType type) :
+	OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size, BufferUpdateType type) :
 		m_Size(size), m_Type(type)
 	{
 		glCreateBuffers(1, &m_Id);
@@ -27,7 +28,7 @@ namespace Coco
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, uint32_t size, BufferUpdateType type) :
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* verticies, size_t size, BufferUpdateType type) :
 		m_Size(size), m_Type(type)
 	{
 		glCreateBuffers(1, &m_Id);
@@ -60,7 +61,7 @@ namespace Coco
 		glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
 	}
 
-	void OpenGLVertexBuffer::Resize(const float* verticies, uint32_t size)
+	void OpenGLVertexBuffer::Resize(const float* verticies, size_t size)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
 		glBufferData(GL_ARRAY_BUFFER, size, verticies, GetUpdateType(m_Type));
@@ -69,7 +70,7 @@ namespace Coco
 		m_Size = size;
 	}
 
-	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
+	void OpenGLVertexBuffer::SetData(const void* data, size_t size, uint32_t offset)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_Id);
 		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
@@ -78,7 +79,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region IndexBuffer
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indicies, uint32_t count, BufferUpdateType type)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indicies, size_t count, BufferUpdateType type)
 		: m_Count(count), m_Type(type)
 	{
 		glCreateBuffers(1, &m_Id);
@@ -102,14 +103,14 @@ namespace Coco
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLIndexBuffer::SetData(const uint32_t* indicies, uint32_t count)
+	void OpenGLIndexBuffer::SetData(const uint32_t* indicies, size_t count)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Id);
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indicies);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLIndexBuffer::Resize(const uint32_t* indicies, uint32_t count)
+	void OpenGLIndexBuffer::Resize(const uint32_t* indicies, size_t count)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Id);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indicies, GetUpdateType(m_Type));
@@ -120,7 +121,7 @@ namespace Coco
 #pragma endregion
 
 #pragma region UniformBuffer
-	OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t size, uint32_t binding, BufferUpdateType type)
+	OpenGLUniformBuffer::OpenGLUniformBuffer(size_t size, uint32_t binding, BufferUpdateType type)
 	{
 		glCreateBuffers(1, &m_Id);
 		glNamedBufferData(m_Id, size, nullptr, GetUpdateType(type));
@@ -132,7 +133,7 @@ namespace Coco
 		glDeleteBuffers(1, &m_Id);
 	}
 
-	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
+	void OpenGLUniformBuffer::SetData(const void* data, size_t size, uint32_t offset)
 	{
 		glNamedBufferSubData(m_Id, offset, size, data);
 	}

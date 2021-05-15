@@ -80,9 +80,9 @@ namespace Coco {
 		glBindVertexArray(0);
 	}
 
-	uint32_t OpenGLVertexArray::GetVertexCount() const
+	size_t OpenGLVertexArray::GetVertexCount() const
 	{
-		uint32_t count = 0;
+		size_t count = 0;
 
 		for (auto& buffer : m_VertexBuffers)
 		{

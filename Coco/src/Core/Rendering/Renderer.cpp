@@ -114,12 +114,12 @@ namespace Coco
 			BeginBatch(s_BatchData.Material);
 		}
 
-		for (uint32_t i = 0; i < meshData->GetVertexCount(); i++)
+		for (size_t i = 0; i < meshData->GetVertexCount(); i++)
 		{
 			const auto& vertex = meshData->GetVertex(i);
 			s_BatchData.VertexPtr->Position = transform * glm::vec4(vertex.Position, 1.0f);
 			s_BatchData.VertexPtr->TexCoord = vertex.TexCoords;
-			s_BatchData.VertexPtr->ID = ID;
+			s_BatchData.VertexPtr->ID = (float)ID;
 			s_BatchData.VertexPtr->Color = glm::vec4(0.8f, 0.1f, 0.2f, 1.0f);
 			s_BatchData.VertexPtr->TexID = 0.0f;
 			s_BatchData.VertexPtr++;
@@ -152,7 +152,7 @@ namespace Coco
 	{
 		if (s_BatchData.CurrentIndexCount == 0) return;
 
-		uint32_t dataSize = s_BatchData.CurrentVertexCount * sizeof(BatchedVertex);
+		size_t dataSize = s_BatchData.CurrentVertexCount * sizeof(BatchedVertex);
 		s_BatchData.VertexBuffer->SetData(s_BatchData.VertexBase.data(), dataSize);
 		s_BatchData.IndexBuffer->SetData(s_BatchData.Indicies.data(), s_BatchData.CurrentIndexCount);
 
