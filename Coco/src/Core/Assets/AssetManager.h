@@ -10,15 +10,15 @@ namespace Coco
 	class COCO_API AssetFactory
 	{
 	public:
-		template <typename T>
-		AssetFactory(const std::function<Ref<T>>& func) :
+		AssetFactory() = default;
+		AssetFactory(const std::function<void*(std::string)>& func) :
 			m_Func(func)
 		{}
 
 		template <typename T>
-		Ref<T> Create(const std::string& filePath)
+		T* Create(const std::string& filePath)
 		{
-			return static_cast<Ref<T>>(m_Func(filePath));
+			return static_cast<T*>(m_Func(filePath));
 		}
 
 	private:
@@ -40,7 +40,7 @@ namespace Coco
 				return static_cast<AssetResource<T>*>(it->second.get())->GetResource();
 			}
 
-			size_t type = type_info(T).hash_code();
+			size_t type = typeid(T).hash_code();
 
 			if (m_AssetFactories.find(type) == m_AssetFactories.end())
 			{
@@ -48,24 +48,17 @@ namespace Coco
 				return nullptr;
 			}
 
-			m_Assets[filePath] = CreateScope<AssetResource<T>>(filePath, filePath, m_AssetFactories[type].Create<T>(filePath));
-			return static_cast<AssetResource<T>*>(m_Assets[filePath]->second.get())->GetResource();
+			T* asset = m_AssetFactories[type].Create<T>(filePath);
+			m_Assets[filePath] = CreateScope<AssetResource<T>>(filePath, filePath, asset);
+			return static_cast<AssetResource<T>*>(m_Assets[filePath].get())->GetResource();
 		}
 
-		void ReleaseAll()
-		{
-			AssetMap::iterator it = m_Assets.begin();
-
-			while (it != m_Assets.end())
-			{
-				it = m_Assets.erase(it);
-			}
-		}
+		void ReleaseAll();
 
 		template<typename T, typename ...Args>
-		void RegisterFactory(const std::function<Ref<T>(std::string)>& func)
+		void RegisterFactory(const std::function<T*(std::string)>& func)
 		{
-			size_t type = type_info(T).hash_code();
+			size_t type = typeid(T).hash_code();
 
 			if (m_AssetFactories.find(type) != m_AssetFactories.end())
 			{
@@ -73,7 +66,20 @@ namespace Coco
 				return;
 			}
 
-			m_AssetFactories.try_emplace(type, AssetFactory(func));
+			m_AssetFactories[type] = AssetFactory(func);
+		}
+
+		template<typename T>
+		void Reload(const std::string& filePath)
+		{
+			size_t type = typeid(T).hash_code();
+			AssetMap::iterator it = m_Assets.find(filePath);
+
+			if (it != m_Assets.end())
+			{
+				AssetResource<T>* asset = static_cast<AssetResource<T>*>(it->second.get());
+				asset->SetData(m_AssetFactories[type].Create<T>(filePath));
+			}
 		}
 
 	private:

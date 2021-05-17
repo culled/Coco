@@ -1603,5 +1603,6 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Assets\AssetManager.cpp" />
   </ItemGroup>
 </Project>

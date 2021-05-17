@@ -9,7 +9,7 @@
 
 namespace Coco
 {
-	const char* EditorLayer::s_SceneFileFilter = "Cocobox Scene (*.cocoscene)\0*.cocoscene\0";
+	const char* EditorLayer::s_SceneFileFilter = "Cocobox Scene (*.cbscn)\0*.cbscn\0";
 
 	EditorLayer::EditorLayer() : Layer("Coco Editor") {}
 
@@ -20,11 +20,14 @@ namespace Coco
 		m_SceneHierarchy.SetContext(m_ActiveScene);
 		m_ScenePanel.SetContext(m_ActiveScene);
 
-		//Ref<Shader> shader = ShaderLibrary::Load("assets/shaders/Texture.glsl");
-		//Ref<Texture2D> tex = Texture2D::Create("assets/textures/HDIcon.png");
-
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Roboto/Roboto-Regular.ttf", 16.0f);
+
+		m_AssetManager.RegisterFactory<Texture2D>(Texture2D::CreateAsset);
+		m_AssetManager.RegisterFactory<Shader>(Shader::CreateAsset);
+
+		Ref<Texture2D> tex = m_AssetManager.Load<Texture2D>("assets/textures/HDIcon.png");
+		Ref<Shader> shader = m_AssetManager.Load<Shader>("assets/shaders/Texture.glsl");
 
 		/*objl::Loader Loader;
 

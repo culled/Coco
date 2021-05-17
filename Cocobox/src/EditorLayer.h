@@ -31,6 +31,8 @@ namespace Coco
 		InspectorPanel m_Inspector;
 		ScenePanel m_ScenePanel;
 
+		AssetManager m_AssetManager;
+
 		static const char* s_SceneFileFilter;
 	};
 }

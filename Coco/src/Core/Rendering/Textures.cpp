@@ -35,4 +35,19 @@ namespace Coco
 		ASSERT_CORE(false, "Invalid API");
 		return nullptr;
 	}
+
+	Texture2D* Texture2D::CreateAsset(const std::string& path)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::None:
+			ASSERT_CORE(false, "No render api");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return new OpenGLTexture2D(path, TextureCreationParameters());
+		}
+
+		ASSERT_CORE(false, "Invalid API");
+		return nullptr;
+	}
 }

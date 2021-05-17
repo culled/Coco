@@ -61,6 +61,7 @@ namespace Coco
 		virtual bool operator ==(const Texture2D& other) const = 0;
 
 		static Ref<Texture2D> Create(const std::string& path, TextureCreationParameters params = TextureCreationParameters());
+		static Texture2D* CreateAsset(const std::string& path);
 		static Ref<Texture2D> Create(uint32_t width, uint32_t height, TextureFormat format, TextureCreationParameters params = TextureCreationParameters());
 	};
 }

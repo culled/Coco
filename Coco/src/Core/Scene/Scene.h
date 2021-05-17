@@ -4,6 +4,7 @@
 #include "Core/Timing/Timestep.h"
 #include "Entity.h"
 #include "Core/Rendering/Camera.h"
+#include "Core/Assets/AssetManager.h"
 
 namespace Coco
 {

@@ -42,7 +42,8 @@ namespace Coco
 		virtual const std::string& GetName() = 0;
 		virtual const std::vector<ShaderUniform>& GetUniforms() const = 0;
 
-		static Ref<Shader> CreateFromFile(const std::string & shaderPath, const std::string & name = "");
+		static Ref<Shader> CreateFromFile(const std::string& shaderPath, const std::string& name = "");
+		static Shader* CreateAsset(const std::string& shaderPath);
 		static Ref<Shader> CreateFromSource(const std::string & name, const std::string & vertSource, const std::string & fragSource);
 	};
 

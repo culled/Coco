@@ -612,6 +612,7 @@
     <ClCompile Include="src\Core\App\Application.cpp" />
     <ClCompile Include="src\Core\App\Log.cpp" />
     <ClCompile Include="src\Core\App\Window.cpp" />
+    <ClCompile Include="src\Core\Assets\AssetManager.cpp" />
     <ClCompile Include="src\Core\Dependencies\OBJLoader.cpp" />
     <ClCompile Include="src\Core\Dependencies\stb_image.cpp" />
     <ClCompile Include="src\Core\Graphics\GLContext.cpp" />

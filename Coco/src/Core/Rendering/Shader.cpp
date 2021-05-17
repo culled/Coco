@@ -21,6 +21,21 @@ namespace Coco
 		return nullptr;
 	}
 
+	Shader* Shader::CreateAsset(const std::string& shaderPath)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::None:
+			ASSERT_CORE(false, "No render api");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return new OpenGLShader(shaderPath);
+		}
+
+		ASSERT_CORE(false, "Invalid API");
+		return nullptr;
+	}
+
 	Ref<Shader> Shader::CreateFromSource(const std::string& name, const std::string& vertSource, const std::string& fragSource)
 	{
 		switch (RendererAPI::GetAPI())
